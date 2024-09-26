@@ -211,6 +211,39 @@ nav {
     text-align: left;
 }
 
+.social i {
+    font-size: 1.5rem;
+    color: #9EC1FF;
+    transition: color 0.3s ease;
+}
+
+.social a:hover i {
+    color: #3DB2FF;
+}
+
+.whatsapp-btn {
+    display: inline-block;
+    margin-top: 1rem;
+    background-color: #3DB2FF;
+    color: white !important;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.whatsapp-btn:hover {
+    background-color: #28527A;
+    transform: scale(1.05);
+}
+
+.whatsapp-btn i {
+    margin-right: 8px;
+}
+
+
 @media (max-width: 768px) {
     .sobre-content {
         flex-direction: column;
