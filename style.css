@@ -4,32 +4,62 @@
     box-sizing: border-box;
 }
 
-body {
-background: #1F1517;
-color: white;
+html {
+    scroll-behavior: smooth;
 }
 
-html {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
+body {
+    background: #0A2540;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+}
+
+.email-link{
+    font-size: 1.2rem;
+    background-color: #3DB2FF;
+    color: rgb(255, 255, 255) !important;
+    padding: 15px 30px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra no botão */
+    display: inline-block;
+}
+
+.email-link:hover {
+    background-color: #28527A; /* Cor mais escura ao hover */
+    transform: scale(1.05); /* Efeito de aumento no hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Aumenta a sombra ao hover */
+}
+
+.email-link:active {
+    transform: scale(0.98); /* Efeito de pressão ao clicar */
+    background-color: #1F3A53; /* Cor mais escura ao clicar */
 }
 
 a {
     text-decoration: none;
     color: white;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+a:hover {
+    color: #3DB2FF;
+    transform: scale(1.05);
 }
 
 h1 {
-    font-family: 'Roboto', sans-serif;
     font-size: 3.5rem;
     font-weight: 800;
+    margin-bottom: 1rem;
 }
 
 h2 {
-    color: #c7bab3;
-    font-family: Inter;
+    color: #9EC1FF;
     font-size: 1.5rem;
-    font-weight: 400;
+    font-weight: 600;
+    margin-bottom: 2rem;
 }
 
 ul {
@@ -41,35 +71,16 @@ ul {
 nav {
     max-width: 1200px;
     margin: auto;
-    padding: 1.5rem 10rem;
+    padding: 1.5rem 2rem;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 
-main {
+.menu {
     display: flex;
-    flex-direction: column;
-}
-
-.logo {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-.hero {
-    background: #181012;
-    max-width: 1200px;
-    height: 60vh;
-    display: flex; 
-    justify-content: space-between;
-    align-items: center;
-    gap: 6rem;
-    padding: 0rem 2rem;
-    margin: auto;
+    gap: 1.5rem;
 }
 
 .github-link {
@@ -77,11 +88,221 @@ main {
     padding: 0.5rem 1rem;
     border-radius: 5px;
     border: 1px solid white;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.foto-perfil {
-    border-radius: 50%;
+.github-link:hover {
+    background-color: white;
+    color: #0A2540;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .menu {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .menu.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: #0A2540;
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .menu li {
+        margin-bottom: 1rem;
+    }
+}
+
+.hero, .sobre, .projetos, .contato {
+    background: #091D36;
+    max-width: 1200px;
+    padding: 4rem 2rem;
+    margin: auto;
+    text-align: center;
+}
+
+.hero h1, .sobre h2, .projetos h2, .contato h2 {
+    font-family: 'Roboto', sans-serif;
+}
+
+.hero p, .sobre p, .projetos p, .contato p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: #9EC1FF;
+}
+
+.btn {
+    background-color: #3DB2FF;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #28527A;
+    transform: scale(1.05);
+}
+
+.sobre-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.sobre-content img {
     width: 150px;
     height: 150px;
+    border-radius: 50%;
     object-fit: cover;
+}
+
+.sobre-content p {
+    max-width: 600px;
+    text-align: left;
+}
+
+@media (max-width: 768px) {
+    .sobre-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .sobre-content p {
+        text-align: center;
+    }
+}
+
+/* Seção de Projetos */
+.projetos {
+    background-color: #0A2540;
+}
+
+.projeto {
+    background-color: #0A2F4D;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 800px;
+    margin: 1rem auto;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.projeto:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Aumenta a sombra no hover */
+}
+
+.projeto h3 {
+    color: #3DB2FF;
+    margin-bottom: 1rem;
+}
+
+.projeto p {
+    margin-bottom: 1rem;
+}
+
+.projeto a {
+    color: #3DB2FF;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.projeto a:hover {
+    color: #0F3460;
+}
+
+.ver-mais-projetos {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.ver-mais-projetos a {
+    background-color: #3DB2FF;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.ver-mais-projetos a:hover {
+    background-color: #28527A;
+}
+
+@media (max-width: 768px) {
+    .projeto {
+        text-align: center;
+    }
+}
+
+.contato {
+    background-color: #0A2540;
+    color: #9EC1FF;
+    padding: 4rem 2rem;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para destacar a seção */
+}
+
+.contato h2 {
+    font-size: 2rem;
+    color: #3DB2FF;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.contato a {
+    color: #3DB2FF;
+    font-weight: 600;
+    margin-top: 1rem;
+    display: inline-block;
+}
+
+footer {
+    background-color: #091D36;
+    padding: 2rem;
+    text-align: center;
+    color: #9EC1FF;
+}
+
+footer p {
+    margin-bottom: 1rem;
+}
+
+.social a {
+    color: #9EC1FF;
+    margin: 0 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.social a:hover {
+    color: #3DB2FF;
 }
