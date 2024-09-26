@@ -4,6 +4,29 @@
     box-sizing: border-box;
 }
 
+.tecnologias {
+    margin-top: 2rem;
+}
+
+.icons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.icons i {
+    font-size: 3rem;
+    color: #3DB2FF;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.icons i:hover {
+    color: #28527A;
+    transform: scale(1.2);
+}
+
+
 html {
     scroll-behavior: smooth;
 }
@@ -23,19 +46,19 @@ body {
     text-transform: uppercase;
     font-weight: 600;
     transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra no botão */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
     display: inline-block;
 }
 
 .email-link:hover {
-    background-color: #28527A; /* Cor mais escura ao hover */
-    transform: scale(1.05); /* Efeito de aumento no hover */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Aumenta a sombra ao hover */
+    background-color: #28527A; 
+    transform: scale(1.05); 
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
 }
 
 .email-link:active {
-    transform: scale(0.98); /* Efeito de pressão ao clicar */
-    background-color: #1F3A53; /* Cor mais escura ao clicar */
+    transform: scale(0.98); 
+    background-color: #1F3A53; 
 }
 
 a {
@@ -146,7 +169,7 @@ nav {
     font-family: 'Roboto', sans-serif;
 }
 
-.hero p, .sobre p, .projetos p, .contato p {
+.hero p, .sobre p, .projetos p, .contato p, .tecnologias {
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
     line-height: 1.6;
@@ -199,7 +222,6 @@ nav {
     }
 }
 
-/* Seção de Projetos */
 .projetos {
     background: #091D36;
 }
@@ -211,11 +233,11 @@ nav {
     max-width: 800px;
     margin: 1rem auto;
     text-align: left;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
 .projeto:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Aumenta a sombra no hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
 }
 
 .projeto h3 {
@@ -267,7 +289,7 @@ nav {
     padding: 4rem 2rem;
     text-align: center;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra para destacar a seção */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
 }
 
 .contato h2 {
