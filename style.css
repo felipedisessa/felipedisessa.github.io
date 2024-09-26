@@ -201,7 +201,7 @@ nav {
 
 /* Seção de Projetos */
 .projetos {
-    background-color: #0A2540;
+    background: #091D36;
 }
 
 .projeto {
@@ -262,7 +262,7 @@ nav {
 }
 
 .contato {
-    background-color: #0A2540;
+    background: #091D36;
     color: #9EC1FF;
     padding: 4rem 2rem;
     text-align: center;
