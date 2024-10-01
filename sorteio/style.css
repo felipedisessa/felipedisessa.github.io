@@ -10,27 +10,25 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0;
-    padding: 0;
 }
 
 p {
-    font-size: 2rem; /* Tamanho do texto responsivo */
+    font-size: 24px;
 }
 
 .finish-line {
     position: absolute;
-    right: 5vw; /* Usar viewport width (vw) para ajustar com a tela */
+    right: 100px; /* Posição da linha de chegada, ajusta com base na largura */
     top: 0;
     width: 5px;
     height: 100%;
-    background-color: red;
+    background-color: red; /* Cor da linha de chegada */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .race-container {
     background-color: rgba(255, 255, 255, 0.85); 
-    padding: 2rem;
+    padding: 30px;
     border-radius: 15px;
     width: 90%;
     max-width: 1400px;
@@ -38,26 +36,38 @@ p {
 }
 
 .track {
-    margin: 2rem auto;
+    margin: 20px auto;
     width: 100%;
-    height: 45vh; /* Usar altura de viewport */
+    height: 435px;
     position: relative;
     border: 2px solid #000;
     background-color: #e0f7fa;
     overflow: hidden;
     border-radius: 10px;
-    box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.2); /* Sombra na pista */
+}
+/* Adiciona a animação de balanço */
+@keyframes swing {
+    0% {
+        transform: rotate(0deg); /* Posição inicial */
+    }
+    50% {
+        transform: rotate(5deg); /* Gira 5 graus para a direita */
+    }
+    100% {
+        transform: rotate(0deg); /* Volta para a posição inicial */
+    }
 }
 
 .horse {
     position: absolute;
     left: 0;
-    width: 10vw; /* Usar viewport width */
+    width: 13%;
     transition: left 0.3s; 
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 8vh; /* Usar viewport height */
+    height: 65px;
     border-radius: 10px;
     box-sizing: border-box;
     font-weight: bold;
@@ -65,22 +75,40 @@ p {
 }
 
 .horse img {
-    width: 100%; /* Faz com que o tamanho da imagem seja proporcional à largura do cavalo */
+    width: 70px; /* Ajuste o tamanho do cavalo aqui */
     height: auto;
 }
 
-#horse1 { top: 5vh; }
-#horse2 { top: 15vh; }
-#horse3 { top: 25vh; }
-#horse4 { top: 35vh; }
-#horse5 { top: 45vh; }
-#horse6 { top: 55vh; }
+
+#horse1 {
+    top: 10px;
+}
+
+#horse2 {
+    top: 80px;
+}
+
+#horse3 {
+    top: 150px;
+}
+
+#horse4 {
+    top: 220px;
+}
+
+#horse5 {
+    top: 290px;
+}
+
+#horse6 {
+    top: 360px;
+}
 
 button {
     display: block;
-    margin: 2rem auto;
-    padding: 1rem 2rem;
-    font-size: 2rem; /* Tamanho responsivo do botão */
+    margin: 20px auto;
+    padding: 12px 24px;
+    font-size: 36px;
     cursor: pointer;
     border: none;
     border-radius: 8px;
@@ -97,58 +125,23 @@ button:hover {
 
 .winner-animation {
     animation: pulse 1s infinite;
-    border: 4px solid gold;
+    border: 4px solid gold; 
 }
 
 @keyframes pulse {
-    0% { box-shadow: 0 0 10px 0px gold; }
-    50% { box-shadow: 0 0 30px 10px gold; }
-    100% { box-shadow: 0 0 10px 0px gold; }
+    0% {
+        box-shadow: 0 0 10px 0px gold;
+    }
+    50% {
+        box-shadow: 0 0 30px 10px gold;
+    }
+    100% {
+        box-shadow: 0 0 10px 0px gold;
+    }
 }
 
-@media (max-width: 768px) {
-    .race-container {
-        padding: 1rem;
-    }
-
-    p {
-        font-size: 1.5rem;
-    }
-
-    button {
-        font-size: 1.5rem;
-        padding: 0.75rem 1.5rem;
-    }
-
-    .track {
-        height: 30vh; /* Reduz a altura da pista para dispositivos móveis */
-    }
-
-    .horse {
-        height: 6vh; /* Ajusta a altura dos cavalos em telas menores */
-        width: 15vw; /* Ajusta a largura dos cavalos em telas menores */
-    }
-
-    #horse1 { top: 4vh; }
-    #horse2 { top: 12vh; }
-    #horse3 { top: 20vh; }
-    #horse4 { top: 28vh; }
-    #horse5 { top: 36vh; }
-    #horse6 { top: 44vh; }
-}
-
-@media (max-width: 480px) {
-    p {
-        font-size: 1.2rem;
-    }
-
-    button {
-        font-size: 1.2rem;
-        padding: 0.5rem 1rem;
-    }
-
-    .horse {
-        height: 5vh;
-        width: 20vw; /* Aumenta a largura relativa dos cavalos para manter visibilidade */
-    }
+#winner {
+    color: green;
+    font-size: 36px;
+    margin-top: 20px;
 }
