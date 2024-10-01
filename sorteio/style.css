@@ -6,7 +6,8 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 100vh;
+    height: 80vh;
+    padding: 8vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -78,7 +79,7 @@ p {
 }
 
 .horse img {
-    width: 70px; /* Ajuste o tamanho do cavalo aqui */
+    width: 75px; /* Ajuste o tamanho do cavalo aqui */
     height: auto;
 }
 

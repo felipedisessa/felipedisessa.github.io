@@ -19,9 +19,10 @@ function startRace() {
 
     toggleButtons();  
     resetPositions();
-    
-    // Adicionar a animação de balanço ao iniciar a corrida
+
+    // Redefinir as velocidades dos cavalos ao iniciar a corrida
     horses.forEach(horse => {
+        horse.speed = Math.random() * 2 + 1; // Gera uma nova velocidade para cada cavalo
         horse.element.classList.add('swing-animation');
     });
 
