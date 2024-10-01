@@ -50,7 +50,7 @@ function race() {
         if (horse.position < finishLine * 0.5) {
             randomFactor = Math.random() * 1; // Variação menor até 50% da corrida
         } else {
-            randomFactor = Math.random() * 2; // Aumenta a variação após 50% da corrida
+            randomFactor = Math.random() * 2.5; // Aumenta a variação após 50% da corrida
         }
 
         horse.position += horse.speed + randomFactor; // A posição de cada cavalo é alterada

@@ -1,30 +1,25 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Arial', sans-serif;
     text-align: center;
     background-color: #f0f8ff;
-    background-image: url('fundo-corrida.png'); 
+    background-image: url('fundo-corrida.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 80vh;
-    padding: 8vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 p {
-    font-size: 24px;
-}
-
-.finish-line {
-    position: absolute;
-    right: 100px; /* Posição da linha de chegada, ajusta com base na largura */
-    top: 0;
-    width: 5px;
-    height: 100%;
-    background-color: red; /* Cor da linha de chegada */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    font-size: 1.5rem; /* Unidade flexível */
 }
 
 .race-container {
@@ -34,6 +29,7 @@ p {
     width: 90%;
     max-width: 1400px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
 }
 
 .track {
@@ -45,30 +41,24 @@ p {
     background-color: #e0f7fa;
     overflow: hidden;
     border-radius: 10px;
-    box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.2); /* Sombra na pista */
+    box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-@keyframes swing {
-    0% {
-        transform: rotate(0deg); /* Posição inicial */
-    }
-    50% {
-        transform: rotate(5deg); /* Gira 5 graus para a direita */
-    }
-    100% {
-        transform: rotate(0deg); /* Volta para a posição inicial */
-    }
-}
-
-.swing-animation {
-    animation: swing 1s ease-in-out infinite; /* Ativa a animação de balanço */
+.finish-line {
+    position: absolute;
+    right: 5%; /* Tornar flexível */
+    top: 0;
+    width: 5px;
+    height: 100%;
+    background-color: red;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .horse {
     position: absolute;
     left: 0;
     width: 13%;
-    transition: left 0.3s; 
+    transition: left 0.3s;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -79,40 +69,22 @@ p {
 }
 
 .horse img {
-    width: 75px; /* Ajuste o tamanho do cavalo aqui */
+    width: 5vw; /* Ajusta o tamanho do cavalo baseado na largura da tela */
     height: auto;
 }
 
-
-#horse1 {
-    top: 10px;
-}
-
-#horse2 {
-    top: 80px;
-}
-
-#horse3 {
-    top: 150px;
-}
-
-#horse4 {
-    top: 220px;
-}
-
-#horse5 {
-    top: 290px;
-}
-
-#horse6 {
-    top: 360px;
-}
+#horse1 { top: 10px; }
+#horse2 { top: 80px; }
+#horse3 { top: 150px; }
+#horse4 { top: 220px; }
+#horse5 { top: 290px; }
+#horse6 { top: 360px; }
 
 button {
     display: block;
     margin: 20px auto;
     padding: 12px 24px;
-    font-size: 36px;
+    font-size: 2rem; /* Ajusta o tamanho da fonte em telas menores */
     cursor: pointer;
     border: none;
     border-radius: 8px;
@@ -124,28 +96,51 @@ button {
 
 button:hover {
     background-color: #45a049;
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); 
-}
-
-.winner-animation {
-    animation: pulse 1s infinite;
-    border: 4px solid gold; 
-}
-
-@keyframes pulse {
-    0% {
-        box-shadow: 0 0 10px 0px gold;
-    }
-    50% {
-        box-shadow: 0 0 30px 10px gold;
-    }
-    100% {
-        box-shadow: 0 0 10px 0px gold;
-    }
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 #winner {
     color: green;
-    font-size: 36px;
+    font-size: 2rem;
     margin-top: 20px;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+    p {
+        font-size: 1.2rem;
+    }
+
+    .horse img {
+        width: 10vw; /* Cavalos menores em telas pequenas */
+    }
+
+    .race-container {
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    button {
+        font-size: 1.5rem; /* Botões menores em telas pequenas */
+        padding: 10px 20px;
+    }
+
+    #winner {
+        font-size: 1.5rem;
+    }
+}
+
+/* Ajustes para telas grandes */
+@media (min-width: 1200px) {
+    .horse img {
+        width: 100px; /* Cavalos maiores em telas grandes */
+    }
+
+    button {
+        font-size: 2.5rem; /* Botões maiores em telas grandes */
+    }
+
+    #winner {
+        font-size: 2.5rem;
+    }
 }
