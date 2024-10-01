@@ -18,8 +18,12 @@ function startRace() {
     winner = null;
 
     toggleButtons();  
-
-    resetPositions();  
+    resetPositions();
+    
+    // Adicionar a animação de balanço ao iniciar a corrida
+    horses.forEach(horse => {
+        horse.element.classList.add('swing-animation');
+    });
 
     requestAnimationFrame(race);  
 }
@@ -31,6 +35,9 @@ function resetPositions() {
         horse.element.style.transform = 'scale(1)';  // Reseta a escala do cavalo
         horse.element.style.backgroundColor = '';  // Reseta a cor de fundo do cavalo
         horse.element.classList.remove('winner-animation');  // Remove a animação de vitória
+
+        // Remove a animação de balanço quando a corrida for reiniciada
+        horse.element.classList.remove('swing-animation');
     });
 }
 
@@ -45,7 +52,6 @@ function race() {
             randomFactor = Math.random() * 2; // Aumenta a variação após 50% da corrida
         }
 
-
         horse.position += horse.speed + randomFactor; // A posição de cada cavalo é alterada
         horse.element.style.left = `${horse.position}px`;
 
@@ -53,6 +59,11 @@ function race() {
         if (horse.position >= finishLine && !winner) {
             winner = horse;  // Define o cavalo vencedor
             announceWinner(horse);  // Anuncia o vencedor
+
+            // Remover a animação de balanço quando a corrida terminar
+            horses.forEach(horse => {
+                horse.element.classList.remove('swing-animation');
+            });
         }
     });
 

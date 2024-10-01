@@ -46,7 +46,7 @@ p {
     border-radius: 10px;
     box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.2); /* Sombra na pista */
 }
-/* Adiciona a animação de balanço */
+
 @keyframes swing {
     0% {
         transform: rotate(0deg); /* Posição inicial */
@@ -57,6 +57,10 @@ p {
     100% {
         transform: rotate(0deg); /* Volta para a posição inicial */
     }
+}
+
+.swing-animation {
+    animation: swing 1s ease-in-out infinite; /* Ativa a animação de balanço */
 }
 
 .horse {
@@ -71,7 +75,6 @@ p {
     border-radius: 10px;
     box-sizing: border-box;
     font-weight: bold;
-    animation: swing 1s ease-in-out infinite; /* Adiciona a animação de balanço */
 }
 
 .horse img {
