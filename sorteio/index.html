@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corrida de Cavalinhos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="race-container">
+        <h1>Corrida de Cavalinhos</h1>
+        <p>Veja qual cavalinho vai vencer!</p>
+        
+        <div class="track">
+            <div class="finish-line"></div> <!-- Linha de chegada -->
+            <div class="horse" id="horse1">
+                <img src="cavalo.png" alt="Cavalo 1">
+            </div>
+            <div class="horse" id="horse2">
+                <img src="cavalo.png" alt="Cavalo 2">
+            </div>
+            <div class="horse" id="horse3">
+                <img src="cavalo.png" alt="Cavalo 3">
+            </div>
+            <div class="horse" id="horse4">
+                <img src="cavalo.png" alt="Cavalo 4">
+            </div>
+            <div class="horse" id="horse5">
+                <img src="cavalo.png" alt="Cavalo 5">
+            </div>
+            <div class="horse" id="horse6">
+                <img src="cavalo.png" alt="Cavalo 6">
+            </div>
+        </div>
+        
+        <button id="startRace">Iniciar Corrida</button>
+        <button id="resetRace" style="display: none;">Reiniciar Corrida</button>
+        <h2 id="winner"></h2>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
