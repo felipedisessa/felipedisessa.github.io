@@ -83,6 +83,7 @@ function resetRace() {
     startRace();
 }
 
+
 function toggleButtons() {
     const startButton = document.getElementById('startRace');
     const resetButton = document.getElementById('resetRace');
