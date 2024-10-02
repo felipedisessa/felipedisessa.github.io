@@ -82,7 +82,6 @@ function resetRace() {
     raceInProgress = false;
 
     toggleButtons();
-    startRace(); // Começa uma nova corrida automaticamente após o reset
 }
 
 function toggleButtons() {
