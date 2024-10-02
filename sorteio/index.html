@@ -7,27 +7,21 @@
     <!-- Importação do Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-       @keyframes swing {
-    0% {
-        transform: rotate(0deg);
-    }
-    25% {
-        transform: translateY(-2px) rotate(3deg); /* Um leve deslocamento e rotação */
-    }
-    50% {
-        transform: rotate(0deg);
-    }
-    75% {
-        transform: translateY(-2px) rotate(-3deg); /* Alterna a oscilação e o deslocamento */
-    }
-    100% {
-        transform: rotate(0deg);
-    }
-}
+        @keyframes swing {
+            0% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(5deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
 
-.swing-animation {
-    animation: swing 0.2s ease-in-out infinite; /* Diminui a duração para 0.2s para parecer mais rápido */
-}
+        .swing-animation {
+            animation: swing 1s ease-in-out infinite;
+        }
 
         @keyframes pulse {
             0% {
