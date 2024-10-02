@@ -5,30 +5,30 @@ let raceInProgress = false;
 let winner = null;
 const finishLine = document.querySelector('.track').offsetWidth - 100;
 
+// Definindo a velocidade base para garantir que a corrida dure cerca de 10 segundos
 const horses = Array.from(document.querySelectorAll('.horse')).map((horse, index) => ({
     element: horse,
     position: 0,
-    speed: Math.random() * 2 + 1, // Velocidade inicial dos cavalos
+    speed: Math.random() * 0.8 + 0.7, // Velocidade ajustada para uma corrida de 10 segundos (entre 0.7 e 1.5)
     number: index + 1
 }));
 
 function startRace() {
-    if (raceInProgress) return; 
+    if (raceInProgress) return;
     raceInProgress = true;
     winner = null;
 
-    toggleButtons();  
+    toggleButtons();
     resetPositions();
 
-    // Redefinir as velocidades dos cavalos ao iniciar a corrida
+    // Redefinir a velocidade dos cavalos e adicionar animação de balanço
     horses.forEach(horse => {
-        horse.speed = Math.random() * 2 + 1; // Gera uma nova velocidade para cada cavalo
-        horse.element.classList.add('swing-animation');
+        horse.speed = Math.random() * 0.8 + 0.7; // Mantém a velocidade da corrida
+        horse.element.classList.add('swing-animation'); // Adiciona a animação de "trotar" mais rápido
     });
 
-    requestAnimationFrame(race);  
+    requestAnimationFrame(race);
 }
-
 function resetPositions() {
     horses.forEach(horse => {
         horse.position = 0;  // Reseta a posição de cada cavalo para 0
@@ -43,14 +43,17 @@ function resetPositions() {
 }
 
 function race() {
+    let raceComplete = false;
+
     horses.forEach(horse => {
         let randomFactor;
-        
-        // Mantém uma corrida mais equilibrada até o meio da pista
+
+        // Fase 1: Primeiros 50% da corrida (mais acirrada)
         if (horse.position < finishLine * 0.5) {
-            randomFactor = Math.random() * 1; // Variação menor até 50% da corrida
+            randomFactor = Math.random() * 0.15; // Variação pequena para uma corrida mais equilibrada
         } else {
-            randomFactor = Math.random() * 2; // Aumenta a variação após 50% da corrida
+            // Fase 2: Últimos 50% da corrida (começando a distanciar levemente)
+            randomFactor = Math.random() * 0.3; // Variação maior para o cavalo se distanciar mais no final
         }
 
         horse.position += horse.speed + randomFactor; // A posição de cada cavalo é alterada
@@ -66,9 +69,15 @@ function race() {
                 horse.element.classList.remove('swing-animation');
             });
         }
+
+        // Verifica se todos os cavalos cruzaram a linha de chegada
+        if (horse.position >= finishLine) {
+            raceComplete = true;
+        }
     });
 
-    if (!winner) {
+    // Continua a corrida até que o último cavalo tenha cruzado a linha de chegada
+    if (!raceComplete) {
         requestAnimationFrame(race);
     }
 }
@@ -82,18 +91,18 @@ function announceWinner(horse) {
 }
 
 function resetRace() {
-    resetPositions();  
-    document.getElementById('winner').textContent = '';  
+    resetPositions();
+    document.getElementById('winner').textContent = '';
     winner = null;
     raceInProgress = false;
 
-    toggleButtons();  
+    toggleButtons();
 }
 
 function toggleButtons() {
     const startButton = document.getElementById('startRace');
     const resetButton = document.getElementById('resetRace');
 
-    startButton.style.display = raceInProgress ? 'none' : 'block';  
-    resetButton.style.display = raceInProgress ? 'block' : 'none';  
+    startButton.style.display = raceInProgress ? 'none' : 'block';
+    resetButton.style.display = raceInProgress ? 'block' : 'none';
 }
