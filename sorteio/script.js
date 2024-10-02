@@ -59,7 +59,6 @@ function race() {
             });
         }
 
-        // Verifica se todos os cavalos cruzaram a linha de chegada
         if (horse.position >= finishLine) {
             raceComplete = true;
         }
@@ -81,6 +80,7 @@ function resetRace() {
     raceInProgress = false;
 
     toggleButtons();
+    startRace();
 }
 
 function toggleButtons() {
