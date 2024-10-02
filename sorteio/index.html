@@ -7,16 +7,6 @@
     <!-- Importação do Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Customizações adicionais */
-        .finish-line {
-            position: absolute;
-            right: 25px;
-            top: 0;
-            width: 5px;
-            height: 100%;
-            background-color: red;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-        }
 
         @keyframes swing {
             0% {
@@ -56,12 +46,12 @@
 
     <div class="race-container bg-white bg-opacity-85 p-8 rounded-lg w-full max-w-3xl shadow-lg">
         <div class="flex flex-col justify-center items-center">
-            <h1 class="text-3xl font-bold mb-4">Corrida de Cavalinhos</h1>
-            <p class="text-xl mb-6">Veja qual cavalinho vai vencer!</p>
+            <h1 class="text-2xl font-bold mb-4">Corrida de Cavalinhos</h1> <!-- Reduzi de text-3xl para text-2xl -->
+            <p class="text-lg mb-6">Veja qual cavalinho vai vencer!</p> <!-- Reduzi de text-xl para text-lg -->
         </div>        
         
         <div class="track relative w-full h-96 bg-e0f7fa rounded-lg border-2 border-black shadow-inner">
-            <div class="finish-line"></div>
+            <div class="absolute right-6 top-0 w-[5px] h-full bg-red-500 shadow-[2px_0_5px_rgba(0,0,0,0.5)]"></div>
             <div class="horse absolute w-[13%] h-16 flex justify-center items-center" id="horse1" style="top: 10px;">
                 <img src="cavalo.png" alt="Cavalo 1" class="w-16 h-auto">
             </div>
@@ -81,10 +71,10 @@
                 <img src="cavalo.png" alt="Cavalo 6" class="w-16 h-auto">
             </div>
         </div>
-        
-        <button id="startRace" class="mt-8 block mx-auto px-8 py-4 text-white bg-green-600 text-2xl rounded-lg shadow-md hover:bg-green-700 hover:shadow-lg transition">Iniciar Corrida</button>
-        <button id="resetRace" class="mt-8 block mx-auto px-8 py-4 text-white bg-green-600 text-2xl rounded-lg shadow-md hover:bg-green-700 hover:shadow-lg transition hidden">Reiniciar Corrida</button>
-        <h2 id="winner" class="text-2xl text-green-600 mt-8"></h2>
+        <h2 id="winner" class="text-xl text-green-600 mt-8 text-center"></h2> <!-- Reduzi de text-2xl para text-xl -->
+        <button id="startRace" class="mt-8 block mx-auto px-6 py-3 text-white bg-green-600 text-xl rounded-lg shadow-md hover:bg-green-700 hover:shadow-lg transition">Iniciar Corrida</button> <!-- Reduzi o texto e padding do botão -->
+        <button id="resetRace" class="mt-8 block mx-auto px-6 py-3 text-white bg-green-600 text-xl rounded-lg shadow-md hover:bg-green-700 hover:shadow-lg transition hidden">Reiniciar Corrida</button> <!-- Reduzi o texto e padding do botão -->
+
     </div>
 
     <script src="script.js"></script>
