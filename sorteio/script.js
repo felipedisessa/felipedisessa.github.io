@@ -59,7 +59,7 @@ function race() {
         let randomFactor = Math.random() * 1 - 0.5; 
         horse.speed = horse.baseSpeed + randomFactor;
 
-        if (Math.random() < 0.05) { 
+        if (Math.random() < 0.05) {
             horse.speed += Math.random() * 0.8;
         }
 
@@ -68,12 +68,19 @@ function race() {
         }
 
         if (horse.position < maxPosition - 50) {
-            horse.speed += 0.5; // Impulsiona cavalos que estão atrás
+            horse.speed += 0.5;
+        }
+        if (horse.position >= finishLine - 100) {
+            horse.speed = horse.baseSpeed + (Math.random() * 0.1 - 0.05); 
+            if (horse === leader) {
+                horse.speed += 0.2; 
+            }
         }
 
         horse.position += horse.speed;
         horse.element.style.left = `${horse.position}px`;
 
+        // Verifica se há um vencedor
         if (horse.position >= finishLine && !winner) {
             winner = horse;
             announceWinner(horse);
