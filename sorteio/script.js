@@ -3,18 +3,19 @@ document.getElementById('resetRace').addEventListener('click', resetRace);
 
 let raceInProgress = false;
 let winner = null;
-let raceAnimationId = null; // Controla a animação em andamento
+let raceAnimationId = null;
 const finishLine = document.querySelector('.track').offsetWidth - 100;
 
 const horses = Array.from(document.querySelectorAll('.horse')).map((horse, index) => ({
     element: horse,
     position: 0,
-    speed: Math.random() * 0.5 + 0.8,
+    baseSpeed: 0,
+    speed: 0,
     number: index + 1
 }));
 
 function startRace() {
-    if (raceInProgress) return; // Impede que outra corrida inicie enquanto uma já está em progresso
+    if (raceInProgress) return;
     raceInProgress = true;
     winner = null;
 
@@ -22,30 +23,55 @@ function startRace() {
     resetPositions();
 
     horses.forEach(horse => {
-        horse.speed = Math.random() * 0.5 + 0.8;
+        horse.baseSpeed = Math.random() * 0.3 + 0.7;
+        horse.speed = horse.baseSpeed;
         horse.element.classList.add('swing-animation');
     });
 
-    raceAnimationId = requestAnimationFrame(race); // Armazena o ID da animação
+    raceAnimationId = requestAnimationFrame(race);
 }
 
 function resetPositions() {
     horses.forEach(horse => {
         horse.position = 0;
-        horse.element.style.left = '0px'; // Move o cavalo para o início da pista
+        horse.element.style.left = '0px';
         horse.element.style.transform = 'scale(1)';
         horse.element.style.backgroundColor = '';
         horse.element.classList.remove('winner-animation');
-        horse.element.classList.remove('swing-animation'); // Remove a animação de balanço
+        horse.element.classList.remove('swing-animation');
     });
 }
 
 function race() {
     let raceComplete = false;
+    let maxPosition = 0;
+    let leader = null;
+
+    // Determina o cavalo líder
+    horses.forEach(horse => {
+        if (horse.position > maxPosition) {
+            maxPosition = horse.position;
+            leader = horse;
+        }
+    });
 
     horses.forEach(horse => {
-        let randomFactor = Math.random() * 0.1;
-        horse.position += horse.speed + randomFactor;
+        let randomFactor = Math.random() * 1 - 0.5; 
+        horse.speed = horse.baseSpeed + randomFactor;
+
+        if (Math.random() < 0.05) { 
+            horse.speed += Math.random() * 0.8;
+        }
+
+        if (horse === leader) {
+            horse.speed -= 0.2;
+        }
+
+        if (horse.position < maxPosition - 50) {
+            horse.speed += 0.5; // Impulsiona cavalos que estão atrás
+        }
+
+        horse.position += horse.speed;
         horse.element.style.left = `${horse.position}px`;
 
         if (horse.position >= finishLine && !winner) {
@@ -63,7 +89,7 @@ function race() {
     });
 
     if (!raceComplete) {
-        raceAnimationId = requestAnimationFrame(race); // Continua a animação
+        raceAnimationId = requestAnimationFrame(race);
     }
 }
 
@@ -75,7 +101,7 @@ function announceWinner(horse) {
 }
 
 function resetRace() {
-    cancelAnimationFrame(raceAnimationId); // Cancela a animação em andamento
+    cancelAnimationFrame(raceAnimationId);
     resetPositions();
     document.getElementById('winner').textContent = '';
     winner = null;
