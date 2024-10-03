@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Corrida de Cavalinhos</title>
-    <!-- Importação do Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @keyframes swing {
@@ -47,20 +46,17 @@
         <div class="flex flex-col justify-center items-center">
             <h1 class="text-2xl font-bold text-center mb-2">Corrida de Cavalinhos</h1>
         </div>        
-        
-        <!-- Pista com imagem de fundo de grama -->
+
         <div class="track relative w-full h-96 bg-cover bg-center rounded-lg border-2 border-black shadow-inner" style="background-image: url('grama.png');">
-            <!-- Linha de largada (movida para a esquerda) -->
             <div class="absolute left-6 top-0 w-[5px] h-full bg-red-500 shadow-[2px_0_5px_rgba(0,0,0,0.5)] z-10"></div>
 
-            <div class="track-line absolute left-6 w-[92.5%] h-[3px] bg-white" style="top: 58px;"></div> 
-            <div class="track-line absolute left-6 w-[92.5%] h-[3px] bg-white" style="top: 118px;"></div> 
-            <div class="track-line absolute left-6 w-[92.5%] h-[3px] bg-white" style="top: 178px;"></div> 
-            <div class="track-line absolute left-6 w-[92.5%] h-[3px] bg-white" style="top: 238px;"></div> 
-            <div class="track-line absolute left-6 w-[92.5%] h-[3px] bg-white" style="top: 298px;"></div> 
-            <div class="track-line absolute left-6 w-[92.5%] h-[3px] bg-white" style="top: 358px;"></div> 
+            <div class="track-line absolute left-6 w-[92.5%] h-[3px] bg-white" style="top: 70px;"></div> 
+            <div class="track-line absolute left-6 w-[92.5%] h-[3px] bg-white" style="top: 130px;"></div> 
+            <div class="track-line absolute left-6 w-[92.5%] h-[3px] bg-white" style="top: 190px;"></div> 
+            <div class="track-line absolute left-6 w-[92.5%] h-[3px] bg-white" style="top: 250px;"></div> 
+            <div class="track-line absolute left-6 w-[92.5%] h-[3px] bg-white" style="top: 310px;"></div> 
+            <div class="track-line absolute left-6 w-[92.5%] h-[3px] bg-white" style="top: 370px;"></div> 
 
-            <!-- Cavalos -->
             <div class="horse absolute w-[13%] h-16 flex justify-center items-center z-10" id="horse1" style="top: 10px;">
                 <img src="horse.png" alt="Cavalo 1" class="w-16 h-auto">
             </div>
@@ -85,8 +81,6 @@
         <button id="startRace" class="mt-8 block mx-auto px-6 py-3 text-white bg-green-600 text-xl rounded-lg shadow-md hover:bg-green-700 hover:shadow-lg transition">Iniciar Corrida</button>
         <button id="resetRace" class="mt-8 block mx-auto px-6 py-3 text-white bg-green-600 text-xl rounded-lg shadow-md hover:bg-green-700 hover:shadow-lg transition hidden">Resetar Corrida</button>
     </div>
-
-    <!-- Áudio para a corrida e a vitória -->
     <audio id="raceAudio" loop>
         <source src="cavalo.wav" type="audio/mpeg">
         Seu navegador não suporta o elemento de áudio.
