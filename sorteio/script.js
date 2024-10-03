@@ -19,6 +19,9 @@ function startRace() {
     raceInProgress = true;
     winner = null;
 
+    // Tocar o som de cavalgada durante a corrida
+    document.getElementById('raceAudio').play();
+
     toggleButtons();
     resetPositions();
 
@@ -102,6 +105,12 @@ function race() {
 
 function announceWinner(horse) {
     raceInProgress = false;
+
+    // Parar o som da corrida e tocar o som de vitória
+    document.getElementById('raceAudio').pause();
+    document.getElementById('raceAudio').currentTime = 0; // Reiniciar o som da corrida
+    document.getElementById('winAudio').play();
+
     document.getElementById('winner').textContent = `O Cavalinho número ${horse.number} venceu!`;
     horse.element.style.transform = 'scale(1.2)';
     horse.element.classList.add('winner-animation');
@@ -113,6 +122,12 @@ function resetRace() {
     document.getElementById('winner').textContent = '';
     winner = null;
     raceInProgress = false;
+
+    // Parar o som da corrida se estiver tocando
+    document.getElementById('raceAudio').pause();
+    document.getElementById('raceAudio').currentTime = 0; // Reiniciar o som da corrida
+    document.getElementById('winAudio').pause();
+    document.getElementById('winAudio').currentTime = 0; // Reiniciar o som de vitória
 
     toggleButtons();
 }
