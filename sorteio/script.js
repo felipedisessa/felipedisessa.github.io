@@ -6,6 +6,7 @@ let winner = null;
 let raceAnimationId = null;
 const finishLine = document.querySelector('.track').offsetWidth - 100;
 
+
 const horses = Array.from(document.querySelectorAll('.horse')).map((horse, index) => ({
     element: horse,
     position: 0,
@@ -18,8 +19,6 @@ function startRace() {
     if (raceInProgress) return;
     raceInProgress = true;
     winner = null;
-
-    // Tocar o som de cavalgada durante a corrida
     document.getElementById('raceAudio').play();
 
     toggleButtons();
@@ -59,9 +58,10 @@ function race() {
     });
 
     horses.forEach(horse => {
-        let randomFactor = Math.random() * 1 - 0.5; 
+        let randomFactor = Math.random() * 1 - 0.5;
         horse.speed = horse.baseSpeed + randomFactor;
 
+        // Pequena chance de aumento de velocidade aleatório
         if (Math.random() < 0.05) {
             horse.speed += Math.random() * 0.8;
         }
@@ -73,10 +73,11 @@ function race() {
         if (horse.position < maxPosition - 50) {
             horse.speed += 0.5;
         }
-        if (horse.position >= finishLine - 100) {
-            horse.speed = horse.baseSpeed + (Math.random() * 0.1 - 0.05); 
+
+        if (horse.position >= finishLine * 0.45) {
+            horse.speed = horse.baseSpeed + (Math.random() * 0.05 - 0.02); 
             if (horse === leader) {
-                horse.speed += 0.2; 
+                horse.speed += 0.05;  
             }
         }
 
@@ -106,15 +107,23 @@ function race() {
 function announceWinner(horse) {
     raceInProgress = false;
 
-    // Parar o som da corrida e tocar o som de vitória
     document.getElementById('raceAudio').pause();
-    document.getElementById('raceAudio').currentTime = 0; // Reiniciar o som da corrida
+    document.getElementById('raceAudio').currentTime = 0; 
     document.getElementById('winAudio').play();
 
-    document.getElementById('winner').textContent = `O Cavalinho número ${horse.number} venceu!`;
+    document.getElementById('winnerName').textContent = `O Cavalinho número ${horse.number} venceu!`;
+    document.getElementById('winnerImage').src = horse.element.querySelector('img').src;
+
+    document.getElementById('winnerModal').classList.remove('hidden');
+
     horse.element.style.transform = 'scale(1.2)';
     horse.element.classList.add('winner-animation');
+
+    document.getElementById('closeModal').addEventListener('click', function () {
+        document.getElementById('winnerModal').classList.add('hidden');
+    })
 }
+
 
 function resetRace() {
     cancelAnimationFrame(raceAnimationId);
