@@ -119,9 +119,9 @@ function announceWinner(horse) {
     horse.element.style.transform = 'scale(1.2)';
     horse.element.classList.add('winner-animation');
 
-    document.getElementById('closeModal').addEventListener('click', function () {
+    document.getElementById('winnerModal').addEventListener('click', () => {
         document.getElementById('winnerModal').classList.add('hidden');
-    })
+    });
 }
 
 
