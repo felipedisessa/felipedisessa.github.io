@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Matemática Rápida</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 h-screen flex items-center justify-center">
+    <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg text-center">
+        <h1 class="text-3xl font-bold mb-4">Jogo de Matemática Rápida</h1>
+        <div id="game" class="mb-4">
+            <div id="question" class="text-xl font-semibold"></div>
+            <div id="options" class="mt-4 grid grid-cols-2 gap-4"></div>
+        </div>
+        <div id="status" class="mt-4 text-lg"></div>
+        <button id="start" class="mt-6 px-4 py-2 bg-blue-500 text-white rounded">Iniciar Jogo</button>
+        <div id="timer" class="mt-2 text-gray-600"></div>
+    </div>
+
+    <script>
+        let score = 0;
+        let timeLeft = 30; // Tempo em segundos
+        let currentQuestion = {};
+        let timerInterval = null;
+
+        const questionElement = document.getElementById('question');
+        const optionsContainer = document.getElementById('options');
+        const startButton = document.getElementById('start');
+        const statusElement = document.getElementById('status');
+        const timerElement = document.getElementById('timer');
+
+        startButton.addEventListener('click', startGame);
+
+        function startGame() {
+            score = 0;
+            timeLeft = 30;
+            statusElement.textContent = '';
+            optionsContainer.innerHTML = '';
+            startButton.disabled = true;
+            startButton.classList.add('bg-gray-400');
+
+            timerInterval = setInterval(updateTimer, 1000);
+            generateQuestion();
+        }
+
+        function updateTimer() {
+            timeLeft--;
+            timerElement.textContent = `Tempo restante: ${timeLeft} segundos`;
+
+            if (timeLeft <= 0) {
+                endGame();
+            }
+        }
+
+        function generateQuestion() {
+            const operations = ['+', '-', '*', '/'];
+            const operation = operations[Math.floor(Math.random() * operations.length)];
+            let num1 = Math.floor(Math.random() * 10) + 1;
+            let num2 = Math.floor(Math.random() * 10) + 1;
+
+            if (operation === '/') {
+                num1 = num1 * num2; // Ajuste para evitar divisão fracionada
+            }
+
+            currentQuestion = {
+                num1,
+                num2,
+                operation,
+                answer: eval(`${num1} ${operation} ${num2}`),
+            };
+
+            questionElement.textContent = `Quanto é ${num1} ${operation} ${num2}?`;
+            generateOptions();
+        }
+
+        function generateOptions() {
+            optionsContainer.innerHTML = '';
+
+            // Gerar 3 opções erradas
+            const options = [];
+            options.push(currentQuestion.answer);
+
+            for (let i = 0; i < 3; i++) {
+                let wrongAnswer;
+                do {
+                    wrongAnswer = Math.floor(Math.random() * (currentQuestion.answer + 10)) - 5;
+                } while (options.includes(wrongAnswer) || wrongAnswer < 0);
+                options.push(wrongAnswer);
+            }
+
+            // Embaralhar as opções
+            options.sort(() => Math.random() - 0.5);
+
+            // Renderizar os botões de opção
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.classList.add('px-4', 'py-2', 'bg-green-500', 'text-white', 'rounded', 'hover:bg-green-600');
+                button.addEventListener('click', () => checkAnswer(option));
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedOption) {
+            if (selectedOption === currentQuestion.answer) {
+                score++;
+                statusElement.textContent = `Correto! Pontuação: ${score}`;
+            } else {
+                statusElement.textContent = `Errado! A resposta certa era ${currentQuestion.answer}. Pontuação: ${score}`;
+            }
+
+            generateQuestion();
+        }
+
+        function endGame() {
+            clearInterval(timerInterval);
+            questionElement.textContent = '';
+            optionsContainer.innerHTML = '';
+            startButton.disabled = false;
+            startButton.classList.remove('bg-gray-400');
+            statusElement.textContent = `Tempo esgotado! Sua pontuação final foi: ${score}`;
+            timerElement.textContent = '';
+        }
+    </script>
+</body>
+</html>
