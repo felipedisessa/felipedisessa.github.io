@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+    AOS.init({
+        duration: 800, 
+        once: true       
+    });
+
     const menuToggle = document.querySelector('.menu-toggle');
     const navList = document.querySelector('.nav-list');
 

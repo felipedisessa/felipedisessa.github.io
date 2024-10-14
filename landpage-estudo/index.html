@@ -6,10 +6,14 @@
     <title>Landpage</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <!-- AOS CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <script src="script.js"></script>
 </head>
 <body>
-    <header class="header">
+    <header class="header" data-aos="fade-down">
         <div class="container">
             <img src="logo.png" alt="Logo" class="logo">
             <nav>
@@ -28,7 +32,7 @@
         </div>
     </header>
     
-    <section id="Inicio" class="hero">
+    <section id="Inicio" class="hero" data-aos="fade-up">
         <div class="container">
             <h1>Bem-vindo</h1>
             <p>Aqui você encontra o que precisa.</p>
@@ -36,19 +40,19 @@
         </div>
     </section>
 
-    <section id="Sobre" class="features">
+    <section id="Sobre" class="features" data-aos="fade-right">
         <div class="container">
             <h2>Por que nos escolher?</h2>
             <div class="features-grid">
-                <div class="feature-item">
+                <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
                     <h3>Qualidade</h3>
                     <p>Nossa prioridade é a qualidade e a satisfação do cliente.</p>
                 </div>
-                <div class="feature-item">
+                <div class="feature-item" data-aos="fade-up" data-aos-delay="200">
                     <h3>Custo-benefício</h3>
                     <p>Oferecemos a melhor relação custo-benefício do mercado.</p>
                 </div>
-                <div class="feature-item">
+                <div class="feature-item" data-aos="fade-up" data-aos-delay="300">
                     <h3>Resultados</h3>
                     <p>Alcançamos os melhores resultados para nossos clientes.</p>
                 </div>
@@ -56,21 +60,21 @@
         </div>
     </section>
 
-    <section id="Servicos" class="testimonials">
+    <section id="Servicos" class="testimonials" data-aos="fade-left">
         <div class="container">
             <h2>O que nossos clientes dizem</h2>
-            <div class="testimonial-item">
+            <div class="testimonial-item" data-aos="zoom-in" data-aos-delay="100">
                 <p>"Este serviço transformou completamente nosso negócio!"</p>
                 <p>- Cliente Satisfeito</p>
             </div>
-            <div class="testimonial-item">
+            <div class="testimonial-item" data-aos="zoom-in" data-aos-delay="200">
                 <p>"Melhor decisão que tomamos. Altamente recomendado!"</p>
                 <p>- Cliente Feliz</p>
             </div>
         </div>
     </section>
 
-    <section id="Contato" class="cta">
+    <section id="Contato" class="cta" data-aos="flip-up">
         <div class="container">
             <h2>Comece hoje mesmo</h2>
             <p>Entre em contato e descubra como podemos ajudar seu negócio a crescer.</p>
@@ -78,10 +82,12 @@
         </div>
     </section>
 
-    <footer class="footer">
+    <footer class="footer" data-aos="fade-up">
         <div class="container">
             <p>© 2024 Landpage Demo. Todos os direitos reservados.</p>
         </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.js"></script>
 </body>
 </html>
