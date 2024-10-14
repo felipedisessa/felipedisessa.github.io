@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landpage</title>
+    <title>Landpage Estudo</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
 </head>
 <body>
@@ -20,6 +19,7 @@
                     <li><a href="#Inicio">Início</a></li>
                     <li><a href="#Sobre">Sobre</a></li>
                     <li><a href="#Servicos">Serviços</a></li>
+                    <li><a href="#Galeria">Galeria</a></li>
                     <li><a href="#Depoimentos">Depoimentos</a></li>
                     <li><a href="#Contato">Contato</a></li>
                 </ul>
@@ -31,7 +31,7 @@
             </div>
         </div>
     </header>
-    
+
     <section id="Inicio" class="hero" data-aos="fade-up">
         <div class="container">
             <h1>Bem-vindo</h1>
@@ -43,30 +43,22 @@
     <section id="Sobre" class="features" data-aos="fade-down">
         <div class="container">
             <h2>Por que nos escolher?</h2>
+            <p>Descubra as vantagens de trabalhar conosco</p>
             <div class="features-grid">
                 <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-star fa-2x"></i>
                     <h3>Qualidade</h3>
                     <p>Nossa prioridade é a qualidade e a satisfação do cliente.</p>
                 </div>
                 <div class="feature-item" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-money-bill-alt fa-2x"></i>
                     <h3>Custo-benefício</h3>
                     <p>Oferecemos a melhor relação custo-benefício do mercado.</p>
                 </div>
                 <div class="feature-item" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-chart-line fa-2x"></i>
                     <h3>Resultados</h3>
                     <p>Alcançamos os melhores resultados para nossos clientes.</p>
-                </div>
-                <div class="feature-item" data-aos="fade-up" data-aos-delay="400">
-                    <h3>Suporte 24/7</h3>
-                    <p>Estamos disponíveis a qualquer momento para ajudar você.</p>
-                </div>
-                <div class="feature-item" data-aos="fade-up" data-aos-delay="500">
-                    <h3>Equipe Especializada</h3>
-                    <p>Contamos com profissionais altamente qualificados.</p>
-                </div>
-                <div class="feature-item" data-aos="fade-up" data-aos-delay="600">
-                    <h3>Tecnologia de Ponta</h3>
-                    <p>Utilizamos as tecnologias mais avançadas do mercado.</p>
                 </div>
             </div>
         </div>
@@ -77,29 +69,26 @@
             <h2>Nossos Serviços</h2>
             <div class="services-grid">
                 <div class="service-item" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-briefcase fa-2x"></i>
                     <h3>Consultoria</h3>
                     <p>Oferecemos consultoria especializada para impulsionar seu negócio.</p>
                 </div>
                 <div class="service-item" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-laptop-code fa-2x"></i>
                     <h3>Desenvolvimento Web</h3>
                     <p>Desenvolvemos sites profissionais que destacam sua marca.</p>
                 </div>
-                <div class="service-item" data-aos="fade-up" data-aos-delay="300">
-                    <h3>Marketing Digital</h3>
-                    <p>Estratégias de marketing digital para aumentar sua presença online.</p>
-                </div>
-                <div class="service-item" data-aos="fade-up" data-aos-delay="400">
-                    <h3>Design Gráfico</h3>
-                    <p>Criamos identidades visuais impactantes para sua empresa.</p>
-                </div>
-                <div class="service-item" data-aos="fade-up" data-aos-delay="500">
-                    <h3>SEO</h3>
-                    <p>Melhoramos o posicionamento do seu site nos mecanismos de busca.</p>
-                </div>
-                <div class="service-item" data-aos="fade-up" data-aos-delay="600">
-                    <h3>Treinamentos</h3>
-                    <p>Capacitamos sua equipe com as melhores práticas do mercado.</p>
-                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="Galeria" class="gallery" data-aos="fade-in">
+        <div class="container">
+            <h2>Galeria</h2>
+            <div class="gallery-grid">
+                <img src="ex3.png" alt="Imagem 1" class="gallery-item" data-aos="zoom-in">
+                <img src="ex1.png" alt="Imagem 2" class="gallery-item" data-aos="zoom-in" data-aos-delay="100">
+                <img src="ex2.png" alt="Imagem 3" class="gallery-item" data-aos="zoom-in" data-aos-delay="200">
             </div>
         </div>
     </section>
@@ -135,8 +124,12 @@
             <h2>Entre em Contato</h2>
             <p>Estamos prontos para ajudar seu negócio a crescer. Fale conosco pelo WhatsApp ou envie-nos um e-mail.</p>
             <div class="contact-buttons">
-                <a href="https://api.whatsapp.com/send?phone=5519987205121" target="_blank" class="btn-primary">WhatsApp</a>
-                <a href="mailto:email@teste.com" class="btn-secondary">E-mail</a>
+                <a href="https://api.whatsapp.com/send?phone=5519987205121" target="_blank" class="btn-primary">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+                <a href="mailto:email@teste.com" class="btn-secondary">
+                    <i class="fas fa-envelope"></i> E-mail
+                </a>
             </div>
         </div>
     </section>
@@ -146,6 +139,7 @@
             <p>© 2024 Landpage Demo. Todos os direitos reservados.</p>
         </div>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.1/dist/aos.js"></script>
 </body>
 </html>
