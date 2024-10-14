@@ -40,7 +40,7 @@ body {
     height: 50px;
 }
 
-/* Menu Sanduíche - ícone */
+/* Menu Sanduíche - Ícone */
 .menu-toggle {
     display: none;
     flex-direction: column;
@@ -187,16 +187,35 @@ body {
     font-size: 1.5rem;
 }
 
-.btn-secondary {
-    background-color: white;
-    color: #222;
-    padding: 1rem 2.5rem;
-    text-decoration: none;
-    border-radius: 50px;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+/* Botões de Contato */
+.contact-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
 }
 
-.btn-secondary:hover {
+.contact-buttons a {
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.contact-buttons .btn-primary {
+    background-color: #d4a000; /* Amarelo mais escuro para melhor contraste */
+    color: white;
+}
+
+.contact-buttons .btn-primary:hover {
+    background-color: #b58800; /* Tom ainda mais escuro no hover */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+.contact-buttons .btn-secondary {
+    background-color: white;
+    color: #222;
+}
+
+.contact-buttons .btn-secondary:hover {
     background-color: #f0f0f0;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
@@ -211,7 +230,7 @@ body {
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilo responsivo */
+/* Estilo Responsivo */
 @media (max-width: 768px) {
     .header .nav-list {
         display: none;
@@ -238,7 +257,7 @@ body {
         display: flex;
     }
 
-    /* Animação do menu sanduíche ao abrir */
+    /* Animação do Menu Sanduíche */
     .menu-toggle.active span:nth-child(1) {
         transform: rotate(45deg) translate(5px, 5px);
     }
