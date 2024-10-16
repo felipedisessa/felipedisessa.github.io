@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio do Restaurante</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css" rel="stylesheet">
+    <!-- Link para o arquivo de script separado -->
+    <script defer src="script.js"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+<div class="cardapio-container bg-white p-6 rounded-lg shadow-xl w-full max-w-2xl">
+    <h1 class="text-3xl font-bold text-center mb-8">Cardápio</h1>
+    
+    <div class="grid grid-cols-1 gap-4">
+        <div class="item flex justify-between items-center p-4 border border-gray-200 rounded-lg">
+            <span class="item-name text-lg">X-Burger</span>
+            <span class="item-price text-lg font-bold">R$12,00</span>
+            <button class="btn btn-success" onclick="addToCart('X-Burger', 12)">Adicionar</button>
+        </div>
+        <div class="item flex justify-between items-center p-4 border border-gray-200 rounded-lg">
+            <span class="item-name text-lg">X-Salada</span>
+            <span class="item-price text-lg font-bold">R$15,00</span>
+            <button class="btn btn-success" onclick="addToCart('X-Salada', 15)">Adicionar</button>
+        </div>
+        <div class="item flex justify-between items-center p-4 border border-gray-200 rounded-lg">
+            <span class="item-name text-lg">X-Bacon</span>
+            <span class="item-price text-lg font-bold">R$18,00</span>
+            <button class="btn btn-success" onclick="addToCart('X-Bacon', 18)">Adicionar</button>
+        </div>
+        <div class="item flex justify-between items-center p-4 border border-gray-200 rounded-lg">
+            <span class="item-name text-lg">Batata Frita</span>
+            <span class="item-price text-lg font-bold">R$8,00</span>
+            <button class="btn btn-success" onclick="addToCart('Batata Frita', 8)">Adicionar</button>
+        </div>
+    </div>
+
+    <div class="cart mt-8">
+        <h3 class="text-2xl font-semibold mb-4">Carrinho:</h3>
+        <!-- Adicionei o carrinho conforme a documentação -->
+        <div class="dropdown dropdown-end">
+            <label tabindex="0" class="btn btn-outline m-1">Ver Carrinho</label>
+            <ul id="cart-items" tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                <!-- Itens do carrinho serão adicionados aqui -->
+            </ul>
+        </div>
+        <p id="total-price" class="text-lg font-bold mt-4">Total: R$0,00</p>
+    </div>
+
+    <div class="mt-6">
+        <label for="payment" class="block text-lg font-semibold mb-2">Escolha a forma de pagamento:</label>
+        <select id="payment" class="select select-bordered w-full">
+            <option value="Dinheiro">Dinheiro</option>
+            <option value="Cartão">Cartão</option>
+            <option value="Pix">Pix</option>
+        </select>
+    </div>
+
+    <button class="btn btn-primary w-full mt-6" onclick="makeOrder()">Pedir</button>
+</div>
+
+</body>
+</html>
