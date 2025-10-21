@@ -1,116 +1,416 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Felipe Developer</title>
-    <meta name="description" content="Portfolio de Felipe">
+    <title>Felipe Di Sessa - Desenvolvedor Full Stack</title>
+    <meta name="description" content="Portfolio de Felipe Di Sessa - Desenvolvedor Full Stack especializado em PHP, Laravel, Python, JavaScript e desenvolvimento web moderno">
+    <meta name="keywords" content="desenvolvedor, full stack, PHP, Laravel, Python, JavaScript, portfolio">
+    <meta name="author" content="Felipe Di Sessa">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://felipedisessa.github.io/">
+    <meta property="og:title" content="Felipe Di Sessa - Desenvolvedor Full Stack">
+    <meta property="og:description" content="Desenvolvedor Full Stack especializado em criar soluções eficientes e inovadoras">
+    <meta property="og:image" content="https://github.com/felipedisessa.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://felipedisessa.github.io/">
+    <meta property="twitter:title" content="Felipe Di Sessa - Desenvolvedor Full Stack">
+    <meta property="twitter:description" content="Desenvolvedor Full Stack especializado em criar soluções eficientes e inovadoras">
+    <meta property="twitter:image" content="https://github.com/felipedisessa.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="https://github.com/felipedisessa.png">
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Roboto:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 </head>
 <body>
-    <header>
-        <nav>
-            <span class="logo">Bem vindo</span>
-            <ul class="menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#sobre">Sobre</a></li>
-                <li><a href="#projetos">Projetos</a></li>
-                <li><a href="#contato">Contato</a></li>
-            </ul>
-            <a href="https://github.com/felipedisessa" class="github-link">GitHub</a>
-            <div class="hamburger">
-                <i class="fas fa-bars"></i>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">Felipe</span>
             </div>
-        </nav>
-    </header>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link" data-text="Início">Início</a>
+                <a href="#sobre" class="nav-link" data-text="Sobre">Sobre</a>
+                <a href="#projetos" class="nav-link" data-text="Projetos">Projetos</a>
+                <a href="#contato" class="nav-link" data-text="Contato">Contato</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Alternar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="https://github.com/felipedisessa" class="github-btn" target="_blank" rel="noopener">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+                <button class="hamburger" id="hamburger" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
 
-    <main>
-        <section id="home" class="hero" data-aos="fade-up">
-            <h1>Felipe Di Sessa</h1>
-            <p>Desenvolvedor Web focado em criar soluções eficientes e inovadoras.</p>
-            <a href="#projetos" class="btn">Ver Projetos</a>
-        </section>
-    
-               <!-- Seção Sobre -->
-        <section id="sobre" class="sobre" data-aos="fade-up">
-            <div class="container">
-                <h2>Sobre Mim</h2>
-                <div class="sobre-content">
-                    <img class="foto-perfil" src="https://github.com/felipedisessa.png" alt="Foto de Felipe">
-                    <p>Sou um desenvolvedor apaixonado por tecnologia com experiência em PHP, Laravel, Python, Flutter, JavaScript e desenvolvimento web moderno. Sempre buscando aprender e melhorar, me especializo em criar aplicações robustas e fáceis de usar.</p>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-background">
+            <div class="hero-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+        </div>
+        
+        <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    <span class="greeting">Olá, eu sou</span>
+                    <span class="name">Felipe Di Sessa</span>
+                    <span class="role">Desenvolvedor Full Stack</span>
+                </h1>
+                <p class="hero-description">
+                    Especializado em criar soluções digitais robustas e inovadoras, 
+                    combinando tecnologias modernas com experiência prática em desenvolvimento web.
+                </p>
+                <div class="hero-actions">
+                    <a href="#projetos" class="btn btn-primary">
+                        <span>Ver Projetos</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#contato" class="btn btn-secondary">
+                        <span>Entrar em Contato</span>
+                        <i class="fas fa-envelope"></i>
+                    </a>
                 </div>
-                <div class="tecnologias" data-aos="fade-up">
-                    <h3>Tecnologias</h3>
-                    <div class="icons">
-                        <i class="fab fa-html5" title="HTML"></i>
-                        <i class="fab fa-css3-alt" title="CSS"></i>
-                        <i class="fab fa-js-square" title="JavaScript"></i>
-                        <i class="fab fa-php" title="PHP"></i>
-                        <i class="fab fa-laravel" title="Laravel"></i>
-                        <i class="fab fa-python" title="Python"></i>
+            </div>
+            
+            <div class="hero-image" data-aos="fade-left" data-aos-delay="300">
+                <div class="image-container">
+                    <img src="https://github.com/felipedisessa.png" alt="Felipe Di Sessa" class="profile-image">
+                    <div class="image-border"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator">
+            <div class="scroll-arrow">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="sobre" class="about">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Sobre Mim</h2>
+                <p class="section-subtitle">Conheça um pouco da minha jornada e paixão pela tecnologia</p>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text" data-aos="fade-right">
+                    <div class="about-card">
+                        <h3>Minha História</h3>
+                        <p>
+                            Sou um desenvolvedor apaixonado por tecnologia com experiência sólida em desenvolvimento web. 
+                            Minha jornada começou explorando diferentes linguagens e frameworks, sempre buscando 
+                            aprender e evoluir constantemente.
+                        </p>
+                        <p>
+                            Especializo-me em criar aplicações robustas, escaláveis e fáceis de usar, 
+                            combinando as melhores práticas de desenvolvimento com tecnologias modernas.
+                        </p>
+                    </div>
+                    
+                    <div class="stats">
+                        <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+                            <div class="stat-number">3+</div>
+                            <div class="stat-label">Anos de Experiência</div>
+                        </div>
+                        <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                            <div class="stat-number">20+</div>
+                            <div class="stat-label">Projetos Concluídos</div>
+                        </div>
+                        <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+                            <div class="stat-number">5+</div>
+                            <div class="stat-label">Tecnologias Dominadas</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-image" data-aos="fade-left">
+                    <div class="image-wrapper">
+                        <img src="https://github.com/felipedisessa.png" alt="Felipe Di Sessa" class="about-img">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-code"></i>
+                                <span>Desenvolvedor Full Stack</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+            
+            <div class="technologies" data-aos="fade-up" data-aos-delay="400">
+                <h3>Tecnologias & Ferramentas</h3>
+                <div class="tech-grid">
+                    <div class="tech-item" data-aos="zoom-in" data-aos-delay="100">
+                        <i class="fab fa-html5"></i>
+                        <span>HTML5</span>
+                    </div>
+                    <div class="tech-item" data-aos="zoom-in" data-aos-delay="150">
+                        <i class="fab fa-css3-alt"></i>
+                        <span>CSS3</span>
+                    </div>
+                    <div class="tech-item" data-aos="zoom-in" data-aos-delay="200">
+                        <i class="fab fa-js-square"></i>
+                        <span>JavaScript</span>
+                    </div>
+                    <div class="tech-item" data-aos="zoom-in" data-aos-delay="250">
+                        <i class="fab fa-php"></i>
+                        <span>PHP</span>
+                    </div>
+                    <div class="tech-item" data-aos="zoom-in" data-aos-delay="300">
+                        <i class="fab fa-laravel"></i>
+                        <span>Laravel</span>
+                    </div>
+                    <div class="tech-item" data-aos="zoom-in" data-aos-delay="350">
+                        <i class="fab fa-python"></i>
+                        <span>Python</span>
+                    </div>
+                    <div class="tech-item" data-aos="zoom-in" data-aos-delay="400">
+                        <i class="fab fa-react"></i>
+                        <span>React</span>
+                    </div>
+                    <div class="tech-item" data-aos="zoom-in" data-aos-delay="450">
+                        <i class="fab fa-node-js"></i>
+                        <span>Node.js</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <!-- Seção Projetos -->
-        <section id="projetos" class="projetos" data-aos="fade-up">
-            <div class="container">
-                <h2>Projetos</h2>
-                <div class="projeto-grid">
-                    <div class="projeto">
+    <!-- Projects Section -->
+    <section id="projetos" class="projects">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Projetos Destacados</h2>
+                <p class="section-subtitle">Alguns dos projetos que desenvolvi e dos quais me orgulho</p>
+            </div>
+            
+            <div class="projects-grid">
+                <div class="project-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/felipedisessa/Projeto-loca-solucoes" target="_blank" rel="noopener" class="project-link">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
                         <h3>Sistema de Reservas</h3>
-                        <p>Uma aplicação desenvolvida em Laravel para gerenciamento de reservas de salas, com calendário interativo e controle de usuários.</p>
-                        <a href="https://github.com/felipedisessa/Projeto-loca-solucoes" class="btn">Ver no GitHub</a>
-                    </div>
-                    <div class="projeto">
-                        <h3>Consulta na API do GitHub</h3>
-                        <p>Uma aplicação desenvolvida em JavaScript para consulta de dados da API do GitHub.</p>
-                        <a href="https://github.com/felipedisessa/github_API" class="btn">Ver no GitHub</a>
+                        <p>
+                            Aplicação completa desenvolvida em Laravel para gerenciamento de reservas de salas, 
+                            com calendário interativo, controle de usuários e sistema de notificações.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Laravel</span>
+                            <span class="tech-tag">PHP</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">JavaScript</span>
+                        </div>
                     </div>
                 </div>
-                <div class="ver-mais-projetos">
-                    <a href="https://github.com/felipedisessa" class="btn">Ver mais projetos no GitHub</a>
+                
+                <div class="project-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/felipedisessa/github_API" target="_blank" rel="noopener" class="project-link">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>GitHub API Explorer</h3>
+                        <p>
+                            Aplicação web desenvolvida em JavaScript para consulta e visualização de dados 
+                            da API do GitHub, com interface moderna e responsiva.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">API</span>
+                            <span class="tech-tag">HTML5</span>
+                            <span class="tech-tag">CSS3</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="https://github.com/felipedisessa/To-do-list" target="_blank" rel="noopener" class="project-link">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>To-Do List</h3>
+                        <p>
+                            Aplicação completa de gerenciamento de tarefas desenvolvida em Laravel com PHP, 
+                            incluindo interface moderna com Tailwind CSS e funcionalidades CRUD completas.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Laravel</span>
+                            <span class="tech-tag">PHP</span>
+                            <span class="tech-tag">Livewire</span>
+                            <span class="tech-tag">Tailwind CSS</span>
+                            <span class="tech-tag">Blade</span>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="projects-footer" data-aos="fade-up" data-aos-delay="400">
+                <a href="https://github.com/felipedisessa" class="btn btn-outline" target="_blank" rel="noopener">
+                    <i class="fab fa-github"></i>
+                    <span>Ver Mais no GitHub</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contato" class="contact">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Vamos Conversar?</h2>
+                <p class="section-subtitle">Estou sempre aberto a novas oportunidades e projetos interessantes</p>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-info" data-aos="fade-right">
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Email</h3>
+                            <p>felipetimds@gmail.com</p>
+                            <a href="mailto:felipetimds@gmail.com" class="contact-link">Enviar Email</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>WhatsApp</h3>
+                            <p>+55 19 98720-5121</p>
+                            <a href="https://wa.me/5519987205121" target="_blank" rel="noopener" class="contact-link">Conversar</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="contact-icon">
+                            <i class="fab fa-linkedin"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>LinkedIn</h3>
+                            <p>felipetilellimarquesdisessa</p>
+                            <a href="https://linkedin.com/in/felipetilellimarquesdisessa" target="_blank" rel="noopener" class="contact-link">Conectar</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form" data-aos="fade-left">
+                    <form class="form" id="contact-form">
+                        <div class="form-group">
+                            <label for="name">Nome</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Assunto</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Mensagem</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span>Enviar Mensagem</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
-        </section>
-        <section id="contato" class="contato" data-aos="fade-up">
-            <h2>Entre em contato</h2>
-            <a class="email-link" href="mailto:felipetimds@gmail.com">Me envie um e-mail</a>
-            <br><br>
-            <a class="whatsapp-btn" href="https://wa.me/5519987205121" target="_blank">
-                <i class="fab fa-whatsapp"></i> Fale comigo no WhatsApp
-            </a>
-        </section>
-        
-        
-    </main>
-    <footer>
-        <p>&copy; 2024 Felipe. Todos os direitos reservados.</p>
-        <div class="social">
-            <a href="https://linkedin.com/in/felipetilellimarquesdisessa" target="_blank">
-                <i class="fab fa-linkedin"></i>
-            </a>
-            <a href="https://github.com/felipedisessa" target="_blank">
-                <i class="fab fa-github"></i>
-            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>Felipe Di Sessa</h3>
+                    <p>Desenvolvedor Full Stack apaixonado por criar soluções inovadoras</p>
+                </div>
+                
+                <div class="footer-social">
+                    <a href="https://github.com/felipedisessa" target="_blank" rel="noopener" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/felipetilellimarquesdisessa" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="mailto:felipetimds@gmail.com" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year">2024</span> Felipe Di Sessa. Todos os direitos reservados.</p>
+                <p>Feito com <i class="fas fa-heart"></i> e muito café</p>
+            </div>
         </div>
     </footer>
-    
-    
+
+    <!-- Scripts -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script>
-        AOS.init();
-
-        const hamburger = document.querySelector('.hamburger');
-        const menu = document.querySelector('.menu');
-
-        hamburger.addEventListener('click', () => {
-            menu.classList.toggle('active');
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
