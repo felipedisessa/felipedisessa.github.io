@@ -1,7 +1,3 @@
-// ===== PORTFOLIO JAVASCRIPT =====
-// Modern JavaScript for Felipe Di Sessa Portfolio
-
-// Initialize AOS (Animate On Scroll)
 AOS.init({
     duration: 800,
     easing: 'ease-in-out',
@@ -13,17 +9,14 @@ AOS.init({
 const themeToggle = document.getElementById('theme-toggle');
 const body = document.body;
 
-// Check for saved theme preference or default to 'light'
 const currentTheme = localStorage.getItem('theme') || 'light';
 body.setAttribute('data-theme', currentTheme);
 
-// Update theme toggle icon based on current theme
 const updateThemeIcon = (theme) => {
     const icon = themeToggle.querySelector('i');
     icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
 };
 
-// Initialize theme icon
 updateThemeIcon(currentTheme);
 
 themeToggle.addEventListener('click', () => {
@@ -33,7 +26,6 @@ themeToggle.addEventListener('click', () => {
     body.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
     
-    // Update icon
     updateThemeIcon(newTheme);
 });
 
@@ -46,7 +38,6 @@ hamburger.addEventListener('click', () => {
     navMenu.classList.toggle('active');
 });
 
-// Close mobile menu when clicking on a link
 document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', () => {
         hamburger.classList.remove('active');
@@ -84,20 +75,16 @@ const contactForm = document.getElementById('contact-form');
 
 contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    
-    // Get form data
+
     const formData = new FormData(contactForm);
     const data = Object.fromEntries(formData);
     
-    // Create mailto link
     const subject = encodeURIComponent(data.subject);
     const body = encodeURIComponent(`Nome: ${data.name}\nEmail: ${data.email}\n\nMensagem:\n${data.message}`);
     const mailtoLink = `mailto:felipetimds@gmail.com?subject=${subject}&body=${body}`;
-    
-    // Open email client
+
     window.location.href = mailtoLink;
     
-    // Show success message
     const button = contactForm.querySelector('button[type="submit"]');
     const originalText = button.innerHTML;
     button.innerHTML = '<i class="fas fa-check"></i> <span>Email Aberto!</span>';
@@ -124,7 +111,6 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe elements for animation
 document.querySelectorAll('.tech-item, .project-card, .contact-card').forEach(el => {
     observer.observe(el);
 });
@@ -180,7 +166,6 @@ const createScrollToTopButton = () => {
     
     document.body.appendChild(scrollBtn);
     
-    // Show/hide button based on scroll position
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
             scrollBtn.style.opacity = '1';
@@ -191,7 +176,6 @@ const createScrollToTopButton = () => {
         }
     });
     
-    // Scroll to top functionality
     scrollBtn.addEventListener('click', () => {
         window.scrollTo({
             top: 0,
@@ -199,7 +183,6 @@ const createScrollToTopButton = () => {
         });
     });
     
-    // Hover effect
     scrollBtn.addEventListener('mouseenter', () => {
         scrollBtn.style.transform = 'translateY(-3px)';
         scrollBtn.style.background = 'var(--primary-dark)';
@@ -211,7 +194,6 @@ const createScrollToTopButton = () => {
     });
 };
 
-// Initialize scroll to top button
 createScrollToTopButton();
 
 // ===== LOADING ANIMATION =====
@@ -246,13 +228,11 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Remove keyboard navigation class on mouse use
 document.addEventListener('mousedown', () => {
     document.body.classList.remove('keyboard-navigation');
 });
 
 // ===== PERFORMANCE OPTIMIZATION =====
-// Debounce scroll events
 const debounce = (func, wait) => {
     let timeout;
     return function executedFunction(...args) {
@@ -265,9 +245,7 @@ const debounce = (func, wait) => {
     };
 };
 
-// Optimized scroll handler
 const optimizedScrollHandler = debounce(() => {
-    // Navbar scroll effect
     if (window.scrollY > 100) {
         navbar.classList.add('scrolled');
     } else {
@@ -291,7 +269,6 @@ const updateCurrentYear = () => {
     }
 };
 
-// Initialize dynamic year
 updateCurrentYear();
 
 // ===== CONSOLE WELCOME MESSAGE =====
