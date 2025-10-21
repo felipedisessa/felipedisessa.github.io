@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roleta Morillo's Pet - Show de Prêmios</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Carregando Roleta...</div>
+    </div>
+
+    <!-- Título 3D -->
+    <div class="titulo-container">
+        <img src="titulo-3d-show-de-premios.png" alt="Show de Prêmios" class="titulo-3d">
+    </div>
+
+    <!-- Container principal da roleta -->
+    <div class="container">
+        <!-- Botões de controle -->
+        <button class="botao-config" title="Configurações" aria-label="Abrir configurações">
+            <img src="engrenagem.png" alt="Configurações">
+        </button>
+
+        <button class="botao-personalizar" title="Personalizar" aria-label="Personalizar prêmios">
+            <img src="botao-personalizar.png" alt="Personalizar">
+        </button>
+
+        <!-- Título do sorteio -->
+        <div class="titulo-sorteio">
+            Título do Sorteio
+        </div>
+
+        <!-- LED Frame com pontos de luz -->
+        <div class="led-frame">
+            <div class="led-luz"></div>
+            <div class="led-luz"></div>
+            <div class="led-luz"></div>
+            <div class="led-luz"></div>
+            <div class="led-luz"></div>
+            <div class="led-luz"></div>
+            <div class="led-luz"></div>
+            <div class="led-luz"></div>
+        </div>
+
+        <!-- Frame da roleta -->
+        <img src="frame roleta .png" alt="Frame da Roleta" class="frame-roleta">
+
+        <!-- Roleta personalizada -->
+        <div class="roleta-personalizada" id="roleta-personalizada" role="img" aria-label="Roleta de prêmios">
+            <!-- Textos dos prêmios -->
+            <div class="premio-texto premio-1" aria-label="Prêmio 1">$10</div>
+            <div class="premio-texto premio-2" aria-label="Prêmio 2">ZERO</div>
+            <div class="premio-texto premio-3" aria-label="Prêmio 3">$2</div>
+            <div class="premio-texto premio-4" aria-label="Prêmio 4">$50</div>
+            <div class="premio-texto premio-5" aria-label="Prêmio 5">$1</div>
+            <div class="premio-texto premio-6" aria-label="Prêmio 6">$5</div>
+            <div class="premio-texto premio-7" aria-label="Prêmio 7">$20</div>
+            <div class="premio-texto premio-8" aria-label="Prêmio 8">JACKPOT</div>
+            <div class="premio-texto premio-9" aria-label="Prêmio 9">$15</div>
+            <div class="premio-texto premio-10" aria-label="Prêmio 10">$100</div>
+            <div class="premio-texto premio-11" aria-label="Prêmio 11">$1</div>
+            <div class="premio-texto premio-12" aria-label="Prêmio 12">$500</div>
+            
+            <div class="roleta-centro" aria-label="Centro da roleta"></div>
+        </div>
+
+        <!-- Botão de girar -->
+        <button class="elementor-button girar" id="girar" aria-label="Girar roleta">
+            🎯 GIRAR ROLETA
+        </button>
+
+        <!-- Prêmio selecionado -->
+        <div class="premio-selecionado" id="premio-selecionado" aria-live="polite">
+            PRÊMIO SELECIONADO
+        </div>
+
+    </div>
+
+    <!-- Logo NeoTech -->
+    <div class="logo-neotech">
+        DESENVOLVIDO POR NeoTech Soluções
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Popup de ganho -->
+    <div class="popupganho" id="popupganho" role="dialog" aria-labelledby="popup-title" aria-modal="true">
+        <h2 id="popup-title">🎉 PARABÉNS! 🎉</h2>
+        <p>Você ganhou: <strong id="premio-ganho">$500</strong></p>
+        <button onclick="fecharPopup()" aria-label="Fechar popup">Fechar</button>
+    </div>
+
+    <!-- Modais -->
+    <!-- Modal de Edição de Prêmios -->
+    <div id="modal-premios" class="modal">
+        <div class="modal-content">
+            <h2>🎯 Editar Prêmios</h2>
+            <div class="modal-group">
+                <label>Prêmio 1:</label>
+                <input type="text" id="premio1" value="$10">
+            </div>
+            <div class="modal-group">
+                <label>Prêmio 2:</label>
+                <input type="text" id="premio2" value="ZERO">
+            </div>
+            <div class="modal-group">
+                <label>Prêmio 3:</label>
+                <input type="text" id="premio3" value="$2">
+            </div>
+            <div class="modal-group">
+                <label>Prêmio 4:</label>
+                <input type="text" id="premio4" value="$50">
+            </div>
+            <div class="modal-group">
+                <label>Prêmio 5:</label>
+                <input type="text" id="premio5" value="$1">
+            </div>
+            <div class="modal-group">
+                <label>Prêmio 6:</label>
+                <input type="text" id="premio6" value="$5">
+            </div>
+            <div class="modal-group">
+                <label>Prêmio 7:</label>
+                <input type="text" id="premio7" value="$20">
+            </div>
+            <div class="modal-group">
+                <label>Prêmio 8:</label>
+                <input type="text" id="premio8" value="JACKPOT">
+            </div>
+            <div class="modal-group">
+                <label>Prêmio 9:</label>
+                <input type="text" id="premio9" value="$15">
+            </div>
+            <div class="modal-group">
+                <label>Prêmio 10:</label>
+                <input type="text" id="premio10" value="$100">
+            </div>
+            <div class="modal-group">
+                <label>Prêmio 11:</label>
+                <input type="text" id="premio11" value="$1">
+            </div>
+            <div class="modal-group">
+                <label>Prêmio 12:</label>
+                <input type="text" id="premio12" value="$500">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-save" onclick="salvarPremios()">Salvar</button>
+                <button class="btn-cancel" onclick="fecharModal('modal-premios')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Configurações -->
+    <div id="modal-config" class="modal">
+        <div class="modal-content">
+            <h2>⚙️ Configurações</h2>
+            <div class="modal-group">
+                <label>🔊 Volume da Música:</label>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <input type="range" id="volume-musica" min="0" max="100" value="30">
+                    <span class="volume-display" id="volume-value">30%</span>
+                </div>
+            </div>
+            <div class="modal-group">
+                <label>⚡ Velocidade da Roleta:</label>
+                <select id="velocidade-roleta">
+                    <option value="3">🐌 Lenta (3s)</option>
+                    <option value="4" selected>⚡ Normal (4s)</option>
+                    <option value="5">🚀 Rápida (5s)</option>
+                </select>
+            </div>
+            <div class="modal-group">
+                <label>💡 LED Frame:</label>
+                <select id="led-frame">
+                    <option value="true" selected>✨ Ativado</option>
+                    <option value="false">❌ Desativado</option>
+                </select>
+            </div>
+            <div class="modal-group">
+                <label>📝 Título do Sorteio:</label>
+                <input type="text" id="titulo-sorteio" value="Título do Sorteio" placeholder="Digite o título do sorteio">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-save" onclick="salvarConfiguracoes()">Salvar</button>
+                <button class="btn-cancel" onclick="fecharModal('modal-config')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Áudio -->
+    <audio id="myAudio" loop="true">
+        <source src="som roleta do bau (1).mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

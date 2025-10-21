@@ -1,0 +1,992 @@
+/* Reset e estilos gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #ffd700;
+    --secondary-color: #1e3c72;
+    --accent-color: #ffed4e;
+    --text-dark: #1e3c72;
+    --text-light: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --gradient-primary: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    --gradient-secondary: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    --border-radius: 25px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: url('fundo-roleta.png') center center / cover no-repeat fixed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Loading screen */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-secondary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
+
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 215, 0, 0.3);
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+.loading-text {
+    color: var(--text-light);
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Título 3D no topo */
+.titulo-container {
+    position: relative;
+    margin-bottom: 2rem;
+    z-index: 5;
+    animation: slideInDown 1s ease-out;
+}
+
+.titulo-3d {
+    max-width: min(500px, 90vw);
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 15px 30px var(--shadow-color));
+    animation: float 3s ease-in-out infinite, glow 2s ease-in-out infinite alternate;
+    transition: var(--transition);
+}
+
+.titulo-3d:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 20px 40px var(--shadow-color));
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes glow {
+    0% { filter: drop-shadow(0 15px 30px var(--shadow-color)); }
+    100% { filter: drop-shadow(0 15px 30px var(--shadow-color)) drop-shadow(0 0 20px var(--primary-color)); }
+}
+
+@keyframes slideInDown {
+    0% { transform: translateY(-100px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Container da roleta */
+.container {
+    position: relative;
+    width: min(500px, 90vw);
+    height: min(500px, 90vw);
+    margin: 2rem auto;
+    animation: slideInUp 1s ease-out 0.3s both;
+}
+
+@keyframes slideInUp {
+    0% { transform: translateY(100px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Imagens da roleta */
+.roleta1, .roleta2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(320px, 64vw);
+    height: min(320px, 64vw);
+    transition: var(--transition);
+}
+
+.ponteiro {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(60px, 12vw);
+    height: min(60px, 12vw);
+    z-index: 10;
+    filter: drop-shadow(0 5px 15px var(--shadow-color));
+    transition: var(--transition);
+}
+
+.roleta1 {
+    animation: balancar 2s infinite;
+    z-index: 2;
+}
+
+.roleta2 {
+    display: none;
+    z-index: 3;
+}
+
+/* Frame da roleta */
+.frame-roleta {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(580px, 116vw);
+    height: min(580px, 116vw);
+    z-index: 4;
+    filter: drop-shadow(0 15px 40px var(--shadow-color));
+    animation: frameGlow 3s ease-in-out infinite;
+}
+
+@keyframes frameGlow {
+    0%, 100% { filter: drop-shadow(0 15px 40px var(--shadow-color)); }
+    50% { filter: drop-shadow(0 15px 40px var(--shadow-color)) drop-shadow(0 0 30px var(--primary-color)); }
+}
+
+/* Botão de girar */
+.elementor-button.girar {
+    position: absolute;
+    bottom: -5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: var(--gradient-primary);
+    color: var(--text-dark);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    overflow: hidden;
+    animation: slideInUp 1s ease-out 0.6s both;
+}
+
+.elementor-button.girar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.elementor-button.girar:hover::before {
+    left: 100%;
+}
+
+.elementor-button.girar:hover {
+    transform: translateX(-50%) translateY(-3px);
+    box-shadow: 0 12px 35px rgba(255, 215, 0, 0.6);
+    background: linear-gradient(135deg, #ffed4e 0%, #ffd700 100%);
+}
+
+.elementor-button.girar:active {
+    transform: translateX(-50%) translateY(-1px);
+    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
+}
+
+.elementor-button.girar:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: translateX(-50%);
+}
+
+.elementor-button.girar:disabled:hover {
+    transform: translateX(-50%);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+}
+
+/* Botões de controle */
+.botao-personalizar, .botao-config {
+    position: absolute;
+    width: min(50px, 10vw);
+    height: min(50px, 10vw);
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 15;
+    backdrop-filter: blur(10px);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: slideInUp 1s ease-out 0.9s both;
+}
+
+.botao-personalizar {
+    top: 1.5rem;
+    right: 1.5rem;
+}
+
+.botao-config {
+    top: 1.5rem;
+    left: 1.5rem;
+}
+
+.botao-personalizar img, .botao-config img {
+    width: 60%;
+    height: 60%;
+    filter: drop-shadow(0 2px 8px var(--shadow-color));
+    transition: var(--transition);
+}
+
+.botao-personalizar:hover, .botao-config:hover {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: var(--accent-color);
+    transform: scale(1.1);
+    box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+}
+
+.botao-personalizar:hover img {
+    transform: scale(1.2);
+}
+
+.botao-config:hover img {
+    transform: rotate(90deg) scale(1.2);
+}
+
+/* Barra de título do sorteio */
+.titulo-sorteio {
+    position: absolute;
+    top: -3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gradient-secondary);
+    color: var(--text-light);
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 0 5px 20px var(--shadow-color);
+    z-index: 15;
+    border: 2px solid var(--primary-color);
+    backdrop-filter: blur(10px);
+    animation: slideInUp 1s ease-out 0.4s both;
+}
+
+/* Popup de ganho */
+.popupganho {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--gradient-primary);
+    color: var(--text-dark);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    z-index: 25;
+    text-align: center;
+    box-shadow: 0 20px 60px var(--shadow-color);
+    animation: popupBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border: 3px solid var(--secondary-color);
+    backdrop-filter: blur(20px);
+    max-width: min(400px, 90vw);
+    width: 100%;
+}
+
+.popupganho h2 {
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-shadow: 2px 2px 4px var(--shadow-color);
+}
+
+.popupganho p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.popupganho button {
+    background: var(--gradient-secondary);
+    color: var(--text-light);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+.popupganho button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px var(--shadow-color);
+}
+
+@keyframes popupBounce {
+    0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
+    50% { transform: translate(-50%, -50%) scale(1.1); }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* Overlay */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 20;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Barra de prêmio selecionado */
+.premio-selecionado {
+    position: absolute;
+    bottom: -7rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gradient-primary);
+    color: var(--text-dark);
+    padding: 1rem 2rem;
+    border-radius: var(--border-radius);
+    font-size: 1.1rem;
+    font-weight: 700;
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    z-index: 15;
+    border: 2px solid var(--secondary-color);
+    animation: slideInUp 1s ease-out 0.7s both;
+}
+
+/* Roleta personalizada */
+.roleta-personalizada {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(450px, 90vw);
+    height: min(450px, 90vw);
+    border-radius: 50%;
+    background: conic-gradient(
+        #4a90e2 0deg 30deg,
+        #357abd 30deg 60deg,
+        #4a90e2 60deg 90deg,
+        #357abd 90deg 120deg,
+        #4a90e2 120deg 150deg,
+        #357abd 150deg 180deg,
+        #4a90e2 180deg 210deg,
+        #357abd 210deg 240deg,
+        #4a90e2 240deg 270deg,
+        #357abd 270deg 300deg,
+        #4a90e2 300deg 330deg,
+        #357abd 330deg 360deg
+    );
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 
+        inset 0 0 40px rgba(0, 0, 0, 0.4),
+        0 0 60px rgba(255, 215, 0, 0.3);
+    border: 8px solid var(--primary-color);
+    animation: roletaGlow 3s ease-in-out infinite;
+    transition: var(--transition);
+}
+
+.roleta-personalizada.spinning {
+    animation: roletaGlow 3s ease-in-out infinite, spin 0.1s linear infinite;
+}
+
+@keyframes roletaGlow {
+    0%, 100% { 
+        box-shadow: 
+            inset 0 0 40px rgba(0, 0, 0, 0.4),
+            0 0 60px rgba(255, 215, 0, 0.3);
+    }
+    50% { 
+        box-shadow: 
+            inset 0 0 40px rgba(0, 0, 0, 0.4),
+            0 0 80px rgba(255, 215, 0, 0.6);
+    }
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Texto dos prêmios na roleta */
+.premio-texto {
+    position: absolute;
+    color: var(--text-light);
+    font-weight: 700;
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    text-shadow: 3px 3px 8px rgba(0, 0, 0, 1);
+    transform-origin: center;
+    pointer-events: none;
+    z-index: 3;
+    text-align: center;
+    width: min(80px, 18vw);
+    height: min(40px, 9vw);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 1px;
+    transition: var(--transition);
+}
+
+.premio-texto:hover {
+    transform: scale(1.1);
+    text-shadow: 3px 3px 8px rgba(0, 0, 0, 1), 0 0 10px var(--primary-color);
+}
+
+.premio-1 { transform: rotate(15deg) translateY(-180px) rotate(-15deg); }
+.premio-2 { transform: rotate(45deg) translateY(-180px) rotate(-45deg); }
+.premio-3 { transform: rotate(75deg) translateY(-180px) rotate(-75deg); }
+.premio-4 { transform: rotate(105deg) translateY(-180px) rotate(-105deg); }
+.premio-5 { transform: rotate(135deg) translateY(-180px) rotate(-135deg); }
+.premio-6 { transform: rotate(165deg) translateY(-180px) rotate(-165deg); }
+.premio-7 { transform: rotate(195deg) translateY(-180px) rotate(-195deg); }
+.premio-8 { transform: rotate(225deg) translateY(-180px) rotate(-225deg); }
+.premio-9 { transform: rotate(255deg) translateY(-180px) rotate(-255deg); }
+.premio-10 { transform: rotate(285deg) translateY(-180px) rotate(-285deg); }
+.premio-11 { transform: rotate(315deg) translateY(-180px) rotate(-315deg); }
+.premio-12 { transform: rotate(345deg) translateY(-180px) rotate(-345deg); }
+
+.roleta-centro {
+    width: min(80px, 18vw);
+    height: min(80px, 18vw);
+    background: var(--gradient-secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0;
+    font-weight: bold;
+    color: transparent;
+    box-shadow: 
+        0 0 30px rgba(0, 0, 0, 0.5),
+        inset 0 0 15px rgba(255, 255, 255, 0.1);
+    z-index: 5;
+    border: 4px solid var(--primary-color);
+    text-align: center;
+    line-height: 1.2;
+    transition: var(--transition);
+}
+
+.roleta-centro:hover {
+    transform: scale(1.05);
+    box-shadow: 
+        0 0 40px rgba(0, 0, 0, 0.5),
+        inset 0 0 20px rgba(255, 255, 255, 0.2),
+        0 0 20px var(--primary-color);
+}
+
+/* LED piscando no frame com pontos de luz */
+.led-frame {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(620px, 124vw);
+    height: min(620px, 124vw);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+/* Pontos de luz do LED */
+.led-luz {
+    position: absolute;
+    width: min(15px, 3vw);
+    height: min(15px, 3vw);
+    border-radius: 50%;
+    background: var(--text-light);
+    box-shadow: 0 0 15px currentColor;
+    animation: luzPiscar 1.5s ease-in-out infinite;
+    transition: var(--transition);
+}
+
+.led-luz:nth-child(1) { top: 5%; left: 50%; transform: translateX(-50%); color: #ff0000; animation-delay: 0s; }
+.led-luz:nth-child(2) { top: 12%; left: 85%; transform: translateX(-50%); color: #ff6600; animation-delay: 0.1s; }
+.led-luz:nth-child(3) { top: 25%; left: 95%; transform: translateX(-50%); color: #ffff00; animation-delay: 0.2s; }
+.led-luz:nth-child(4) { top: 40%; left: 85%; transform: translateX(-50%); color: #00ff00; animation-delay: 0.3s; }
+.led-luz:nth-child(5) { top: 55%; left: 50%; transform: translateX(-50%); color: #00ffff; animation-delay: 0.4s; }
+.led-luz:nth-child(6) { top: 40%; left: 15%; transform: translateX(-50%); color: #0000ff; animation-delay: 0.5s; }
+.led-luz:nth-child(7) { top: 25%; left: 5%; transform: translateX(-50%); color: #6600ff; animation-delay: 0.6s; }
+.led-luz:nth-child(8) { top: 12%; left: 15%; transform: translateX(-50%); color: #ff00ff; animation-delay: 0.7s; }
+
+@keyframes luzPiscar {
+    0%, 100% { 
+        opacity: 0.3;
+        transform: translateX(-50%) scale(0.8);
+    }
+    50% { 
+        opacity: 1;
+        transform: translateX(-50%) scale(1.2);
+    }
+}
+
+/* Logo NeoTech */
+.logo-neotech {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    z-index: 15;
+    font-weight: 500;
+    animation: slideInUp 1s ease-out 1.2s both;
+}
+
+/* Modais */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--gradient-secondary);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    color: var(--text-light);
+    min-width: min(500px, 90vw);
+    max-width: min(600px, 95vw);
+    box-shadow: 0 25px 50px var(--shadow-color);
+    border: 3px solid var(--primary-color);
+    animation: modalSlideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@keyframes modalSlideIn {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.modal h2 {
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    text-shadow: 2px 2px 4px var(--shadow-color);
+    font-weight: 800;
+}
+
+.modal-group {
+    margin-bottom: 1.5rem;
+}
+
+.modal-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 1rem;
+}
+
+.modal-group input, .modal-group select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-light);
+    transition: var(--transition);
+    font-family: 'Poppins', sans-serif;
+}
+
+.modal-group input:focus, .modal-group select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+.modal-group input[type="range"] {
+    background: transparent;
+    height: 8px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+}
+
+.modal-group input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    transition: var(--transition);
+}
+
+.modal-group input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+}
+
+.modal-group input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.modal-buttons button {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-save {
+    background: var(--gradient-primary);
+    color: var(--text-dark);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+}
+
+.btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(255, 215, 0, 0.6);
+}
+
+.btn-cancel {
+    background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+    color: var(--text-light);
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+}
+
+.btn-cancel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(255, 107, 107, 0.6);
+}
+
+.volume-display {
+    display: inline-block;
+    margin-left: 0.5rem;
+    padding: 0.3rem 0.8rem;
+    background: rgba(255, 215, 0, 0.2);
+    border-radius: 15px;
+    color: var(--primary-color);
+    font-weight: 700;
+    min-width: 50px;
+    text-align: center;
+    border: 1px solid var(--primary-color);
+}
+
+/* Media queries para responsividade */
+@media (max-width: 768px) {
+    .container {
+        width: min(400px, 85vw);
+        height: min(400px, 85vw);
+        margin: 1.5rem auto;
+    }
+
+    .roleta-personalizada {
+        width: min(350px, 70vw);
+        height: min(350px, 70vw);
+    }
+
+    .led-frame {
+        width: min(420px, 84vw);
+        height: min(420px, 84vw);
+    }
+
+    .frame-roleta {
+        width: min(450px, 90vw);
+        height: min(450px, 90vw);
+    }
+
+    .ponteiro {
+        width: min(50px, 10vw);
+        height: min(50px, 10vw);
+    }
+
+    .premio-texto {
+        font-size: clamp(0.8rem, 2vw, 1rem);
+        width: min(75px, 15vw);
+        height: min(38px, 7.6vw);
+    }
+
+    .premio-1 { transform: rotate(15deg) translateY(-150px) rotate(-15deg); }
+    .premio-2 { transform: rotate(45deg) translateY(-150px) rotate(-45deg); }
+    .premio-3 { transform: rotate(75deg) translateY(-150px) rotate(-75deg); }
+    .premio-4 { transform: rotate(105deg) translateY(-150px) rotate(-105deg); }
+    .premio-5 { transform: rotate(135deg) translateY(-150px) rotate(-135deg); }
+    .premio-6 { transform: rotate(165deg) translateY(-150px) rotate(-165deg); }
+    .premio-7 { transform: rotate(195deg) translateY(-150px) rotate(-195deg); }
+    .premio-8 { transform: rotate(225deg) translateY(-150px) rotate(-225deg); }
+    .premio-9 { transform: rotate(255deg) translateY(-150px) rotate(-255deg); }
+    .premio-10 { transform: rotate(285deg) translateY(-150px) rotate(-285deg); }
+    .premio-11 { transform: rotate(315deg) translateY(-150px) rotate(-315deg); }
+    .premio-12 { transform: rotate(345deg) translateY(-150px) rotate(-345deg); }
+
+    .titulo-3d {
+        max-width: min(350px, 80vw);
+    }
+
+    .elementor-button.girar {
+        bottom: -4rem;
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .popupganho {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+
+    .popupganho h2 {
+        font-size: 1.5rem;
+    }
+
+    .popupganho p {
+        font-size: 1.1rem;
+    }
+
+    .modal-content {
+        min-width: min(350px, 85vw);
+        margin: 1rem;
+        padding: 2rem;
+    }
+
+    .modal h2 {
+        font-size: 1.5rem;
+    }
+
+    .modal-group {
+        margin-bottom: 1rem;
+    }
+
+    .modal-buttons {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .modal-buttons button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: min(320px, 90vw);
+        height: min(320px, 90vw);
+        margin: 1rem auto;
+    }
+
+    .roleta-personalizada {
+        width: min(280px, 80vw);
+        height: min(280px, 80vw);
+    }
+
+    .led-frame {
+        width: min(340px, 95vw);
+        height: min(340px, 95vw);
+    }
+
+    .frame-roleta {
+        width: min(360px, 100vw);
+        height: min(360px, 100vw);
+    }
+
+    .premio-texto {
+        font-size: clamp(0.7rem, 1.8vw, 0.9rem);
+        width: min(65px, 18vw);
+        height: min(32px, 9vw);
+    }
+
+    .premio-1 { transform: rotate(15deg) translateY(-120px) rotate(-15deg); }
+    .premio-2 { transform: rotate(45deg) translateY(-120px) rotate(-45deg); }
+    .premio-3 { transform: rotate(75deg) translateY(-120px) rotate(-75deg); }
+    .premio-4 { transform: rotate(105deg) translateY(-120px) rotate(-105deg); }
+    .premio-5 { transform: rotate(135deg) translateY(-120px) rotate(-135deg); }
+    .premio-6 { transform: rotate(165deg) translateY(-120px) rotate(-165deg); }
+    .premio-7 { transform: rotate(195deg) translateY(-120px) rotate(-195deg); }
+    .premio-8 { transform: rotate(225deg) translateY(-120px) rotate(-225deg); }
+    .premio-9 { transform: rotate(255deg) translateY(-120px) rotate(-255deg); }
+    .premio-10 { transform: rotate(285deg) translateY(-120px) rotate(-285deg); }
+    .premio-11 { transform: rotate(315deg) translateY(-120px) rotate(-315deg); }
+    .premio-12 { transform: rotate(345deg) translateY(-120px) rotate(-345deg); }
+
+    .titulo-3d {
+        max-width: min(280px, 85vw);
+    }
+
+    .elementor-button.girar {
+        bottom: -3rem;
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .modal-content {
+        min-width: min(280px, 90vw);
+        padding: 1.5rem;
+    }
+
+    .modal h2 {
+        font-size: 1.3rem;
+    }
+
+    .modal-group input, .modal-group select {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .botao-personalizar, .botao-config {
+        width: min(40px, 8vw);
+        height: min(40px, 8vw);
+        top: 1rem;
+    }
+
+    .botao-personalizar {
+        right: 1rem;
+    }
+
+    .botao-config {
+        left: 1rem;
+    }
+
+    .titulo-sorteio {
+        font-size: 0.9rem;
+        padding: 0.6rem 1rem;
+        top: -2.5rem;
+    }
+
+    .premio-selecionado {
+        font-size: 1rem;
+        padding: 0.8rem 1.5rem;
+        bottom: -5rem;
+    }
+
+    .logo-neotech {
+        font-size: 0.7rem;
+        bottom: 1rem;
+        left: 1rem;
+    }
+}
+
+/* Animação de balançar */
+@keyframes balancar {
+    0%, 100% {
+        transform: translate(-50%, -50%) rotate(-5deg);
+    }
+    50% {
+        transform: translate(-50%, -50%) rotate(5deg);
+    }
+}
+
+/* Melhorias de acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Modo escuro (opcional) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --shadow-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color);
+}
