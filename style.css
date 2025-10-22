@@ -403,6 +403,7 @@ body {
     position: relative;
     background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
     overflow: hidden;
+    padding-top: 80px; /* Space for fixed navbar */
 }
 
 .hero-background {
@@ -1116,6 +1117,10 @@ body {
         display: flex;
     }
     
+    .hero {
+        padding-top: 100px; /* More space for mobile navbar */
+    }
+    
     .hero-actions {
         justify-content: center;
     }
@@ -1144,6 +1149,10 @@ body {
 @media (max-width: 480px) {
     .container {
         padding: 0 var(--space-md);
+    }
+    
+    .hero {
+        padding-top: 120px; /* Extra space for very small screens */
     }
     
     .hero-content {
