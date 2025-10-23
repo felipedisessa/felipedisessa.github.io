@@ -144,7 +144,7 @@ button{
 }
 
 #spinBtn:disabled{
-  opacity:0.6 !important;
+  opacity:0.85 !important;
   cursor:not-allowed !important;
   transform:none !important;
 }
@@ -210,7 +210,6 @@ button{
 }
 
 .center-spin-btn:disabled{
-  opacity:0.6 !important;
   cursor:not-allowed !important;
   transform:translate(-50%, -50%) !important;
 }
