@@ -109,7 +109,8 @@ const colorPalettes = {
   primavera: ["#fbbf24","#84cc16","#22c55e","#10b981","#06b6d4","#3b82f6","#6366f1","#8b5cf6","#ec4899","#f472b6","#fbbf24","#84cc16","#22c55e","#10b981"],
   verao: ["#fbbf24","#f59e0b","#ef4444","#ec4899","#8b5cf6","#3b82f6","#06b6d4","#10b981","#84cc16","#fbbf24","#f59e0b","#ef4444","#ec4899","#8b5cf6"],
   inverno: ["#3b82f6","#1d4ed8","#6366f1","#8b5cf6","#a855f7","#c084fc","#d8b4fe","#e9d5ff","#3b82f6","#1d4ed8","#6366f1","#8b5cf6","#a855f7","#c084fc"],
-  outono: ["#92400e","#b45309","#d97706","#f59e0b","#fbbf24","#84cc16","#22c55e","#10b981","#92400e","#b45309","#d97706","#f59e0b","#fbbf24","#84cc16"]
+  outono: ["#92400e","#b45309","#d97706","#f59e0b","#fbbf24","#84cc16","#22c55e","#10b981","#92400e","#b45309","#d97706","#f59e0b","#fbbf24","#84cc16"],
+  personalizada: ["#eec116","#2e3d88","#4a9eff","#eec116","#2e3d88","#4a9eff","#eec116","#2e3d88","#4a9eff","#eec116","#2e3d88","#4a9eff","#eec116","#2e3d88"]
 };
 
 // Paleta base para setores
@@ -414,6 +415,10 @@ function openSettingsModal(){
   document.getElementById('customSpeedValue').value = settings.customSpeedSeconds || 10;
   toggleCustomSpeed(); // Mostrar/ocultar campo personalizado
   
+  // Configurar tema
+  document.getElementById('theme').value = settings.theme;
+  toggleCustomColors(); // Mostrar/ocultar interface de cores personalizadas
+  
   // Configurar visibilidade das porcentagens
   const container = document.getElementById('percentagesContainer');
   const total = document.getElementById('percentageTotal');
@@ -624,7 +629,7 @@ function closePrizePopup(){
 // Função para carregar configurações do localStorage
 function loadSettings(){
   // Carregar configurações gerais
-  const savedSettings = localStorage.getItem('roletaSettings');
+  const savedSettings = localStorage.getItem('rouletteSettings');
   if(savedSettings) {
     try {
       const parsedSettings = JSON.parse(savedSettings);
@@ -659,6 +664,27 @@ function loadSettings(){
   if(savedPrizes) {
     updateWheelDimensions();
   }
+  
+  // Carregar cores personalizadas se existirem
+  const savedCustomColors = localStorage.getItem('customColors');
+  if(savedCustomColors) {
+    try {
+      selectedColors = JSON.parse(savedCustomColors);
+    } catch(e) {
+      console.warn('Erro ao carregar cores personalizadas:', e);
+    }
+  }
+  
+  // Se o tema for personalizada, aplicar as cores salvas
+  if(settings.theme === 'personalizada') {
+    const customPalette = [];
+    for(let i = 0; i < 14; i++) {
+      if(i % 3 === 0) customPalette.push(selectedColors[0]);
+      else if(i % 3 === 1) customPalette.push(selectedColors[1]);
+      else customPalette.push(selectedColors[2]);
+    }
+    colorPalettes.personalizada = customPalette;
+  }
 }
 
 function saveSettings(){
@@ -671,7 +697,7 @@ function saveSettings(){
   settings.usePercentages = document.getElementById('percentageSwitch').classList.contains('active');
   
   // Salvar no localStorage
-  localStorage.setItem('roletaSettings', JSON.stringify(settings));
+  localStorage.setItem('rouletteSettings', JSON.stringify(settings));
   
   closeSettingsModal();
   drawWheel(currentRot); // Redesenha com nova paleta de cores
@@ -702,6 +728,179 @@ function toggleCustomSpeed(){
   } else {
     customContainer.style.display = 'none';
   }
+}
+
+function toggleCustomColors(){
+  const themeSelect = document.getElementById('theme');
+  const customContainer = document.getElementById('customColorsContainer');
+  
+  if(themeSelect.value === 'personalizada') {
+    customContainer.style.display = 'block';
+    // Carregar cores salvas se existirem
+    loadCustomColors();
+    // Aplicar tema personalizado para preview
+    settings.theme = 'personalizada';
+    // Salvar tema personalizado no localStorage
+    localStorage.setItem('rouletteSettings', JSON.stringify(settings));
+    previewSelectedColors();
+  } else {
+    customContainer.style.display = 'none';
+  }
+}
+
+// Variáveis para controle de seleção de cores
+let currentColorSlot = 1; // 1, 2 ou 3
+let selectedColors = ['#eec116', '#2e3d88', '#4a9eff']; // Cores padrão
+
+function selectColor(button, slot) {
+  const color = button.getAttribute('data-color');
+  
+  // Determinar qual slot usar (rotacionar entre 1, 2, 3)
+  currentColorSlot = currentColorSlot > 3 ? 1 : currentColorSlot;
+  
+  // Atualizar cor selecionada
+  selectedColors[currentColorSlot - 1] = color;
+  
+  // Atualizar visual do slot selecionado
+  document.getElementById(`selectedColor${currentColorSlot}`).style.background = color;
+  
+  // Mostrar indicador de confirmação no slot preenchido
+  showSlotIndicator(currentColorSlot);
+  
+  // Destacar botão clicado
+  highlightSelectedButton(button);
+  
+  // Aplicar preview imediatamente
+  previewSelectedColors();
+  
+  // Salvar cores no localStorage
+  localStorage.setItem('customColors', JSON.stringify(selectedColors));
+  
+  // Garantir que o tema personalizado está salvo
+  settings.theme = 'personalizada';
+  localStorage.setItem('rouletteSettings', JSON.stringify(settings));
+  
+  // Avançar para o próximo slot
+  currentColorSlot++;
+  
+  // Atualizar indicador do próximo slot
+  updateNextSlotIndicator();
+}
+
+function showSlotIndicator(slot) {
+  // Mostrar indicador de confirmação
+  const indicator = document.getElementById(`slotIndicator${slot}`);
+  indicator.style.display = 'block';
+  
+  // Remover indicador após 2 segundos
+  setTimeout(() => {
+    indicator.style.display = 'none';
+  }, 2000);
+}
+
+function updateNextSlotIndicator() {
+  const nextSlotText = document.getElementById('nextSlotText');
+  const slotNames = ['Cor 1', 'Cor 2', 'Cor 3'];
+  nextSlotText.textContent = slotNames[currentColorSlot - 1];
+}
+
+function highlightSelectedButton(clickedButton) {
+  // Remover destaque de todos os botões
+  const allButtons = document.querySelectorAll('.color-btn');
+  allButtons.forEach(btn => {
+    btn.style.border = '2px solid #f6c453';
+    btn.style.transform = 'scale(1)';
+    btn.style.boxShadow = 'none';
+  });
+  
+  // Destacar o botão clicado
+  clickedButton.style.border = '3px solid #10b981';
+  clickedButton.style.transform = 'scale(1.1)';
+  clickedButton.style.boxShadow = '0 0 10px rgba(16, 185, 129, 0.6)';
+  
+  // Remover destaque após 1 segundo
+  setTimeout(() => {
+    clickedButton.style.border = '2px solid #f6c453';
+    clickedButton.style.transform = 'scale(1)';
+    clickedButton.style.boxShadow = 'none';
+  }, 1000);
+}
+
+function previewSelectedColors() {
+  // Criar paleta personalizada com as 3 cores selecionadas
+  const customPalette = [];
+  for(let i = 0; i < 14; i++) {
+    if(i % 3 === 0) customPalette.push(selectedColors[0]);
+    else if(i % 3 === 1) customPalette.push(selectedColors[1]);
+    else customPalette.push(selectedColors[2]);
+  }
+  
+  // Atualizar a paleta personalizada
+  colorPalettes.personalizada = customPalette;
+  
+  // Forçar atualização do tema
+  settings.theme = 'personalizada';
+  
+  // Redesenhar a roleta
+  drawWheel(currentRot);
+}
+
+function loadCustomColors(){
+  // Carregar cores salvas do localStorage
+  const savedColors = JSON.parse(localStorage.getItem('customColors') || '["#eec116","#2e3d88","#4a9eff"]');
+  
+  // Atualizar cores selecionadas
+  selectedColors = savedColors;
+  
+  // Atualizar visual dos slots
+  document.getElementById('selectedColor1').style.background = selectedColors[0];
+  document.getElementById('selectedColor2').style.background = selectedColors[1];
+  document.getElementById('selectedColor3').style.background = selectedColors[2];
+  
+  // Inicializar indicador do próximo slot
+  updateNextSlotIndicator();
+  
+  // Aplicar preview
+  previewSelectedColors();
+}
+
+function previewCustomColors(){
+  // Função mantida para compatibilidade, mas agora usa previewSelectedColors
+  previewSelectedColors();
+}
+
+function applyCustomColors(){
+  // Criar paleta personalizada com as 3 cores selecionadas
+  const customPalette = [];
+  for(let i = 0; i < 14; i++) {
+    if(i % 3 === 0) customPalette.push(selectedColors[0]);
+    else if(i % 3 === 1) customPalette.push(selectedColors[1]);
+    else customPalette.push(selectedColors[2]);
+  }
+  
+  // Atualizar a paleta personalizada
+  colorPalettes.personalizada = customPalette;
+  
+  // Salvar cores no localStorage
+  localStorage.setItem('customColors', JSON.stringify(selectedColors));
+  
+  // Aplicar o tema personalizado
+  settings.theme = 'personalizada';
+  saveSettings();
+  
+  // Redesenhar a roleta
+  drawWheel(currentRot);
+  
+  // Mostrar confirmação
+  const btn = document.getElementById('applyCustomColors');
+  const originalText = btn.textContent;
+  btn.textContent = '✓ Aplicado!';
+  btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+  
+  setTimeout(() => {
+    btn.textContent = originalText;
+    btn.style.background = 'linear-gradient(135deg, #f6c453, #e6b800)';
+  }, 2000);
 }
 
 // Função para upload de QR Code
@@ -735,6 +934,10 @@ function debugPointer(){
 document.getElementById('infoBtn').addEventListener('click', openInfoModal);
 document.getElementById('customizeBtn').addEventListener('click', openEditModal);
 document.getElementById('settingsBtn').addEventListener('click', openSettingsModal);
+
+// Event listeners para cores personalizadas
+document.getElementById('theme').addEventListener('change', toggleCustomColors);
+document.getElementById('applyCustomColors').addEventListener('click', applyCustomColors);
 spinBtn.addEventListener('click', ()=> {
   spin();
 });

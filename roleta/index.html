@@ -143,9 +143,96 @@
               <option value="outono">Outono</option>
               <option value="neon">Neon</option>
               <option value="gold">Dourado</option>
+              <option value="personalizada">Personalizada</option>
           </select>
           <div class="setting-description">
             Escolha uma paleta de cores temática para personalizar a aparência da roleta.
+          </div>
+          
+          <!-- Interface de cores personalizadas -->
+          <div id="customColorsContainer" style="display: none; margin-top: 15px;">
+            <label style="color: #f6c453; font-weight: bold; margin-bottom: 10px; display: block;">Escolha suas cores:</label>
+            
+            <!-- Instruções -->
+            <div style="background: rgba(246, 196, 83, 0.1); border: 1px solid #f6c453; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
+              <p style="margin: 0; font-size: 0.9rem; color: #e6eeff; line-height: 1.4;">
+                <strong style="color: #f6c453;">📝 Como usar:</strong><br>
+                1️⃣ <strong>Clique em qualquer cor</strong> da paleta abaixo<br>
+                2️⃣ A cor será aplicada automaticamente na <strong>Cor 1</strong><br>
+                3️⃣ Clique em outra cor para preencher a <strong>Cor 2</strong><br>
+                4️⃣ Clique em mais uma cor para preencher a <strong>Cor 3</strong><br>
+                5️⃣ Continue clicando para <strong>trocar as cores</strong> (rotação automática)<br>
+                6️⃣ Clique em <strong>"Aplicar Cores"</strong> para salvar
+              </p>
+            </div>
+            
+            <!-- Paleta de cores disponíveis -->
+            <div style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; margin-bottom: 15px;">
+              <!-- Primeira linha -->
+              <button type="button" class="color-btn" data-color="#eec116" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #eec116; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#2e3d88" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #2e3d88; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#4a9eff" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #4a9eff; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#dc2626" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #dc2626; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#059669" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #059669; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#f87171" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #f87171; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#ec4899" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #ec4899; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#3b82f6" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #3b82f6; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              
+              <!-- Segunda linha -->
+              <button type="button" class="color-btn" data-color="#f59e0b" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #f59e0b; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#8b5cf6" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #8b5cf6; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#10b981" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #10b981; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#92400e" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #92400e; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#ef4444" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #ef4444; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#06b6d4" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #06b6d4; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#84cc16" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #84cc16; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#b45309" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #b45309; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              
+              <!-- Terceira linha -->
+              <button type="button" class="color-btn" data-color="#6366f1" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #6366f1; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#a855f7" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #a855f7; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#22c55e" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #22c55e; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#d97706" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #d97706; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#f43f5e" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #f43f5e; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#0891b2" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #0891b2; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#65a30d" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #65a30d; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+              <button type="button" class="color-btn" data-color="#78350f" style="width: 35px; height: 35px; border: 2px solid #f6c453; border-radius: 8px; cursor: pointer; background: #78350f; transition: all 0.2s ease;" onclick="selectColor(this)"></button>
+            </div>
+            
+            <!-- Cores selecionadas -->
+            <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 15px;">
+              <div style="text-align: center;">
+                <label style="font-size: 0.9rem; margin-bottom: 5px; display: block;">Cor 1:</label>
+                <div id="selectedColor1" style="width: 50px; height: 50px; border: 3px solid #f6c453; border-radius: 8px; background: #eec116; margin: 0 auto; position: relative;">
+                  <div id="slotIndicator1" style="position: absolute; top: -8px; right: -8px; width: 16px; height: 16px; background: #10b981; border-radius: 50%; display: none; font-size: 10px; color: white; text-align: center; line-height: 16px;">✓</div>
+                </div>
+              </div>
+              <div style="text-align: center;">
+                <label style="font-size: 0.9rem; margin-bottom: 5px; display: block;">Cor 2:</label>
+                <div id="selectedColor2" style="width: 50px; height: 50px; border: 3px solid #f6c453; border-radius: 8px; background: #2e3d88; margin: 0 auto; position: relative;">
+                  <div id="slotIndicator2" style="position: absolute; top: -8px; right: -8px; width: 16px; height: 16px; background: #10b981; border-radius: 50%; display: none; font-size: 10px; color: white; text-align: center; line-height: 16px;">✓</div>
+                </div>
+              </div>
+              <div style="text-align: center;">
+                <label style="font-size: 0.9rem; margin-bottom: 5px; display: block;">Cor 3:</label>
+                <div id="selectedColor3" style="width: 50px; height: 50px; border: 3px solid #f6c453; border-radius: 8px; background: #4a9eff; margin: 0 auto; position: relative;">
+                  <div id="slotIndicator3" style="position: absolute; top: -8px; right: -8px; width: 16px; height: 16px; background: #10b981; border-radius: 50%; display: none; font-size: 10px; color: white; text-align: center; line-height: 16px;">✓</div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Indicador do próximo slot -->
+            <div style="text-align: center; margin-bottom: 10px;">
+              <span id="nextSlotIndicator" style="background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">
+                Próxima cor será aplicada na: <span id="nextSlotText">Cor 1</span>
+              </span>
+            </div>
+            
+            <div style="margin-top: 10px; text-align: center;">
+              <button type="button" id="applyCustomColors" style="background: linear-gradient(135deg, #f6c453, #e6b800); color: #1a1a1a; border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: all 0.2s ease;">
+                Aplicar Cores
+              </button>
+            </div>
           </div>
           </div>
         </div>
