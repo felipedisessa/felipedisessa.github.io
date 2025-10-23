@@ -1007,20 +1007,28 @@ function spin(targetIndex=null){
       const pointerAngle = -Math.PI/2;
       const normalizedPointer = (pointerAngle - norm + Math.PI*2) % (Math.PI*2);
       const winIndex = Math.floor(normalizedPointer / SEG_ANGLE) % PRIZES.length;
-      const prize = PRIZES[winIndex];
-      const isLoss = PRIZE_IS_LOSS[winIndex];
       
-      // Mensagem diferente baseada no tipo de prêmio
-      if(isLoss) {
-        resultEl.textContent = `😔 Que pena! Você tirou: ${prize}`;
-        if(settings.showPopup) {
-          showPrizePopup(prize, true); // true indica que é uma perda
+      // Validar se o índice é válido e se o prêmio existe
+      if (winIndex >= 0 && winIndex < PRIZES.length && PRIZES[winIndex]) {
+        const prize = PRIZES[winIndex];
+        const isLoss = PRIZE_IS_LOSS[winIndex] || false;
+        
+        // Mensagem diferente baseada no tipo de prêmio
+        if(isLoss) {
+          resultEl.textContent = `😔 Que pena! Você tirou: ${prize}`;
+          if(settings.showPopup) {
+            showPrizePopup(prize, true); // true indica que é uma perda
+          }
+        } else {
+          resultEl.textContent = `🎉 Você ganhou: ${prize}`;
+          if(settings.showPopup) {
+            showPrizePopup(prize, false); // false indica que é um prêmio
+          }
         }
       } else {
-        resultEl.textContent = `🎉 Você ganhou: ${prize}`;
-        if(settings.showPopup) {
-          showPrizePopup(prize, false); // false indica que é um prêmio
-        }
+        // Fallback caso algo dê errado
+        console.warn('Índice inválido ou prêmio não encontrado:', winIndex, PRIZES);
+        resultEl.textContent = "🎯 Tente novamente!";
       }
     }
   }
@@ -1233,7 +1241,7 @@ function showPrizePopup(prize, isLoss = false){
   const prizeTitleElement = document.querySelector('.prize-content h2');
   
   // Debug: verificar se o prêmio está vazio ou undefined
-  if(!prize || prize.trim() === '') {
+  if(!prize || prize.trim() === '' || prize === 'undefined') {
     console.warn('Prêmio vazio ou indefinido:', prize);
     return;
   }
