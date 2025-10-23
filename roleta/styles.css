@@ -1,0 +1,450 @@
+/* Fontes QuatroSlab */
+@font-face {
+  font-family: 'QuatroSlab';
+  src: url('font (1)/QuatroSlab-Medium.eot');
+  src: url('font (1)/QuatroSlab-Medium.eot?#iefix') format('embedded-opentype'),
+       url('font (1)/QuatroSlab-Medium.woff2') format('woff2'),
+       url('font (1)/QuatroSlab-Medium.woff') format('woff'),
+       url('font (1)/QuatroSlab-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'QuatroSlab';
+  src: url('font (1)/QuatroSlab-Bold.eot');
+  src: url('font (1)/QuatroSlab-Bold.eot?#iefix') format('embedded-opentype'),
+       url('font (1)/QuatroSlab-Bold.woff2') format('woff2'),
+       url('font (1)/QuatroSlab-Bold.woff') format('woff'),
+       url('font (1)/QuatroSlab-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+:root{
+  --bg1:#0b1020; --bg2:#121a33; --gold:#f6c453; --ring:#1f2a4d; --text:#eef3ff;
+  --btn:#2b61ff; --btn-h:#204ad1;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+
+body{
+  margin:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:18px; min-height:100vh;
+  background:url("fundo-roleta.png") center/cover no-repeat fixed;
+  color:var(--text); font:500 16px/1.4 system-ui,Segoe UI,Roboto,Ubuntu,Inter,Arial;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  position:relative; padding:20px 0;
+}
+
+/* Campo de título editável */
+.title-section{
+  display:flex; flex-direction:column; align-items:center; gap:12px; margin-bottom:20px; 
+  width:100%; text-align:center; padding:0 20px;
+}
+
+.title-input{
+  background:rgba(0,0,0,0.7); border:3px solid #f6c453; border-radius:15px; 
+  padding:15px 25px; color:#fff; font-size:1.4rem; font-weight:900; 
+  text-align:center; backdrop-filter:blur(10px); width:min(90vw,600px);
+  transition:all 0.2s ease; text-shadow:2px 2px 4px rgba(0,0,0,0.8);
+  box-shadow:0 8px 25px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+  margin:0 auto; font-family:'QuatroSlab', system-ui, Segoe UI, Inter, Arial;
+}
+
+.title-input:focus{outline:none; box-shadow:0 0 0 4px rgba(246,196,83,0.4), 0 8px 25px rgba(0,0,0,0.4);}
+.title-input::placeholder{color:#ccc;}
+
+/* Logo 3D */
+.logo3d{
+  width:min(90vw,600px); height:auto; user-select:none; -webkit-user-drag:none;
+  animation:floatY 3.2s ease-in-out infinite; filter:drop-shadow(0 14px 24px rgba(0,0,0,.45));
+}
+
+@keyframes floatY{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
+
+/* Botões do topo */
+.top-controls{
+  position:absolute; top:20px; right:20px; display:flex; gap:12px; z-index:20;
+}
+
+.icon-btn{
+  appearance:none; border:0; background:rgba(0,0,0,0.35); border-radius:50%; 
+  width:48px; height:48px; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:all 0.2s ease; backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.15);
+}
+
+.icon-btn:hover{background:rgba(0,0,0,0.55); transform:scale(1.05)}
+.icon-btn img{width:24px; height:24px;}
+.icon-btn span{font-size:24px; line-height:1;}
+
+.stage{
+  position:relative; width:min(90vw,700px); aspect-ratio:1/1; display:grid; place-items:center;
+  filter:drop-shadow(0 18px 40px rgba(0,0,0,.45));
+}
+
+canvas{width:100%; height:100%}
+
+.rim{
+  position:absolute; inset:0; pointer-events:none; border-radius:50%;
+  box-shadow:
+    inset 0 0 0 10px var(--gold),
+    inset 0 0 0 16px rgba(0,0,0,.35),
+    0 0 0 2px rgba(255,255,255,.08);
+}
+
+.pointer{
+  position:absolute; top:-12px; left:50%; translate:-50% 0; width:0; height:0;
+  border-left:22px solid transparent; border-right:22px solid transparent;
+  border-bottom:40px solid var(--gold); filter:drop-shadow(0 6px 12px rgba(0,0,0,.7));
+  z-index:10; transform:rotate(180deg);
+}
+
+.pointer::after{
+  content:''; position:absolute; top:38px; left:-8px; width:16px; height:16px;
+  background:radial-gradient(circle, #fff 0%, #ffe089 45%, #a67600 100%);
+  border-radius:50%; box-shadow:0 0 8px 2px rgba(255,209,89,.8);
+}
+
+.controls{display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:center; padding:0 12px}
+
+button{
+  appearance:none; border:0; padding:12px 18px; border-radius:12px; font-weight:700;
+  background:linear-gradient(180deg, var(--btn), #234fe6); color:white; cursor:pointer;
+  box-shadow:0 8px 20px rgba(35,79,230,.35), inset 0 1px 0 rgba(255,255,255,.25);
+  letter-spacing:.2px; transition:transform .06s ease, background .2s ease, box-shadow .2s ease;
+}
+
+/* Botão de girar especial - removido fundo */
+#spinBtn{
+  background:none !important;
+  color:#000 !important;
+  font-size:1.2rem !important;
+  font-weight:800 !important;
+  padding:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  border:none !important;
+  text-shadow:none !important;
+  letter-spacing:0 !important;
+}
+
+#spinBtn:hover{
+  transform:none !important;
+  box-shadow:none !important;
+}
+
+#spinBtn:active{
+  transform:none !important;
+}
+
+#spinBtn:disabled{
+  opacity:0.6 !important;
+  cursor:not-allowed !important;
+  transform:none !important;
+}
+
+/* Garantir que o botão de girar não seja afetado por outras regras */
+#spinBtn.center-spin-btn{
+  transform:translate(-50%, -50%) !important;
+}
+
+/* Botão circular no centro da roleta - apenas SVG */
+.center-spin-btn{
+  position:absolute !important;
+  top:50% !important;
+  left:50% !important;
+  transform:translate(-50%, -50%) !important;
+  z-index:20 !important;
+  width:80px !important;
+  height:80px !important;
+  border:none !important;
+  padding:0 !important;
+  margin:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  background:none !important;
+  cursor:pointer !important;
+  outline:none !important;
+  transition:all 0.3s ease !important;
+}
+
+.center-spin-btn svg{
+  transition:transform 0.3s ease !important;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3)) !important;
+}
+
+.center-spin-btn:hover svg{
+  transform:rotate(45deg) !important;
+  filter:drop-shadow(0 3px 6px rgba(0,0,0,0.4)) !important;
+}
+
+.center-spin-btn:active svg{
+  transform:rotate(90deg) !important;
+}
+
+/* Animação quando está girando */
+.center-spin-btn.spinning svg{
+  animation:spin-icon 1s linear infinite !important;
+}
+
+@keyframes spin-icon{
+  0%{transform:rotate(0deg);}
+  100%{transform:rotate(360deg);}
+}
+
+.center-spin-btn:hover{
+  transform:translate(-50%, -50%) scale(1.1) !important;
+}
+
+.center-spin-btn:active{
+  transform:translate(-50%, -50%) scale(1.05) !important;
+}
+
+.center-spin-btn:disabled{
+  opacity:0.6 !important;
+  cursor:not-allowed !important;
+  transform:translate(-50%, -50%) !important;
+}
+
+button:disabled{opacity:.65; cursor:not-allowed; box-shadow:none}
+button:hover:not(:disabled):not(#spinBtn){transform:translateY(-1px); background:linear-gradient(180deg, var(--btn-h), #1a3fb8)}
+.msg{min-height:1.6em; font-weight:700; text-align:center}
+.hint{opacity:.75; font-size:.9rem}
+
+/* Modal de configuração */
+.modal{display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; 
+  background:rgba(0,0,0,0.8); backdrop-filter:blur(6px);}
+
+.modal-content{
+  background:linear-gradient(135deg, #0e1630, #1a2440); color:#e6eeff; 
+  border:3px solid #f6c453; border-radius:25px; padding:30px; margin:3% auto;
+  width:min(95vw,700px); box-shadow:0 30px 100px rgba(0,0,0,.8);
+  max-height:90vh; overflow-y:auto;
+}
+
+.modal-header{display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;
+  padding-bottom:15px; border-bottom:2px solid #2d4a6b;}
+
+.modal-header h2{margin:0; color:#f6c453; font-size:1.8rem; text-shadow:0 2px 4px rgba(0,0,0,0.5);}
+
+.close{color:#aaa; font-size:32px; font-weight:bold; cursor:pointer; background:none; border:none;
+  transition:all 0.2s ease; padding:5px; border-radius:50%;}
+
+.close:hover{color:#fff; background:rgba(255,255,255,0.1);}
+
+/* Modal de informações específico */
+#infoModal .modal-content{
+  background:#ffffff; color:#333333;
+}
+
+#infoModal .modal-header{
+  border-bottom:2px solid #e0e0e0;
+}
+
+#infoModal .modal-header h2{
+  text-shadow:none;
+}
+
+#infoModal .close{
+  color:#666;
+}
+
+#infoModal .close:hover{
+  color:#333; background:rgba(0,0,0,0.1);
+}
+
+.settings-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:25px; margin:20px 0;}
+
+.settings-card{
+  background:rgba(0,0,0,0.3); border:2px solid #2d4a6b; border-radius:15px; padding:20px;
+  transition:all 0.3s ease;
+}
+
+.settings-card:hover{border-color:#f6c453; transform:translateY(-2px);}
+
+.settings-card h3{color:#f6c453; margin:0 0 15px 0; font-size:1.2rem; display:flex; align-items:center; gap:10px;}
+
+.settings-card h3::before{content:"🎛️"; font-size:1.5rem;}
+
+/* Tooltips e descrições */
+.setting-description{
+  color:#b8c5d1; font-size:0.9rem; margin-top:8px; line-height:1.4;
+  padding:8px; background:rgba(0,0,0,0.2); border-radius:6px; border-left:3px solid #2d4a6b;
+}
+
+.setting-label{
+  display:flex; align-items:center; gap:8px; margin-bottom:10px;
+}
+
+.setting-label .info-icon{
+  color:#f6c453; cursor:help; font-size:1rem; opacity:0.7;
+  transition:opacity 0.2s ease;
+}
+
+.setting-label .info-icon:hover{
+  opacity:1;
+}
+
+.form-group{margin-bottom:20px;}
+
+.form-group label{display:block; margin-bottom:10px; font-weight:600; color:#e6eeff; font-size:1.1rem;}
+
+.form-group input, .form-group select{
+  width:100%; padding:15px; background:#0a1127; color:#e6eeff; border:2px solid #2d4a6b;
+  border-radius:10px; font-size:1rem; transition:all 0.2s ease;
+}
+
+.form-group input:focus, .form-group select:focus{
+  outline:none; border-color:#f6c453; box-shadow:0 0 0 3px rgba(246,196,83,.2);
+  background:#0d1a3a;
+}
+
+.switch-container{display:flex; align-items:center; gap:15px; padding:10px; background:rgba(0,0,0,0.2);
+  border-radius:10px; border:1px solid #2d4a6b;}
+
+.switch{position:relative; width:60px; height:30px; background:#2d4a6b; border-radius:15px;
+  cursor:pointer; transition:all 0.3s ease;}
+
+.switch.active{background:#f6c453;}
+
+.switch::after{content:''; position:absolute; top:3px; left:3px; width:24px; height:24px;
+  background:#fff; border-radius:50%; transition:all 0.3s ease;}
+
+.switch.active::after{transform:translateX(30px);}
+
+.prizes-section{max-height:400px; overflow-y:auto; padding:10px; background:rgba(0,0,0,0.1); border-radius:10px;}
+
+.prize-input{display:flex; gap:12px; margin-bottom:15px; align-items:center; padding:10px; 
+  background:rgba(255,255,255,0.05); border-radius:8px; border:1px solid rgba(255,255,255,0.1);}
+
+.prize-number{background:#f6c453; color:#000; border-radius:50%; width:24px; height:24px; 
+  display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:0.9rem; 
+  flex-shrink:0;}
+
+.prize-input input[type="text"]{flex:1; background:#0a1127; color:#e6eeff; border:2px solid #2d4a6b; 
+  border-radius:8px; padding:12px; font-size:1rem; transition:all 0.2s ease;}
+
+.prize-input input[type="text"]:focus{outline:none; border-color:#f6c453; box-shadow:0 0 0 3px rgba(246,196,83,.2);}
+
+.loss-checkbox{display:flex; align-items:center; gap:6px; color:#e6eeff; font-size:0.9rem; 
+  flex-shrink:0; cursor:pointer;}
+
+.loss-checkbox input[type="checkbox"]{width:16px; height:16px; cursor:pointer;}
+
+.loss-checkbox span{user-select:none;}
+
+.remove-prize{background:#ef4444; color:#fff; border:0; border-radius:8px; 
+  width:36px; height:36px; cursor:pointer; font-weight:bold; transition:all 0.2s ease;
+  display:flex; align-items:center; justify-content:center; font-size:18px; line-height:1;}
+
+.remove-prize:hover{background:#dc2626; transform:scale(1.05);}
+
+.add-prize{background:linear-gradient(135deg, #22c55e, #16a34a); color:#fff; border:0; border-radius:10px; 
+  padding:12px 20px; cursor:pointer; font-weight:600; font-size:1rem; transition:all 0.2s ease;
+  box-shadow:0 4px 15px rgba(34,197,94,.3); margin-top:15px;}
+
+.add-prize:hover{transform:translateY(-2px); box-shadow:0 6px 20px rgba(34,197,94,.4);}
+
+/* Campo de título no modal */
+#editEventTitle{width:100%; background:#0a1127; color:#e6eeff; border:2px solid #2d4a6b; 
+  border-radius:10px; padding:15px; font-size:1.1rem; transition:all 0.2s ease;}
+
+#editEventTitle:focus{outline:none; border-color:#f6c453; box-shadow:0 0 0 3px rgba(246,196,83,.2);}
+
+.modal-buttons{display:flex; gap:12px; justify-content:flex-end; margin-top:20px;}
+
+.btn-save{background:linear-gradient(135deg, var(--btn), #234fe6); color:#fff; 
+  border:0; padding:12px 24px; border-radius:8px; cursor:pointer; font-weight:700;}
+
+.btn-cancel{background:#6b7280; color:#fff; border:0; padding:12px 24px; 
+  border-radius:8px; cursor:pointer; font-weight:700;}
+
+/* Popup de Prêmio */
+.prize-popup{
+  position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8);
+  display:flex; align-items:center; justify-content:center; z-index:2000;
+  animation:fadeIn 0.3s ease-out;
+}
+
+.prize-content{
+  background:linear-gradient(135deg, #0e1630, #1a2440); border:3px solid #f6c453;
+  border-radius:25px; padding:50px; text-align:center; max-width:500px; margin:20px;
+  box-shadow:0 25px 80px rgba(0,0,0,.8), 0 0 0 1px rgba(246,196,83,0.3);
+  animation:popupIn 0.5s ease-out;
+}
+
+.prize-content h2{
+  color:#f6c453; font-size:2.5rem; margin:0 0 25px 0; text-shadow:0 2px 4px rgba(0,0,0,0.5);
+}
+
+.prize-content p{
+  color:#e6eeff; font-size:1.6rem; margin:0 0 35px 0; font-weight:600;
+}
+
+.prize-close{
+  background:linear-gradient(135deg, var(--btn), #234fe6); color:#fff; border:0;
+  padding:15px 40px; border-radius:30px; cursor:pointer; font-weight:700; font-size:1.3rem;
+  transition:all 0.2s ease; box-shadow:0 4px 15px rgba(35,79,230,.3);
+}
+
+.prize-close:hover{transform:translateY(-2px); box-shadow:0 6px 20px rgba(35,79,230,.4);}
+
+@keyframes fadeIn{
+  from{opacity:0;} to{opacity:1;}
+}
+
+@keyframes popupIn{
+  from{transform:scale(0.5); opacity:0;} to{transform:scale(1); opacity:1;}
+}
+
+@keyframes rotate360{
+  from{transform:rotate(0deg);} to{transform:rotate(360deg);}
+}
+
+/* Rodapé */
+.percentage-total{
+  margin-top:15px; padding:10px; background:rgba(0,0,0,0.2); 
+  border-radius:8px; text-align:center; font-weight:700;
+  color:#f6c453; border:1px solid #2d4a6b;
+}
+
+.percentage-item{
+  display:flex; align-items:center; margin-bottom:8px; gap:10px;
+}
+
+.percentage-label{
+  flex:1; font-size:0.9rem; color:#e6eeff;
+}
+
+.percentage-input{
+  width:60px; padding:5px; background:#0a1127; color:#e6eeff;
+  border:1px solid #2d4a6b; border-radius:5px; text-align:center;
+}
+
+.percentage-input:focus{
+  border-color:#f6c453; outline:none;
+}
+
+.percentage-info{
+  margin-top:10px; padding:10px; background:rgba(0,0,0,0.1);
+  border-radius:5px; font-size:0.85rem; color:#b8c5d1;
+  border-left:3px solid #2d4a6b;
+}
+
+/* Rodapé */
+.footer{
+  position:fixed; bottom:0; left:0; right:0; 
+  background:url("rodape.png") center center no-repeat;
+  background-size:contain;
+  z-index:100; min-height:60px; max-height:80px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
