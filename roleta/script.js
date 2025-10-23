@@ -129,7 +129,7 @@ function drawCurvedText(text, startAngle, sweep){
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
-  const radius = (INNER_R + R) / 2;
+  const radius = (INNER_R + R) / 2 - 20; // Reduzir 20px para dar mais margem das bordas
   
   // Sempre usar texto horizontal no centro do setor
   const centerAngle = startAngle + sweep/2;
