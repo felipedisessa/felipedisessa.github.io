@@ -439,6 +439,47 @@ function closeSettingsModal(){
   document.getElementById('settingsModal').style.display = 'none';
 }
 
+function resetSettings(){
+  // Confirmar antes de redefinir
+  if(confirm('⚠️ Tem certeza que deseja redefinir todas as configurações?\n\nIsso irá:\n• Limpar todas as configurações salvas\n• Remover prêmios personalizados\n• Voltar para configurações padrão\n\nEsta ação não pode ser desfeita!')) {
+    
+    // Limpar localStorage
+    localStorage.removeItem('rouletteSettings');
+    localStorage.removeItem('customColors');
+    localStorage.removeItem('customPrizes');
+    
+    // Resetar configurações para padrão
+    settings = {
+      soundEnabled: true,
+      speed: 'normal',
+      customSpeedSeconds: 10,
+      theme: 'default',
+      idleAnimation: true,
+      usePercentages: false
+    };
+    
+    // Resetar prêmios para padrão
+    PRIZES = [
+      'Ração Premium', 'Brinquedo para Pet', 'Coleira Personalizada', 'Kit Higiene',
+      'Petisco Especial', 'Cama Confortável', 'Comedouro Automático', 'Kit Brincadeiras',
+      'Desconto 20%'
+    ];
+    
+    // Resetar cores personalizadas
+    selectedColors = ['#eec116', '#2e3d88', '#4a9eff'];
+    currentColorSlot = 1;
+    
+    // Atualizar interface
+    drawWheel(currentRot);
+    
+    // Mostrar confirmação
+    alert('✅ Configurações redefinidas com sucesso!\n\nTodas as configurações foram restauradas para o padrão.');
+    
+    // Fechar modal
+    closeSettingsModal();
+  }
+}
+
 function openInfoModal(){
   document.getElementById('infoModal').style.display = 'block';
 }
