@@ -215,7 +215,7 @@ function drawWheel(rotation=0){
   // "miolo" - círculo central com cor sólida
   ctx.beginPath();
   ctx.arc(CX, CY, INNER_R, 0, Math.PI*2);
-  ctx.fillStyle = "#f6c453"; // Cor dourada sólida
+  ctx.fillStyle = "#000000"; // Cor preta sólida
   ctx.fill();
   
   // Borda do círculo central

@@ -160,37 +160,39 @@ button{
   top:50% !important;
   left:50% !important;
   transform:translate(-50%, -50%) !important;
-  z-index:20 !important;
-  width:80px !important;
-  height:80px !important;
+  z-index:30 !important;
+  width:220px !important;
+  height:220px !important;
   border:none !important;
   padding:0 !important;
   margin:0 !important;
   display:flex !important;
   align-items:center !important;
   justify-content:center !important;
-  background:none !important;
+  background:#000000 !important;
+  border-radius:50% !important;
+  box-shadow:0 0 0 4px rgba(0,0,0,0.8), 0 4px 12px rgba(0,0,0,0.5) !important;
   cursor:pointer !important;
   outline:none !important;
   transition:all 0.3s ease !important;
 }
 
-.center-spin-btn svg{
+.center-spin-btn img{
   transition:transform 0.3s ease !important;
   filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3)) !important;
 }
 
-.center-spin-btn:hover svg{
-  transform:rotate(45deg) !important;
+.center-spin-btn:hover img{
+  transform:scale(1.1) !important;
   filter:drop-shadow(0 3px 6px rgba(0,0,0,0.4)) !important;
 }
 
-.center-spin-btn:active svg{
-  transform:rotate(90deg) !important;
+.center-spin-btn:active img{
+  transform:scale(1.05) !important;
 }
 
 /* Animação quando está girando */
-.center-spin-btn.spinning svg{
+.center-spin-btn.spinning img{
   animation:spin-icon 1s linear infinite !important;
 }
 
