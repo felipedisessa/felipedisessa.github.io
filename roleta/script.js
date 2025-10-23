@@ -123,8 +123,8 @@ function drawCurvedText(text, startAngle, sweep){
   ctx.save();
   ctx.fillStyle = "#fff";
   
-  // Ajusta o tamanho da fonte baseado no número de prêmios (ainda maior)
-  const fontSizeMultiplier = PRIZES.length <= 6 ? 0.12 : PRIZES.length <= 10 ? 0.09 : PRIZES.length <= 14 ? 0.07 : 0.06;
+  // Ajusta o tamanho da fonte baseado no número de prêmios (ajustado)
+  const fontSizeMultiplier = PRIZES.length <= 6 ? 0.10 : PRIZES.length <= 10 ? 0.075 : PRIZES.length <= 14 ? 0.06 : 0.05;
   ctx.font = `bold ${Math.floor(R*fontSizeMultiplier)}px 'QuatroSlab', system-ui, Segoe UI, Inter, Arial`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
