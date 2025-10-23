@@ -1,205 +1,1388 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roleta Morillo's Pet - Show de Prêmios</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Roleta de Prêmios</title>
+<style>
+  :root{
+    --bg1:#0b1020; --bg2:#121a33; --gold:#f6c453; --ring:#1f2a4d; --text:#eef3ff;
+    --btn:#2b61ff; --btn-h:#204ad1;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:18px; min-height:100vh;
+    background:url("fundo-roleta.png") center/cover no-repeat fixed;
+    color:var(--text); font:500 16px/1.4 system-ui,Segoe UI,Roboto,Ubuntu,Inter,Arial;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    position:relative; padding:20px 0;
+  }
+  
+  /* Campo de título editável */
+  .title-section{
+    display:flex; flex-direction:column; align-items:center; gap:12px; margin-bottom:20px; 
+    width:100%; text-align:center; padding:0 20px;
+  }
+  .title-input{
+    background:rgba(0,0,0,0.7); border:3px solid #f6c453; border-radius:15px; 
+    padding:15px 25px; color:#fff; font-size:1.4rem; font-weight:700; 
+    text-align:center; backdrop-filter:blur(10px); width:min(90vw,600px);
+    transition:all 0.2s ease; text-shadow:2px 2px 4px rgba(0,0,0,0.8);
+    box-shadow:0 8px 25px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+    margin:0 auto;
+  }
+  .title-input:focus{outline:none; box-shadow:0 0 0 4px rgba(246,196,83,0.4), 0 8px 25px rgba(0,0,0,0.4);}
+  .title-input::placeholder{color:#ccc;}
+  
+  /* Logo 3D */
+  .logo3d{
+    width:min(90vw,600px); height:auto; user-select:none; -webkit-user-drag:none;
+    animation:floatY 3.2s ease-in-out infinite; filter:drop-shadow(0 14px 24px rgba(0,0,0,.45));
+  }
+  @keyframes floatY{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-10px)}
+  }
+  
+  /* Botões do topo */
+  .top-controls{
+    position:absolute; top:20px; right:20px; display:flex; gap:12px; z-index:20;
+  }
+  .icon-btn{
+    appearance:none; border:0; background:rgba(0,0,0,0.35); border-radius:50%; 
+    width:48px; height:48px; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:all 0.2s ease; backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,0.15);
+  }
+  .icon-btn:hover{background:rgba(0,0,0,0.55); transform:scale(1.05)}
+  .icon-btn img{width:24px; height:24px;}
+  .icon-btn span{font-size:24px; line-height:1;}
+  
+  .stage{
+    position:relative; width:min(90vw,700px); aspect-ratio:1/1; display:grid; place-items:center;
+    filter:drop-shadow(0 18px 40px rgba(0,0,0,.45));
+  }
+  canvas{width:100%; height:100%}
+  .rim{
+    position:absolute; inset:0; pointer-events:none; border-radius:50%;
+    background:
+      radial-gradient(closest-side, rgba(255,255,255,.06), transparent 55%),
+      conic-gradient(from 0turn, transparent 0 25%, rgba(255,255,255,.05) 0 30%, transparent 0 100%);
+    box-shadow:
+      inset 0 0 0 10px var(--gold),
+      inset 0 0 0 16px rgba(0,0,0,.35),
+      0 0 0 2px rgba(255,255,255,.08);
+  }
+  .pointer{
+    position:absolute; top:-12px; left:50%; translate:-50% 0; width:0; height:0;
+    border-left:22px solid transparent; border-right:22px solid transparent;
+    border-bottom:40px solid var(--gold); filter:drop-shadow(0 6px 12px rgba(0,0,0,.7));
+    z-index:10; transform:rotate(180deg);
+  }
+  .pointer::after{
+    content:''; position:absolute; top:38px; left:-8px; width:16px; height:16px;
+    background:radial-gradient(circle, #fff 0%, #ffe089 45%, #a67600 100%);
+    border-radius:50%; box-shadow:0 0 8px 2px rgba(255,209,89,.8);
+  }
+  .controls{display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:center; padding:0 12px}
+  button{
+    appearance:none; border:0; padding:12px 18px; border-radius:12px; font-weight:700;
+    background:linear-gradient(180deg, var(--btn), #234fe6); color:white; cursor:pointer;
+    box-shadow:0 8px 20px rgba(35,79,230,.35), inset 0 1px 0 rgba(255,255,255,.25);
+    letter-spacing:.2px; transition:transform .06s ease, background .2s ease, box-shadow .2s ease;
+  }
+  
+  /* Botão de girar especial - removido fundo */
+  #spinBtn{
+    background:none !important;
+    color:#000 !important;
+    font-size:1.2rem !important;
+    font-weight:800 !important;
+    padding:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    border:none !important;
+    text-shadow:none !important;
+    letter-spacing:0 !important;
+  }
+  
+  #spinBtn:hover{
+    transform:none !important;
+    box-shadow:none !important;
+  }
+  
+  #spinBtn:active{
+    transform:none !important;
+  }
+  
+  #spinBtn:disabled{
+    opacity:0.6 !important;
+    cursor:not-allowed !important;
+    transform:none !important;
+  }
+  
+  /* Garantir que o botão de girar não seja afetado por outras regras */
+  #spinBtn.center-spin-btn{
+    transform:translate(-50%, -50%) !important;
+  }
+  
+  /* Botão circular no centro da roleta - apenas SVG */
+  .center-spin-btn{
+    position:absolute !important;
+    top:50% !important;
+    left:50% !important;
+    transform:translate(-50%, -50%) !important;
+    z-index:20 !important;
+    width:80px !important;
+    height:80px !important;
+    border:none !important;
+    padding:0 !important;
+    margin:0 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    background:none !important;
+    cursor:pointer !important;
+    outline:none !important;
+    transition:all 0.3s ease !important;
+  }
+  
+  .center-spin-btn svg{
+    transition:transform 0.3s ease !important;
+    filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3)) !important;
+  }
+  
+  .center-spin-btn:hover svg{
+    transform:rotate(45deg) !important;
+    filter:drop-shadow(0 3px 6px rgba(0,0,0,0.4)) !important;
+  }
+  
+  .center-spin-btn:active svg{
+    transform:rotate(90deg) !important;
+  }
+  
+  /* Animação quando está girando */
+  .center-spin-btn.spinning svg{
+    animation:spin-icon 1s linear infinite !important;
+  }
+  
+  @keyframes spin-icon{
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(360deg);}
+  }
+  
+  .center-spin-btn:hover{
+    transform:translate(-50%, -50%) scale(1.1) !important;
+  }
+  
+  .center-spin-btn:active{
+    transform:translate(-50%, -50%) scale(1.05) !important;
+  }
+  
+  .center-spin-btn:disabled{
+    opacity:0.6 !important;
+    cursor:not-allowed !important;
+    transform:translate(-50%, -50%) !important;
+  }
+  button:disabled{opacity:.65; cursor:not-allowed; box-shadow:none}
+  button:hover:not(:disabled):not(#spinBtn){transform:translateY(-1px); background:linear-gradient(180deg, var(--btn-h), #1a3fb8)}
+  .msg{min-height:1.6em; font-weight:700; text-align:center}
+  .hint{opacity:.75; font-size:.9rem}
+  
+  /* Modal de configuração */
+  .modal{display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; 
+    background:rgba(0,0,0,0.8); backdrop-filter:blur(6px);}
+  .modal-content{
+    background:#ffffff; color:#333333; 
+    border:3px solid #f6c453; border-radius:25px; padding:30px; margin:3% auto;
+    width:min(95vw,700px); box-shadow:0 30px 100px rgba(0,0,0,.8);
+    max-height:90vh; overflow-y:auto;
+  }
+  .modal-header{display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;
+    padding-bottom:15px; border-bottom:2px solid #e0e0e0;}
+  .modal-header h2{margin:0; color:#f6c453; font-size:1.8rem; text-shadow:0 2px 4px rgba(0,0,0,0.2);}
+  .close{color:#666; font-size:32px; font-weight:bold; cursor:pointer; background:none; border:none;
+    transition:all 0.2s ease; padding:5px; border-radius:50%;}
+  .close:hover{color:#333; background:rgba(0,0,0,0.1);}
+  
+  .settings-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:25px; margin:20px 0;}
+  .settings-card{
+    background:rgba(0,0,0,0.3); border:2px solid #2d4a6b; border-radius:15px; padding:20px;
+    transition:all 0.3s ease;
+  }
+  .settings-card:hover{border-color:#f6c453; transform:translateY(-2px);}
+  .settings-card h3{color:#f6c453; margin:0 0 15px 0; font-size:1.2rem; display:flex; align-items:center; gap:10px;}
+  .settings-card h3::before{content:"🎛️"; font-size:1.5rem;}
+  
+  /* Tooltips e descrições */
+  .setting-description{
+    color:#b8c5d1; font-size:0.9rem; margin-top:8px; line-height:1.4;
+    padding:8px; background:rgba(0,0,0,0.2); border-radius:6px; border-left:3px solid #2d4a6b;
+  }
+  
+  .setting-label{
+    display:flex; align-items:center; gap:8px; margin-bottom:10px;
+  }
+  
+  .setting-label .info-icon{
+    color:#f6c453; cursor:help; font-size:1rem; opacity:0.7;
+    transition:opacity 0.2s ease;
+  }
+  
+  .setting-label .info-icon:hover{
+    opacity:1;
+  }
+  
+  .form-group{margin-bottom:20px;}
+  .form-group label{display:block; margin-bottom:10px; font-weight:600; color:#e6eeff; font-size:1.1rem;}
+  .form-group input, .form-group select{
+    width:100%; padding:15px; background:#0a1127; color:#e6eeff; border:2px solid #2d4a6b;
+    border-radius:10px; font-size:1rem; transition:all 0.2s ease;
+  }
+  .form-group input:focus, .form-group select:focus{
+    outline:none; border-color:#f6c453; box-shadow:0 0 0 3px rgba(246,196,83,.2);
+    background:#0d1a3a;
+  }
+  
+  .switch-container{display:flex; align-items:center; gap:15px; padding:10px; background:rgba(0,0,0,0.2);
+    border-radius:10px; border:1px solid #2d4a6b;}
+  .switch{position:relative; width:60px; height:30px; background:#2d4a6b; border-radius:15px;
+    cursor:pointer; transition:all 0.3s ease;}
+  .switch.active{background:#f6c453;}
+  .switch::after{content:''; position:absolute; top:3px; left:3px; width:24px; height:24px;
+    background:#fff; border-radius:50%; transition:all 0.3s ease;}
+  .switch.active::after{transform:translateX(30px);}
+  .prizes-section{max-height:400px; overflow-y:auto; padding:10px; background:rgba(0,0,0,0.1); border-radius:10px;}
+  .prize-input{display:flex; gap:12px; margin-bottom:15px; align-items:center; padding:10px; 
+    background:rgba(255,255,255,0.05); border-radius:8px; border:1px solid rgba(255,255,255,0.1);}
+  .prize-number{background:#f6c453; color:#000; border-radius:50%; width:24px; height:24px; 
+    display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:0.9rem; 
+    flex-shrink:0;}
+  .prize-input input[type="text"]{flex:1; background:#0a1127; color:#e6eeff; border:2px solid #2d4a6b; 
+    border-radius:8px; padding:12px; font-size:1rem; transition:all 0.2s ease;}
+  .prize-input input[type="text"]:focus{outline:none; border-color:#f6c453; box-shadow:0 0 0 3px rgba(246,196,83,.2);}
+  .loss-checkbox{display:flex; align-items:center; gap:6px; color:#e6eeff; font-size:0.9rem; 
+    flex-shrink:0; cursor:pointer;}
+  .loss-checkbox input[type="checkbox"]{width:16px; height:16px; cursor:pointer;}
+  .loss-checkbox span{user-select:none;}
+  .remove-prize{background:#ef4444; color:#fff; border:0; border-radius:8px; 
+    width:36px; height:36px; cursor:pointer; font-weight:bold; transition:all 0.2s ease;
+    display:flex; align-items:center; justify-content:center; font-size:18px; line-height:1;}
+  .remove-prize:hover{background:#dc2626; transform:scale(1.05);}
+  .add-prize{background:linear-gradient(135deg, #22c55e, #16a34a); color:#fff; border:0; border-radius:10px; 
+    padding:12px 20px; cursor:pointer; font-weight:600; font-size:1rem; transition:all 0.2s ease;
+    box-shadow:0 4px 15px rgba(34,197,94,.3); margin-top:15px;}
+  .add-prize:hover{transform:translateY(-2px); box-shadow:0 6px 20px rgba(34,197,94,.4);}
+  
+  /* Campo de título no modal */
+  #editEventTitle{width:100%; background:#0a1127; color:#e6eeff; border:2px solid #2d4a6b; 
+    border-radius:10px; padding:15px; font-size:1.1rem; transition:all 0.2s ease;}
+  #editEventTitle:focus{outline:none; border-color:#f6c453; box-shadow:0 0 0 3px rgba(246,196,83,.2);}
+  .modal-buttons{display:flex; gap:12px; justify-content:flex-end; margin-top:20px;}
+  .btn-save{background:linear-gradient(135deg, var(--btn), #234fe6); color:#fff; 
+    border:0; padding:12px 24px; border-radius:8px; cursor:pointer; font-weight:700;}
+  .btn-cancel{background:#6b7280; color:#fff; border:0; padding:12px 24px; 
+    border-radius:8px; cursor:pointer; font-weight:700;}
+
+  /* Popup de Prêmio */
+  .prize-popup{
+    position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8);
+    display:flex; align-items:center; justify-content:center; z-index:2000;
+    animation:fadeIn 0.3s ease-out;
+  }
+  .prize-content{
+    background:linear-gradient(135deg, #0e1630, #1a2440); border:3px solid #f6c453;
+    border-radius:25px; padding:50px; text-align:center; max-width:500px; margin:20px;
+    box-shadow:0 25px 80px rgba(0,0,0,.8), 0 0 0 1px rgba(246,196,83,0.3);
+    animation:popupIn 0.5s ease-out;
+  }
+  .prize-content h2{
+    color:#f6c453; font-size:2.5rem; margin:0 0 25px 0; text-shadow:0 2px 4px rgba(0,0,0,0.5);
+  }
+  .prize-content p{
+    color:#e6eeff; font-size:1.6rem; margin:0 0 35px 0; font-weight:600;
+  }
+  .prize-close{
+    background:linear-gradient(135deg, var(--btn), #234fe6); color:#fff; border:0;
+    padding:15px 40px; border-radius:30px; cursor:pointer; font-weight:700; font-size:1.3rem;
+    transition:all 0.2s ease; box-shadow:0 4px 15px rgba(35,79,230,.3);
+  }
+  .prize-close:hover{transform:translateY(-2px); box-shadow:0 6px 20px rgba(35,79,230,.4);}
+  
+  @keyframes fadeIn{
+    from{opacity:0;} to{opacity:1;}
+  }
+  @keyframes popupIn{
+    from{transform:scale(0.5); opacity:0;} to{transform:scale(1); opacity:1;}
+  }
+  
+  @keyframes rotate360{
+    from{transform:rotate(0deg);} to{transform:rotate(360deg);}
+  }
+
+  /* Rodapé */
+  .percentage-total{
+    margin-top:15px; padding:10px; background:rgba(0,0,0,0.2); 
+    border-radius:8px; text-align:center; font-weight:700;
+    color:#f6c453; border:1px solid #2d4a6b;
+  }
+  
+  .percentage-item{
+    display:flex; align-items:center; margin-bottom:8px; gap:10px;
+  }
+  
+  .percentage-label{
+    flex:1; font-size:0.9rem; color:#e6eeff;
+  }
+  
+  .percentage-input{
+    width:60px; padding:5px; background:#0a1127; color:#e6eeff;
+    border:1px solid #2d4a6b; border-radius:5px; text-align:center;
+  }
+  
+  .percentage-input:focus{
+    border-color:#f6c453; outline:none;
+  }
+  
+  .percentage-info{
+    margin-top:10px; padding:10px; background:rgba(0,0,0,0.1);
+    border-radius:5px; font-size:0.85rem; color:#b8c5d1;
+    border-left:3px solid #2d4a6b;
+  }
+
+  /* Rodapé */
+  .footer{
+    position:fixed; bottom:0; left:0; right:0; 
+    background:url("rodape.png") center center no-repeat;
+    background-size:contain;
+    z-index:100; min-height:60px; max-height:80px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+</style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div class="loading-screen" id="loading-screen">
-        <div class="loading-spinner"></div>
-        <div class="loading-text">Carregando Roleta...</div>
-    </div>
+  <!-- Botões do topo -->
+  <div class="top-controls">
+    <button class="icon-btn" id="infoBtn" title="Informações">
+      <span style="font-size: 24px;">ℹ️</span>
+    </button>
+    <button class="icon-btn" id="customizeBtn" title="Editar Prêmios">
+      <img src="botao-personalizar.png" alt="Editar Prêmios" />
+    </button>
+    <button class="icon-btn" id="settingsBtn" title="Configurações">
+      <img src="engrenagem.png" alt="Configurações" />
+    </button>
+  </div>
 
-    <!-- Título 3D -->
-    <div class="titulo-container">
-        <img src="titulo-3d-show-de-premios.png" alt="Show de Prêmios" class="titulo-3d">
-    </div>
+  <!-- Campo de título editável -->
+  <div class="title-section">
+    <input type="text" id="eventTitle" class="title-input" placeholder="Digite o título do evento..." value="Show de Prêmios">
+  </div>
 
-    <!-- Container principal da roleta -->
-    <div class="container">
-        <!-- Botões de controle -->
-        <button class="botao-config" title="Configurações" aria-label="Abrir configurações">
-            <img src="engrenagem.png" alt="Configurações">
-        </button>
+  <!-- Logo 3D -->
+  <img class="logo3d" src="titulo-3d-show-de-premios.png" alt="Show de Prêmios" />
 
-        <button class="botao-personalizar" title="Personalizar" aria-label="Personalizar prêmios">
-            <img src="botao-personalizar.png" alt="Personalizar">
-        </button>
+  <!-- Roleta -->
+  <div class="stage" aria-label="Roleta de prêmios">
+    <div class="pointer" aria-hidden="true"></div>
+    <canvas id="wheel" width="1000" height="1000" aria-hidden="true"></canvas>
+    <div class="rim" aria-hidden="true"></div>
+    <button id="spinBtn" class="center-spin-btn" type="button">
+      <svg width="70" height="70" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 4v6h6" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M23 20v-6h-6" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
 
-        <!-- Título do sorteio -->
-        <div class="titulo-sorteio">
-            Título do Sorteio
+  <!-- Controles -->
+  <div class="controls">
+    <button id="shuffleBtn" type="button">🔀 Embaralhar</button>
+  </div>
+
+  <!-- Resultado -->
+  <div class="msg" id="result" role="status" aria-live="polite"></div>
+  <div class="hint">💡 Dica: Clique no botão de edição (✏️) no canto superior direito para personalizar os prêmios da roleta.</div>
+
+  <!-- Modal de Edição de Prêmios -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🎁 Editar Prêmios</h2>
+        <button class="close" onclick="closeEditModal()">&times;</button>
+      </div>
+      
+      <div class="form-group">
+        <label>📝 Título do Evento:</label>
+        <input type="text" id="editEventTitle" class="title-input" placeholder="Digite o título do evento...">
+        <div class="setting-description">
+          Personalize o nome que aparece no topo da roleta.
         </div>
-
-        <!-- LED Frame com pontos de luz -->
-        <div class="led-frame">
-            <div class="led-luz"></div>
-            <div class="led-luz"></div>
-            <div class="led-luz"></div>
-            <div class="led-luz"></div>
-            <div class="led-luz"></div>
-            <div class="led-luz"></div>
-            <div class="led-luz"></div>
-            <div class="led-luz"></div>
+      </div>
+      
+      <div class="form-group">
+        <label>🎯 Prêmios da Roleta:</label>
+        <div class="setting-description">
+          Adicione, edite ou remova os prêmios que aparecerão na roleta. Marque "Perda" para prêmios que não são positivos.
         </div>
-
-        <!-- Frame da roleta -->
-        <img src="frame roleta .png" alt="Frame da Roleta" class="frame-roleta">
-
-        <!-- Roleta personalizada -->
-        <div class="roleta-personalizada" id="roleta-personalizada" role="img" aria-label="Roleta de prêmios">
-            <!-- Textos dos prêmios -->
-            <div class="premio-texto premio-1" aria-label="Prêmio 1">$10</div>
-            <div class="premio-texto premio-2" aria-label="Prêmio 2">ZERO</div>
-            <div class="premio-texto premio-3" aria-label="Prêmio 3">$2</div>
-            <div class="premio-texto premio-4" aria-label="Prêmio 4">$50</div>
-            <div class="premio-texto premio-5" aria-label="Prêmio 5">$1</div>
-            <div class="premio-texto premio-6" aria-label="Prêmio 6">$5</div>
-            <div class="premio-texto premio-7" aria-label="Prêmio 7">$20</div>
-            <div class="premio-texto premio-8" aria-label="Prêmio 8">JACKPOT</div>
-            <div class="premio-texto premio-9" aria-label="Prêmio 9">$15</div>
-            <div class="premio-texto premio-10" aria-label="Prêmio 10">$100</div>
-            <div class="premio-texto premio-11" aria-label="Prêmio 11">$1</div>
-            <div class="premio-texto premio-12" aria-label="Prêmio 12">$500</div>
-            
-            <div class="roleta-centro" aria-label="Centro da roleta"></div>
+        <div class="prizes-section" id="prizesContainer">
+          <!-- Os inputs dos prêmios serão inseridos aqui -->
         </div>
+        <button class="add-prize" onclick="addPrize()">➕ Adicionar Prêmio</button>
+      </div>
+      
+      <div class="modal-buttons">
+        <button class="btn-cancel" onclick="closeEditModal()">❌ Cancelar</button>
+        <button class="btn-save" onclick="savePrizes()">💾 Salvar Prêmios</button>
+      </div>
+    </div>
+  </div>
 
-        <!-- Botão de girar -->
-        <button class="elementor-button girar" id="girar" aria-label="Girar roleta">
-            🎯 GIRAR ROLETA
-        </button>
-
-        <!-- Prêmio selecionado -->
-        <div class="premio-selecionado" id="premio-selecionado" aria-live="polite">
-            PRÊMIO SELECIONADO
+  <!-- Modal de Configurações -->
+  <div id="settingsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Configurações Avançadas</h2>
+        <button class="close" onclick="closeSettingsModal()">&times;</button>
+      </div>
+      
+      <div class="settings-grid">
+        <div class="settings-card">
+          <h3>🔊 Áudio</h3>
+          <div class="switch-container">
+            <span class="footer-text">Som da Roleta</span>
+            <div class="switch" id="soundSwitch" onclick="toggleSound()"></div>
+          </div>
+          <div class="setting-description">
+            Ativa ou desativa os sons da roleta (ticks durante o giro e fanfarra ao parar).
+          </div>
         </div>
-
-    </div>
-
-    <!-- Logo NeoTech -->
-    <div class="logo-neotech">
-        DESENVOLVIDO POR NeoTech Soluções
-    </div>
-
-    <!-- Overlay -->
-    <div class="overlay" id="overlay"></div>
-
-    <!-- Popup de ganho -->
-    <div class="popupganho" id="popupganho" role="dialog" aria-labelledby="popup-title" aria-modal="true">
-        <h2 id="popup-title">🎉 PARABÉNS! 🎉</h2>
-        <p>Você ganhou: <strong id="premio-ganho">$500</strong></p>
-        <button onclick="fecharPopup()" aria-label="Fechar popup">Fechar</button>
-    </div>
-
-    <!-- Modais -->
-    <!-- Modal de Edição de Prêmios -->
-    <div id="modal-premios" class="modal">
-        <div class="modal-content">
-            <h2>🎯 Editar Prêmios</h2>
-            <div class="modal-group">
-                <label>Prêmio 1:</label>
-                <input type="text" id="premio1" value="$10">
-            </div>
-            <div class="modal-group">
-                <label>Prêmio 2:</label>
-                <input type="text" id="premio2" value="ZERO">
-            </div>
-            <div class="modal-group">
-                <label>Prêmio 3:</label>
-                <input type="text" id="premio3" value="$2">
-            </div>
-            <div class="modal-group">
-                <label>Prêmio 4:</label>
-                <input type="text" id="premio4" value="$50">
-            </div>
-            <div class="modal-group">
-                <label>Prêmio 5:</label>
-                <input type="text" id="premio5" value="$1">
-            </div>
-            <div class="modal-group">
-                <label>Prêmio 6:</label>
-                <input type="text" id="premio6" value="$5">
-            </div>
-            <div class="modal-group">
-                <label>Prêmio 7:</label>
-                <input type="text" id="premio7" value="$20">
-            </div>
-            <div class="modal-group">
-                <label>Prêmio 8:</label>
-                <input type="text" id="premio8" value="JACKPOT">
-            </div>
-            <div class="modal-group">
-                <label>Prêmio 9:</label>
-                <input type="text" id="premio9" value="$15">
-            </div>
-            <div class="modal-group">
-                <label>Prêmio 10:</label>
-                <input type="text" id="premio10" value="$100">
-            </div>
-            <div class="modal-group">
-                <label>Prêmio 11:</label>
-                <input type="text" id="premio11" value="$1">
-            </div>
-            <div class="modal-group">
-                <label>Prêmio 12:</label>
-                <input type="text" id="premio12" value="$500">
-            </div>
-            <div class="modal-buttons">
-                <button class="btn-save" onclick="salvarPremios()">Salvar</button>
-                <button class="btn-cancel" onclick="fecharModal('modal-premios')">Cancelar</button>
-            </div>
+        
+        <div class="settings-card">
+          <h3>⚡ Velocidade</h3>
+          <div class="form-group">
+            <label for="speed">Velocidade de Rotação:</label>
+          <select id="speed">
+            <option value="slow">Lenta</option>
+            <option value="normal" selected>Normal</option>
+            <option value="fast">Rápida</option>
+          </select>
+          <div class="setting-description">
+            Controla a velocidade do giro da roleta. Lenta = mais suspense, Rápida = mais dinâmica.
+          </div>
         </div>
-    </div>
-
-    <!-- Modal de Configurações -->
-    <div id="modal-config" class="modal">
-        <div class="modal-content">
-            <h2>⚙️ Configurações</h2>
-            <div class="modal-group">
-                <label>🔊 Volume da Música:</label>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <input type="range" id="volume-musica" min="0" max="100" value="30">
-                    <span class="volume-display" id="volume-value">30%</span>
-                </div>
-            </div>
-            <div class="modal-group">
-                <label>⚡ Velocidade da Roleta:</label>
-                <select id="velocidade-roleta">
-                    <option value="3">🐌 Lenta (3s)</option>
-                    <option value="4" selected>⚡ Normal (4s)</option>
-                    <option value="5">🚀 Rápida (5s)</option>
-                </select>
-            </div>
-            <div class="modal-group">
-                <label>💡 LED Frame:</label>
-                <select id="led-frame">
-                    <option value="true" selected>✨ Ativado</option>
-                    <option value="false">❌ Desativado</option>
-                </select>
-            </div>
-            <div class="modal-group">
-                <label>📝 Título do Sorteio:</label>
-                <input type="text" id="titulo-sorteio" value="Título do Sorteio" placeholder="Digite o título do sorteio">
-            </div>
-            <div class="modal-buttons">
-                <button class="btn-save" onclick="salvarConfiguracoes()">Salvar</button>
-                <button class="btn-cancel" onclick="fecharModal('modal-config')">Cancelar</button>
-            </div>
         </div>
+        
+        <div class="settings-card">
+          <h3>🎨 Aparência</h3>
+          <div class="form-group">
+            <label for="theme">Paleta de Cores:</label>
+            <select id="theme">
+              <option value="default" selected>Padrão</option>
+              <option value="natal">Natal</option>
+              <option value="mulheres">Dia das Mulheres</option>
+              <option value="homens">Dia dos Homens</option>
+              <option value="criancas">Dia das Crianças</option>
+              <option value="halloween">Halloween</option>
+              <option value="pascoa">Páscoa</option>
+              <option value="carnaval">Carnaval</option>
+              <option value="primavera">Primavera</option>
+              <option value="verao">Verão</option>
+              <option value="inverno">Inverno</option>
+              <option value="outono">Outono</option>
+              <option value="neon">Neon</option>
+              <option value="gold">Dourado</option>
+              <option value="personalizada">Personalizada</option>
+          </select>
+          <div class="setting-description">
+            Escolha uma paleta de cores temática para personalizar a aparência da roleta.
+          </div>
+          </div>
+        </div>
+        
+        <div class="settings-card">
+          <h3>📊 Porcentagens dos Prêmios</h3>
+          <div class="switch-container">
+            <span class="footer-text">Usar Porcentagens Personalizadas</span>
+            <div class="switch" id="percentageSwitch" onclick="togglePercentages()"></div>
+          </div>
+          <div class="setting-description">
+            Sistema padrão: todos os prêmios têm a mesma chance. Personalizado: você define a probabilidade de cada prêmio.
+          </div>
+          <div id="percentagesContainer" class="percentages-container" style="display:none;">
+            <!-- As porcentagens serão renderizadas aqui -->
+          </div>
+          <div class="percentage-total" id="percentageTotal" style="display:none;">
+            <span>Total: <span id="totalPercentage">100</span>%</span>
+          </div>
+          <div id="percentageInfo" class="percentage-info">
+            <p>Sistema padrão: Todos os prêmios têm a mesma chance de aparecer.</p>
+          </div>
+        </div>
+        
+        <div class="settings-card">
+          <h3>🎭 Comportamento</h3>
+          <div class="switch-container">
+            <span class="footer-text">Animação de Idle</span>
+            <div class="switch" id="idleSwitch" onclick="toggleIdle()"></div>
+          </div>
+          <div class="setting-description">
+            Quando ativada, a roleta faz uma animação sutil quando está parada, dando mais vida à interface.
+          </div>
+          <div class="switch-container">
+            <span class="footer-text">Popup de Prêmio</span>
+            <div class="switch active" id="popupSwitch" onclick="togglePopup()"></div>
+          </div>
+          <div class="setting-description">
+            Mostra um popup comemorativo quando alguém ganha um prêmio, tornando a experiência mais envolvente.
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-buttons">
+        <button class="btn-cancel" onclick="closeSettingsModal()">Cancelar</button>
+        <button class="btn-save" onclick="saveSettings()">💾 Salvar Configurações</button>
+      </div>
     </div>
+  </div>
 
-    <!-- Áudio -->
-    <audio id="myAudio" loop="true">
-        <source src="som roleta do bau (1).mp3" type="audio/mpeg">
-    </audio>
+  <!-- Popup de Prêmio -->
+  <div id="prizePopup" class="prize-popup" style="display:none;">
+    <div class="prize-content">
+      <h2>🎉 Parabéns!</h2>
+      <p id="prizeText">Você ganhou: <strong id="prizeName"></strong></p>
+      <button class="prize-close" onclick="closePrizePopup()">Continuar</button>
+    </div>
+  </div>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-    <script src="script.js"></script>
+  <!-- Modal de Informações -->
+  <div id="infoModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Informações</h2>
+        <button class="close" onclick="closeInfoModal()">&times;</button>
+      </div>
+      
+      <div style="text-align: center; padding: 20px;">
+        <div style="background: rgba(246, 196, 83, 0.1); border: 2px solid #f6c453; border-radius: 15px; padding: 25px; margin: 20px 0;">
+          <h3 style="color: #f6c453; font-size: 1.8rem; margin-bottom: 15px;">Desenvolvido por</h3>
+          <div style="margin: 15px 0;">
+            <img src="logo modelo colorido.png" alt="Neotech Soluções" style="max-width: 200px; height: auto; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));">
+          </div>
+          <p style="color: #666; font-size: 1rem;">Especialistas em desenvolvimento de soluções tecnológicas inovadoras</p>
+        </div>
+        
+        <div style="margin: 30px 0;">
+          <h3 style="color: #f6c453; font-size: 1.3rem; margin-bottom: 15px;">Visite nosso site</h3>
+          <div style="width: 200px; height: 200px; margin: 0 auto 20px; border-radius: 10px; overflow: hidden; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);">
+            <img src="frame.png" alt="QR Code para o site da Neotech Soluções" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+          <p style="color: #666; font-size: 0.9rem;">Escaneie o QR Code acima para acessar nosso site e conhecer mais sobre nossos serviços</p>
+        </div>
+        
+        <div style="text-align: left; margin-top: 30px;">
+          <h3 style="color: #f6c453; font-size: 1.2rem; margin-bottom: 15px; text-align: center;">Recursos da Roleta</h3>
+          <ul style="list-style: none; padding: 0; color: #333;">
+            <li style="padding: 5px 0; position: relative; padding-left: 25px;">✨ Interface moderna e responsiva</li>
+            <li style="padding: 5px 0; position: relative; padding-left: 25px;">✨ Personalização completa de prêmios</li>
+            <li style="padding: 5px 0; position: relative; padding-left: 25px;">✨ Sistema de porcentagens personalizadas</li>
+            <li style="padding: 5px 0; position: relative; padding-left: 25px;">✨ Múltiplos temas visuais</li>
+            <li style="padding: 5px 0; position: relative; padding-left: 25px;">✨ Efeitos sonoros configuráveis</li>
+            <li style="padding: 5px 0; position: relative; padding-left: 25px;">✨ Animações suaves e envolventes</li>
+            <li style="padding: 5px 0; position: relative; padding-left: 25px;">✨ Salvamento automático de configurações</li>
+            <li style="padding: 5px 0; position: relative; padding-left: 25px;">✨ Design otimizado para todos os dispositivos</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="modal-buttons">
+        <button class="btn-save" onclick="closeInfoModal()">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rodapé -->
+  <div class="footer">
+    <!-- Conteúdo removido - apenas imagem de fundo -->
+  </div>
+
+<script>
+/* =========================
+   CONFIGURAÇÃO DOS PRÊMIOS
+   ========================= */
+let PRIZES = [
+  "1 Mês Grátis",
+  "Desconto 50%",
+  "Brinde Especial",
+  "Atualização Premium",
+  "Consultoria 1h",
+  "Camiseta NeoTech",
+  "Cupom R$100",
+  "Sticker Pack",
+  "Café com o Dev",
+  "Acesso Beta",
+  "Suporte VIP",
+  "Nada"
+];
+
+// Porcentagens de chance para cada prêmio (deve somar 100%)
+let PRIZE_PERCENTAGES = [
+  5,   // 1 Mês Grátis - 5%
+  10,  // Desconto 50% - 10%
+  15,  // Brinde Especial - 15%
+  8,   // Atualização Premium - 8%
+  12,  // Consultoria 1h - 12%
+  5,   // Camiseta NeoTech - 5%
+  10,  // Cupom R$100 - 10%
+  8,   // Sticker Pack - 8%
+  7,   // Café com o Dev - 7%
+  5,   // Acesso Beta - 5%
+  8,   // Suporte VIP - 8%
+  7    // Nada - 7%
+];
+
+// Array para marcar quais prêmios são "perdas" (true = perda, false = prêmio)
+let PRIZE_IS_LOSS = [
+  false, // 1 Mês Grátis - prêmio
+  false, // Desconto 50% - prêmio
+  false, // Brinde Especial - prêmio
+  false, // Atualização Premium - prêmio
+  false, // Consultoria 1h - prêmio
+  false, // Camiseta NeoTech - prêmio
+  false, // Cupom R$100 - prêmio
+  false, // Sticker Pack - prêmio
+  false, // Café com o Dev - prêmio
+  false, // Acesso Beta - prêmio
+  false, // Suporte VIP - prêmio
+  true   // Nada - perda
+];
+
+// Função para selecionar prêmio baseado nas porcentagens
+function selectPrizeByPercentage() {
+  const total = PRIZE_PERCENTAGES.reduce((sum, percent) => sum + percent, 0);
+  const random = Math.random() * total;
+  
+  let currentSum = 0;
+  for (let i = 0; i < PRIZE_PERCENTAGES.length; i++) {
+    currentSum += PRIZE_PERCENTAGES[i];
+    if (random <= currentSum) {
+      return i;
+    }
+  }
+  return PRIZES.length - 1; // fallback para o último prêmio
+}
+
+// Função para normalizar porcentagens (garantir que somem 100%)
+function normalizePercentages() {
+  const total = PRIZE_PERCENTAGES.reduce((sum, percent) => sum + percent, 0);
+  if (total !== 100) {
+    const factor = 100 / total;
+    PRIZE_PERCENTAGES = PRIZE_PERCENTAGES.map(percent => Math.round(percent * factor));
+  }
+}
+
+// Configurações
+let settings = {
+  soundEnabled: true,
+  speed: 'normal',
+  theme: 'default',
+  idleAnimation: true,
+  showPopup: true,
+  usePercentages: false  // Nova configuração para usar porcentagens
+};
+
+/* ====== Núcleo da Roleta (Canvas + Física + Áudio) ====== */
+const canvas = document.getElementById('wheel');
+const ctx = canvas.getContext('2d');
+const spinBtn = document.getElementById('spinBtn');
+const shuffleBtn = document.getElementById('shuffleBtn');
+const nudgeBtn = document.getElementById('nudgeBtn');
+const resultEl = document.getElementById('result');
+
+const W = canvas.width, H = canvas.height, CX = W/2, CY = H/2;
+let R = Math.min(W, H)/2 - 24;
+let INNER_R = R * 0.32;
+let SEG_ANGLE = (Math.PI * 2) / PRIZES.length;
+
+// Função para recalcular dimensões baseadas no número de prêmios
+function updateWheelDimensions() {
+  R = Math.min(W, H)/2 - 24;
+  INNER_R = R * 0.32;
+  SEG_ANGLE = (Math.PI * 2) / PRIZES.length;
+}
+
+// Paletas de cores temáticas
+const colorPalettes = {
+  default: ["#eec116","#2e3d88","#4a9eff","#eec116","#2e3d88","#4a9eff","#eec116","#2e3d88","#4a9eff","#eec116","#2e3d88","#4a9eff","#eec116","#2e3d88"],
+  natal: ["#dc2626","#059669","#dc2626","#059669","#dc2626","#059669","#dc2626","#059669","#dc2626","#059669","#dc2626","#059669","#dc2626","#059669"],
+  mulheres: ["#ec4899","#f472b6","#f9a8d4","#fce7f3","#ec4899","#f472b6","#f9a8d4","#fce7f3","#ec4899","#f472b6","#f9a8d4","#fce7f3","#ec4899","#f472b6"],
+  homens: ["#3b82f6","#1d4ed8","#2563eb","#1e40af","#3b82f6","#1d4ed8","#2563eb","#1e40af","#3b82f6","#1d4ed8","#2563eb","#1e40af","#3b82f6","#1d4ed8"],
+  criancas: ["#f59e0b","#f97316","#ef4444","#ec4899","#8b5cf6","#06b6d4","#10b981","#84cc16","#f59e0b","#f97316","#ef4444","#ec4899","#8b5cf6","#06b6d4"],
+  neon: ["#00ffff","#ff00ff","#ffff00","#00ff00","#ff0080","#8000ff","#0080ff","#ff8000","#00ffff","#ff00ff","#ffff00","#00ff00","#ff0080","#8000ff"],
+  gold: ["#ffd700","#ffed4e","#fbbf24","#f59e0b","#d97706","#b45309","#92400e","#78350f","#ffd700","#ffed4e","#fbbf24","#f59e0b","#d97706","#b45309"],
+  halloween: ["#7c2d12","#ea580c","#f97316","#fb923c","#fed7aa","#7c2d12","#ea580c","#f97316","#fb923c","#fed7aa","#7c2d12","#ea580c","#f97316","#fb923c"],
+  pascoa: ["#fbbf24","#f59e0b","#84cc16","#22c55e","#10b981","#06b6d4","#3b82f6","#6366f1","#8b5cf6","#ec4899","#fbbf24","#f59e0b","#84cc16","#22c55e"],
+  carnaval: ["#f59e0b","#ef4444","#ec4899","#8b5cf6","#3b82f6","#06b6d4","#10b981","#84cc16","#f59e0b","#ef4444","#ec4899","#8b5cf6","#3b82f6","#06b6d4"],
+  primavera: ["#fbbf24","#84cc16","#22c55e","#10b981","#06b6d4","#3b82f6","#6366f1","#8b5cf6","#ec4899","#f472b6","#fbbf24","#84cc16","#22c55e","#10b981"],
+  verao: ["#fbbf24","#f59e0b","#ef4444","#ec4899","#8b5cf6","#3b82f6","#06b6d4","#10b981","#84cc16","#fbbf24","#f59e0b","#ef4444","#ec4899","#8b5cf6"],
+  inverno: ["#3b82f6","#1d4ed8","#6366f1","#8b5cf6","#a855f7","#c084fc","#d8b4fe","#e9d5ff","#3b82f6","#1d4ed8","#6366f1","#8b5cf6","#a855f7","#c084fc"],
+  outono: ["#92400e","#b45309","#d97706","#f59e0b","#fbbf24","#84cc16","#22c55e","#10b981","#92400e","#b45309","#d97706","#f59e0b","#fbbf24","#84cc16"],
+  personalizada: ["#eec116","#2e3d88","#4a9eff","#eec116","#2e3d88","#4a9eff","#eec116","#2e3d88","#4a9eff","#eec116","#2e3d88","#4a9eff","#eec116","#2e3d88"]
+};
+
+// Paleta base para setores
+function sectorColor(i){
+  const palette = colorPalettes[settings.theme] || colorPalettes.default;
+  return palette[i % palette.length];
+}
+
+// Texto horizontal por setor - sempre deitado com suporte a emojis
+function drawCurvedText(text, startAngle, sweep){
+  ctx.save();
+  ctx.fillStyle = "#fff";
+  
+  // Ajusta o tamanho da fonte baseado no número de prêmios
+  const fontSizeMultiplier = PRIZES.length <= 6 ? 0.08 : PRIZES.length <= 10 ? 0.055 : PRIZES.length <= 14 ? 0.04 : 0.03;
+  ctx.font = `bold ${Math.floor(R*fontSizeMultiplier)}px system-ui,Segoe UI,Inter,Arial`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  const radius = (INNER_R + R) / 2;
+  
+  // Sempre usar texto horizontal no centro do setor
+  const centerAngle = startAngle + sweep/2;
+  const centerX = CX + radius*Math.cos(centerAngle);
+  const centerY = CY + radius*Math.sin(centerAngle);
+  
+  ctx.save();
+  ctx.translate(centerX, centerY);
+  // Rotacionar para ficar horizontal/deitado
+  ctx.rotate(centerAngle);
+  
+  // Quebrar texto em linhas se necessário (considerando emojis)
+  const words = text.split(' ');
+  let lines = [];
+  
+  if(words.length > 1 && text.length > 8) {
+    // Tentar quebrar em 2 linhas
+    const midPoint = Math.ceil(words.length / 2);
+    lines.push(words.slice(0, midPoint).join(' '));
+    lines.push(words.slice(midPoint).join(' '));
+  } else if(text.length > 12) {
+    // Se for uma palavra longa, quebrar no meio (considerando emojis)
+    const midPoint = Math.ceil(text.length / 2);
+    lines.push(text.substring(0, midPoint));
+    lines.push(text.substring(midPoint));
+  } else {
+    lines = [text];
+  }
+  
+  // Desenhar cada linha
+  const lineHeight = Math.floor(R*fontSizeMultiplier) * 1.3;
+  for(let i = 0; i < lines.length; i++) {
+    const y = (i - (lines.length - 1) / 2) * lineHeight;
+    
+    // Contorno preto para melhor visibilidade
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = Math.max(2, Math.floor(R*0.003));
+    ctx.strokeText(lines[i], 0, y);
+    ctx.fillText(lines[i], 0, y);
+  }
+  
+  ctx.restore();
+  ctx.restore();
+}
+
+// Desenha a roleta para um ângulo (rotação) dado
+function drawWheel(rotation=0){
+  ctx.clearRect(0,0,W,H);
+
+  // sombra suave
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(CX, CY, R+10, 0, Math.PI*2);
+  ctx.shadowColor = "rgba(0,0,0,.35)";
+  ctx.shadowBlur = 28;
+  ctx.fillStyle = "#0b0f26";
+  ctx.fill();
+  ctx.restore();
+
+  // setores
+  for(let i=0;i<PRIZES.length;i++){
+    const start = i*SEG_ANGLE + rotation;
+    const end = start + SEG_ANGLE;
+
+    // fatia
+    ctx.beginPath();
+    ctx.moveTo(CX, CY);
+    ctx.arc(CX, CY, R, start, end);
+    ctx.closePath();
+    
+    // preenchimento com cor sólida
+    ctx.fillStyle = sectorColor(i);
+    ctx.fill();
+
+    // divisória
+    ctx.strokeStyle = "#00000055";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(CX, CY, R, start, end);
+    ctx.stroke();
+
+    // texto curvado
+    drawCurvedText(PRIZES[i], start, SEG_ANGLE);
+  }
+
+  // "miolo" - círculo central com cor sólida
+  ctx.beginPath();
+  ctx.arc(CX, CY, INNER_R, 0, Math.PI*2);
+  ctx.fillStyle = "#f6c453"; // Cor dourada sólida
+  ctx.fill();
+  
+  // Borda do círculo central
+  ctx.strokeStyle = "#000";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+
+  // aro dourado
+  ctx.lineWidth = 20;
+  ctx.strokeStyle = "#f6c453";
+  ctx.beginPath();
+  ctx.arc(CX, CY, R, 0, Math.PI*2);
+  ctx.stroke();
+
+}
+
+// ====== Áudio (ticks + fanfarra) ======
+let audioCtx;
+function ensureAudio(){
+  if(!audioCtx){
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+}
+function beepTick(){
+  if(!audioCtx || !settings.soundEnabled) return;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = "square";
+  osc.frequency.value = 1100;
+  gain.gain.value = 0.0001;
+  osc.connect(gain).connect(audioCtx.destination);
+  osc.start();
+  gain.gain.exponentialRampToValueAtTime(0.1, audioCtx.currentTime + 0.005);
+  gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.04);
+  osc.stop(audioCtx.currentTime + 0.05);
+}
+function fanfare(){
+  if(!audioCtx || !settings.soundEnabled) return;
+  const notes = [523,659,784,1046];
+  let t = audioCtx.currentTime;
+  notes.forEach((f, i)=>{
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type="sine"; o.frequency.value=f;
+    g.gain.value=0.0001;
+    o.connect(g).connect(audioCtx.destination);
+    o.start(t + i*0.08);
+    g.gain.exponentialRampToValueAtTime(0.15, t + i*0.08 + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.00001, t + i*0.08 + 0.25);
+    o.stop(t + i*0.08 + 0.26);
+  });
+}
+
+// ====== Animação do giro ======
+let animId = null;
+let spinning = false;
+let currentRot = 0;
+let lastTickIndex = -1;
+
+function easeOutQuint(x){ return 1 - Math.pow(1 - x, 5); }
+
+function spin(targetIndex=null){
+  if(spinning) {
+    return;
+  }
+  ensureAudio();
+  spinning = true;
+  spinBtn.disabled = true; shuffleBtn.disabled = true;
+  spinBtn.classList.add('spinning');
+  resultEl.textContent = "Girando...";
+
+  const idx = (targetIndex==null)
+    ? (settings.usePercentages ? selectPrizeByPercentage() : Math.floor(Math.random()*PRIZES.length))
+    : ((targetIndex%PRIZES.length)+PRIZES.length)%PRIZES.length;
+
+  const pointerAngle = -Math.PI/2;
+  const centerOfSector = idx*SEG_ANGLE + SEG_ANGLE/2;
+  const base = pointerAngle - centerOfSector;
+
+  // Velocidade baseada nas configurações
+  let extraTurns, duration;
+  switch(settings.speed) {
+    case 'slow':
+      extraTurns = 5 + Math.floor(Math.random()*2);
+      duration = 4000 + Math.random()*1000;
+      break;
+    case 'fast':
+      extraTurns = 3 + Math.floor(Math.random()*2);
+      duration = 2400 + Math.random()*600;
+      break;
+    default:
+      extraTurns = 4 + Math.floor(Math.random()*3);
+      duration = 3200 + Math.random()*800;
+  }
+
+  const finalRotation = base + extraTurns * Math.PI * 2;
+  const start = performance.now();
+  lastTickIndex = -1;
+
+  function frame(now){
+    const t = Math.min(1, (now - start)/duration);
+    const e = easeOutQuint(t);
+    const angle = currentRot + (finalRotation)*e;
+    drawWheel(angle);
+
+    const normalized = (angle % (Math.PI*2) + Math.PI*2) % (Math.PI*2);
+    // Calcular qual setor está sendo apontado pelo ponteiro no topo
+    const pointerAngle = -Math.PI/2;
+    const normalizedPointer = (pointerAngle - normalized + Math.PI*2) % (Math.PI*2);
+    const crossedIndex = Math.floor(normalizedPointer / SEG_ANGLE) % PRIZES.length;
+    if (crossedIndex !== lastTickIndex){
+      beepTick();
+      lastTickIndex = crossedIndex;
+    }
+
+    if(t < 1){
+      animId = requestAnimationFrame(frame);
+    } else {
+      currentRot = angle % (Math.PI*2);
+      spinning = false;
+      spinBtn.disabled = false; shuffleBtn.disabled = false;
+      spinBtn.classList.remove('spinning');
+      fanfare();
+      const norm = (currentRot % (Math.PI*2) + Math.PI*2) % (Math.PI*2);
+      // O ponteiro está no topo (meio-dia), então precisamos calcular qual setor está sendo apontado
+      // O ponteiro aponta para -Math.PI/2 (topo), então o setor vencedor é o que está nessa posição
+      const pointerAngle = -Math.PI/2;
+      const normalizedPointer = (pointerAngle - norm + Math.PI*2) % (Math.PI*2);
+      const winIndex = Math.floor(normalizedPointer / SEG_ANGLE) % PRIZES.length;
+      const prize = PRIZES[winIndex];
+      const isLoss = PRIZE_IS_LOSS[winIndex];
+      
+      // Mensagem diferente baseada no tipo de prêmio
+      if(isLoss) {
+        resultEl.textContent = `😔 Que pena! Você tirou: ${prize}`;
+        if(settings.showPopup) {
+          showPrizePopup(prize, true); // true indica que é uma perda
+        }
+      } else {
+        resultEl.textContent = `🎉 Você ganhou: ${prize}`;
+        if(settings.showPopup) {
+          showPrizePopup(prize, false); // false indica que é um prêmio
+        }
+      }
+    }
+  }
+  animId = requestAnimationFrame(frame);
+}
+
+// ====== Utilidades ======
+function shuffle(array){
+  for(let i=array.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+function pickTestIndex(){
+  return Math.floor(Math.random()*PRIZES.length);
+}
+
+// ====== Modais ======
+function openEditModal(){
+  // Carregar o título atual
+  document.getElementById('editEventTitle').value = document.getElementById('eventTitle').value;
+  renderPrizes();
+  document.getElementById('editModal').style.display = 'block';
+}
+
+function closeEditModal(){
+  document.getElementById('editModal').style.display = 'none';
+}
+
+function openSettingsModal(){
+  // Inicializar switches com estado atual
+  document.getElementById('soundSwitch').classList.toggle('active', settings.soundEnabled);
+  document.getElementById('idleSwitch').classList.toggle('active', settings.idleAnimation);
+  document.getElementById('popupSwitch').classList.toggle('active', settings.showPopup);
+  document.getElementById('percentageSwitch').classList.toggle('active', settings.usePercentages);
+  
+  // Configurar visibilidade das porcentagens
+  const container = document.getElementById('percentagesContainer');
+  const total = document.getElementById('percentageTotal');
+  const info = document.getElementById('percentageInfo');
+  
+  if (settings.usePercentages) {
+    container.style.display = 'block';
+    total.style.display = 'block';
+    info.style.display = 'none';
+    renderPercentages();
+  } else {
+    container.style.display = 'none';
+    total.style.display = 'none';
+    info.style.display = 'block';
+  }
+  
+  document.getElementById('settingsModal').style.display = 'block';
+}
+
+function closeSettingsModal(){
+  document.getElementById('settingsModal').style.display = 'none';
+}
+
+function openInfoModal(){
+  document.getElementById('infoModal').style.display = 'block';
+}
+
+function closeInfoModal(){
+  document.getElementById('infoModal').style.display = 'none';
+}
+
+function renderPrizes(){
+  const container = document.getElementById('prizesContainer');
+  container.innerHTML = '';
+  PRIZES.forEach((prize, index) => {
+    const div = document.createElement('div');
+    div.className = 'prize-input';
+    div.innerHTML = `
+      <span class="prize-number">${index + 1}</span>
+      <input type="text" value="${prize}" placeholder="Ex: Cupom R$ 50, Brinde especial, etc.">
+      <label class="loss-checkbox">
+        <input type="checkbox" ${PRIZE_IS_LOSS[index] ? 'checked' : ''} onchange="toggleLoss(${index})">
+        <span>😔 Perda</span>
+      </label>
+      <button class="remove-prize" onclick="removePrize(${index})" title="Remover este prêmio">×</button>
+    `;
+    container.appendChild(div);
+  });
+}
+
+// Função para renderizar as porcentagens no modal de configurações
+function renderPercentages(){
+  const container = document.getElementById('percentagesContainer');
+  container.innerHTML = '';
+  
+  PRIZES.forEach((prize, index) => {
+    const div = document.createElement('div');
+    div.className = 'percentage-item';
+    div.innerHTML = `
+      <span class="percentage-label">${prize}</span>
+      <input type="number" class="percentage-input" value="${PRIZE_PERCENTAGES[index]}" 
+             min="0" max="100" onchange="updatePercentage(${index}, this.value)">
+      <span style="color:#f6c453;">%</span>
+    `;
+    container.appendChild(div);
+  });
+  
+  updateTotalPercentage();
+}
+
+// Função para atualizar uma porcentagem específica
+function updatePercentage(index, value) {
+  PRIZE_PERCENTAGES[index] = parseInt(value) || 0;
+  updateTotalPercentage();
+}
+
+// Função para alternar entre porcentagens personalizadas e sistema padrão
+function togglePercentages() {
+  settings.usePercentages = !settings.usePercentages;
+  const switchElement = document.getElementById('percentageSwitch');
+  const container = document.getElementById('percentagesContainer');
+  const total = document.getElementById('percentageTotal');
+  const info = document.getElementById('percentageInfo');
+  
+  switchElement.classList.toggle('active', settings.usePercentages);
+  
+  if (settings.usePercentages) {
+    container.style.display = 'block';
+    total.style.display = 'block';
+    info.style.display = 'none';
+    renderPercentages();
+  } else {
+    container.style.display = 'none';
+    total.style.display = 'none';
+    info.style.display = 'block';
+  }
+}
+
+function addPrize(){
+  PRIZES.push('');
+  PRIZE_PERCENTAGES.push(8); // Porcentagem padrão para novos prêmios
+  PRIZE_IS_LOSS.push(false); // Novo prêmio não é perda por padrão
+  renderPrizes();
+}
+
+function toggleLoss(index){
+  PRIZE_IS_LOSS[index] = !PRIZE_IS_LOSS[index];
+}
+
+function removePrize(index){
+  if(PRIZES.length > 2) {
+    PRIZES.splice(index, 1);
+    PRIZE_PERCENTAGES.splice(index, 1);
+    PRIZE_IS_LOSS.splice(index, 1);
+    updateWheelDimensions(); // Recalcular dimensões
+    renderPrizes();
+    drawWheel(currentRot); // Redesenhar a roleta
+  }
+}
+
+function savePrizes(){
+  // Salvar o título editado
+  const newTitle = document.getElementById('editEventTitle').value.trim();
+  if(newTitle) {
+    document.getElementById('eventTitle').value = newTitle;
+  }
+  
+  // Salvar os prêmios e suas configurações de perda
+  const prizeInputs = document.querySelectorAll('#prizesContainer input[type="text"]');
+  const lossCheckboxes = document.querySelectorAll('#prizesContainer input[type="checkbox"]');
+  
+  // Filtrar prêmios vazios e manter correspondência com checkboxes
+  const validPrizes = [];
+  const validLosses = [];
+  
+  prizeInputs.forEach((input, index) => {
+    const prize = input.value.trim();
+    if(prize) { // Só adiciona se não estiver vazio
+      validPrizes.push(prize);
+      validLosses.push(lossCheckboxes[index] ? lossCheckboxes[index].checked : false);
+    }
+  });
+  
+  PRIZES = validPrizes;
+  PRIZE_IS_LOSS = validLosses;
+  
+  if(PRIZES.length < 2) {
+    alert('É necessário pelo menos 2 prêmios!');
+    return;
+  }
+  
+  // Ajustar arrays de porcentagens se necessário
+  while(PRIZE_PERCENTAGES.length < PRIZES.length) {
+    PRIZE_PERCENTAGES.push(8);
+  }
+  while(PRIZE_PERCENTAGES.length > PRIZES.length) {
+    PRIZE_PERCENTAGES.pop();
+  }
+  
+  updateWheelDimensions(); // Recalcular dimensões
+  
+  // Salvar prêmios no localStorage
+  localStorage.setItem('roletaPrizes', JSON.stringify(PRIZES));
+  localStorage.setItem('roletaPrizeLosses', JSON.stringify(PRIZE_IS_LOSS));
+  
+  closeEditModal();
+  drawWheel(currentRot);
+}
+
+// Funções do popup de prêmio
+function showPrizePopup(prize, isLoss = false){
+  const prizeNameElement = document.getElementById('prizeName');
+  const popupElement = document.getElementById('prizePopup');
+  const prizeTitleElement = document.querySelector('.prize-content h2');
+  
+  // Debug: verificar se o prêmio está vazio ou undefined
+  if(!prize || prize.trim() === '') {
+    console.warn('Prêmio vazio ou indefinido:', prize);
+    return;
+  }
+  
+  if(prizeNameElement && popupElement && prizeTitleElement) {
+    prizeNameElement.textContent = prize;
+    
+    // Mudar título e estilo baseado no tipo
+    if(isLoss) {
+      prizeTitleElement.textContent = '😔 Que pena!';
+      prizeTitleElement.style.color = '#ff6b6b'; // Cor vermelha para perdas
+    } else {
+      prizeTitleElement.textContent = '🎉 Parabéns!';
+      prizeTitleElement.style.color = '#f6c453'; // Cor dourada para prêmios
+    }
+    
+    popupElement.style.display = 'flex';
+  } else {
+    console.error('Elementos do popup não encontrados:', {
+      prizeNameElement: !!prizeNameElement,
+      popupElement: !!popupElement,
+      prizeTitleElement: !!prizeTitleElement
+    });
+  }
+}
+
+function closePrizePopup(){
+  document.getElementById('prizePopup').style.display = 'none';
+}
+
+// Função para carregar configurações do localStorage
+function loadSettings(){
+  // Carregar configurações gerais
+  const savedSettings = localStorage.getItem('roletaSettings');
+  if(savedSettings) {
+    try {
+      const parsedSettings = JSON.parse(savedSettings);
+      // Mesclar configurações salvas com as padrão
+      settings = {...settings, ...parsedSettings};
+    } catch(e) {
+      console.warn('Erro ao carregar configurações:', e);
+    }
+  }
+  
+  // Carregar prêmios salvos
+  const savedPrizes = localStorage.getItem('roletaPrizes');
+  if(savedPrizes) {
+    try {
+      PRIZES = JSON.parse(savedPrizes);
+    } catch(e) {
+      console.warn('Erro ao carregar prêmios:', e);
+    }
+  }
+  
+  // Carregar configurações de perda dos prêmios
+  const savedPrizeLosses = localStorage.getItem('roletaPrizeLosses');
+  if(savedPrizeLosses) {
+    try {
+      PRIZE_IS_LOSS = JSON.parse(savedPrizeLosses);
+    } catch(e) {
+      console.warn('Erro ao carregar configurações de perda:', e);
+    }
+  }
+  
+  // Recalcular dimensões se os prêmios mudaram
+  if(savedPrizes) {
+    updateWheelDimensions();
+  }
+}
+
+function saveSettings(){
+  settings.soundEnabled = document.getElementById('soundSwitch').classList.contains('active');
+  settings.speed = document.getElementById('speed').value;
+  settings.theme = document.getElementById('theme').value;
+  settings.idleAnimation = document.getElementById('idleSwitch').classList.contains('active');
+  settings.showPopup = document.getElementById('popupSwitch').classList.contains('active');
+  settings.usePercentages = document.getElementById('percentageSwitch').classList.contains('active');
+  
+  // Salvar no localStorage
+  localStorage.setItem('roletaSettings', JSON.stringify(settings));
+  
+  closeSettingsModal();
+  drawWheel(currentRot); // Redesenha com nova paleta de cores
+}
+
+// Funções dos switches
+function toggleSound(){
+  const switchEl = document.getElementById('soundSwitch');
+  switchEl.classList.toggle('active');
+}
+
+function toggleIdle(){
+  const switchEl = document.getElementById('idleSwitch');
+  switchEl.classList.toggle('active');
+}
+
+function togglePopup(){
+  const switchEl = document.getElementById('popupSwitch');
+  switchEl.classList.toggle('active');
+}
+
+// Função para upload de QR Code
+function uploadQR(){
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = function(e){
+    const file = e.target.files[0];
+    if(file){
+      const reader = new FileReader();
+      reader.onload = function(e){
+        const qrPlaceholder = document.querySelector('.qr-placeholder');
+        qrPlaceholder.innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; border-radius:6px;" alt="QR Code">`;
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  input.click();
+}
+
+// Função para debug do ponteiro
+function debugPointer(){
+  const norm = (currentRot % (Math.PI*2) + Math.PI*2) % (Math.PI*2);
+  const pointerAngle = -Math.PI/2;
+  const normalizedPointer = (pointerAngle - norm + Math.PI*2) % (Math.PI*2);
+  const winIndex = Math.floor(normalizedPointer / SEG_ANGLE) % PRIZES.length;
+}
+
+// ====== Eventos ======
+document.getElementById('infoBtn').addEventListener('click', openInfoModal);
+document.getElementById('customizeBtn').addEventListener('click', openEditModal);
+document.getElementById('settingsBtn').addEventListener('click', openSettingsModal);
+spinBtn.addEventListener('click', ()=> {
+  spin();
+});
+shuffleBtn.addEventListener('click', ()=>{
+  shuffle(PRIZES);
+  resultEl.textContent = "Prêmios embaralhados.";
+  drawWheel(currentRot);
+});
+
+// ====== Inicialização ======
+let idleStart = null;
+function idleRotate(ts){
+  if(!idleStart) idleStart = ts;
+  const t = (ts - idleStart)/1000;
+  if(!spinning && settings.idleAnimation){
+    const idle = currentRot + (Math.sin(t*0.6)*0.002);
+    drawWheel(idle);
+  } else if(!spinning) {
+    drawWheel(currentRot);
+  }
+  requestAnimationFrame(idleRotate);
+}
+// Carregar configurações salvas
+loadSettings();
+
+drawWheel(0);
+requestAnimationFrame(idleRotate);
+
+// Acessibilidade de teclado
+window.addEventListener('keydown', (e)=>{
+  if(e.code === 'Space'){ e.preventDefault(); spin(); }
+});
+
+// Fechar modais clicando fora
+window.addEventListener('click', (e)=>{
+  if(e.target.classList.contains('modal')){
+    e.target.style.display = 'none';
+  }
+  if(e.target.classList.contains('prize-popup')){
+    closePrizePopup();
+  }
+});
+
+// Fechar popup com ESC
+window.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape'){
+    closePrizePopup();
+    closeEditModal();
+    closeSettingsModal();
+    closeInfoModal();
+  }
+});
+
+</script>
 </body>
 </html>
