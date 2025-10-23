@@ -191,15 +191,15 @@ button{
   transform:scale(1.05) !important;
 }
 
-/* Animação quando está girando */
+/* Animação quando está girando - REMOVIDA */
 .center-spin-btn.spinning img{
-  animation:spin-icon 1s linear infinite !important;
+  /* animation:spin-icon 1s linear infinite !important; */
 }
 
-@keyframes spin-icon{
+/* @keyframes spin-icon{
   0%{transform:rotate(0deg);}
   100%{transform:rotate(360deg);}
-}
+} */
 
 .center-spin-btn:hover{
   transform:translate(-50%, -50%) scale(1.1) !important;

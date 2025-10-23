@@ -10,7 +10,6 @@ let PRIZES = [
   "Coleira Personalizada",
   "Cupom R$100",
   "Kit Higiene",
-  "Nada"
 ];
 
 // Porcentagens de chance para cada prêmio (deve somar 100%)
