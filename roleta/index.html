@@ -5,6 +5,28 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Roleta de Prêmios</title>
 <style>
+  /* Fontes QuatroSlab */
+  @font-face {
+    font-family: 'QuatroSlab';
+    src: url('font (1)/QuatroSlab-Medium.eot');
+    src: url('font (1)/QuatroSlab-Medium.eot?#iefix') format('embedded-opentype'),
+         url('font (1)/QuatroSlab-Medium.woff2') format('woff2'),
+         url('font (1)/QuatroSlab-Medium.woff') format('woff'),
+         url('font (1)/QuatroSlab-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'QuatroSlab';
+    src: url('font (1)/QuatroSlab-Bold.eot');
+    src: url('font (1)/QuatroSlab-Bold.eot?#iefix') format('embedded-opentype'),
+         url('font (1)/QuatroSlab-Bold.woff2') format('woff2'),
+         url('font (1)/QuatroSlab-Bold.woff') format('woff'),
+         url('font (1)/QuatroSlab-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+  }
   :root{
     --bg1:#0b1020; --bg2:#121a33; --gold:#f6c453; --ring:#1f2a4d; --text:#eef3ff;
     --btn:#2b61ff; --btn-h:#204ad1;
@@ -27,11 +49,11 @@
   }
   .title-input{
     background:rgba(0,0,0,0.7); border:3px solid #f6c453; border-radius:15px; 
-    padding:15px 25px; color:#fff; font-size:1.4rem; font-weight:700; 
+    padding:15px 25px; color:#fff; font-size:1.4rem; font-weight:900; 
     text-align:center; backdrop-filter:blur(10px); width:min(90vw,600px);
     transition:all 0.2s ease; text-shadow:2px 2px 4px rgba(0,0,0,0.8);
     box-shadow:0 8px 25px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
-    margin:0 auto;
+    margin:0 auto; font-family:'QuatroSlab', system-ui, Segoe UI, Inter, Arial;
   }
   .title-input:focus{outline:none; box-shadow:0 0 0 4px rgba(246,196,83,0.4), 0 8px 25px rgba(0,0,0,0.4);}
   .title-input::placeholder{color:#ccc;}
@@ -763,9 +785,9 @@ function drawCurvedText(text, startAngle, sweep){
   ctx.save();
   ctx.fillStyle = "#fff";
   
-  // Ajusta o tamanho da fonte baseado no número de prêmios
-  const fontSizeMultiplier = PRIZES.length <= 6 ? 0.08 : PRIZES.length <= 10 ? 0.055 : PRIZES.length <= 14 ? 0.04 : 0.03;
-  ctx.font = `bold ${Math.floor(R*fontSizeMultiplier)}px system-ui,Segoe UI,Inter,Arial`;
+  // Ajusta o tamanho da fonte baseado no número de prêmios (ainda maior)
+  const fontSizeMultiplier = PRIZES.length <= 6 ? 0.12 : PRIZES.length <= 10 ? 0.09 : PRIZES.length <= 14 ? 0.07 : 0.06;
+  ctx.font = `bold ${Math.floor(R*fontSizeMultiplier)}px 'QuatroSlab', system-ui, Segoe UI, Inter, Arial`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
@@ -804,10 +826,7 @@ function drawCurvedText(text, startAngle, sweep){
   for(let i = 0; i < lines.length; i++) {
     const y = (i - (lines.length - 1) / 2) * lineHeight;
     
-    // Contorno preto para melhor visibilidade
-    ctx.strokeStyle = "#000";
-    ctx.lineWidth = Math.max(2, Math.floor(R*0.003));
-    ctx.strokeText(lines[i], 0, y);
+    // Apenas preenchimento branco, sem contorno
     ctx.fillText(lines[i], 0, y);
   }
   
