@@ -69,7 +69,6 @@ let settings = {
   customSpeedSeconds: 10, // Tempo personalizado em segundos
   theme: 'default',
   idleAnimation: true,
-  showPopup: true,
   usePercentages: false  // Nova configuração para usar porcentagens
 };
 
@@ -360,19 +359,19 @@ function spin(targetIndex=null){
         // Mensagem diferente baseada no tipo de prêmio
         if(isLoss) {
           resultEl.textContent = `😔 Que pena! Você tirou: ${prize}`;
-          if(settings.showPopup) {
-            showPrizePopup(prize, true); // true indica que é uma perda
-          }
+          // SEMPRE mostrar o popup, independente da configuração
+          showPrizePopup(prize, true); // true indica que é uma perda
         } else {
           resultEl.textContent = `🎉 Você ganhou: ${prize}`;
-          if(settings.showPopup) {
-            showPrizePopup(prize, false); // false indica que é um prêmio
-          }
+          // SEMPRE mostrar o popup, independente da configuração
+          showPrizePopup(prize, false); // false indica que é um prêmio
         }
       } else {
         // Fallback caso algo dê errado
         console.warn('Índice inválido ou prêmio não encontrado:', winIndex, PRIZES);
         resultEl.textContent = "🎯 Tente novamente!";
+        // SEMPRE mostrar popup mesmo no fallback
+        showPrizePopup("Tente novamente!", true); // true indica que é uma perda
       }
     }
   }
@@ -406,7 +405,6 @@ function openSettingsModal(){
   // Inicializar switches com estado atual
   document.getElementById('soundSwitch').classList.toggle('active', settings.soundEnabled);
   document.getElementById('idleSwitch').classList.toggle('active', settings.idleAnimation);
-  document.getElementById('popupSwitch').classList.toggle('active', settings.showPopup);
   document.getElementById('percentageSwitch').classList.toggle('active', settings.usePercentages);
   
   // Configurar velocidade
@@ -593,32 +591,42 @@ function showPrizePopup(prize, isLoss = false){
   const popupElement = document.getElementById('prizePopup');
   const prizeTitleElement = document.querySelector('.prize-content h2');
   
-  // Debug: verificar se o prêmio está vazio ou undefined
+  // Garantir que sempre temos um prêmio válido
   if(!prize || prize.trim() === '' || prize === 'undefined') {
-    console.warn('Prêmio vazio ou indefinido:', prize);
+    console.warn('Prêmio vazio ou indefinido, usando fallback:', prize);
+    prize = isLoss ? "Tente novamente!" : "Prêmio especial!";
+  }
+  
+  // Verificar se os elementos existem
+  if(!prizeNameElement) {
+    console.error('Elemento prizeName não encontrado');
+    return;
+  }
+  if(!popupElement) {
+    console.error('Elemento prizePopup não encontrado');
+    return;
+  }
+  if(!prizeTitleElement) {
+    console.error('Elemento prizeTitle não encontrado');
     return;
   }
   
-  if(prizeNameElement && popupElement && prizeTitleElement) {
-    prizeNameElement.textContent = prize;
-    
-    // Mudar título e estilo baseado no tipo
-    if(isLoss) {
-      prizeTitleElement.textContent = '😔 Que pena!';
-      prizeTitleElement.style.color = '#ff6b6b'; // Cor vermelha para perdas
-    } else {
-      prizeTitleElement.textContent = '🎉 Parabéns!';
-      prizeTitleElement.style.color = '#f6c453'; // Cor dourada para prêmios
-    }
-    
-    popupElement.style.display = 'flex';
+  // Sempre mostrar o popup
+  prizeNameElement.textContent = prize;
+  
+  // Mudar título e estilo baseado no tipo
+  if(isLoss) {
+    prizeTitleElement.textContent = '😔 Que pena!';
+    prizeTitleElement.style.color = '#ff6b6b'; // Cor vermelha para perdas
   } else {
-    console.error('Elementos do popup não encontrados:', {
-      prizeNameElement: !!prizeNameElement,
-      popupElement: !!popupElement,
-      prizeTitleElement: !!prizeTitleElement
-    });
+    prizeTitleElement.textContent = '🎉 Parabéns!';
+    prizeTitleElement.style.color = '#f6c453'; // Cor dourada para prêmios
   }
+  
+  // SEMPRE mostrar o popup
+  popupElement.style.display = 'flex';
+  
+  console.log('Popup exibido:', { prize, isLoss });
 }
 
 function closePrizePopup(){
@@ -692,7 +700,6 @@ function saveSettings(){
   settings.customSpeedSeconds = parseInt(document.getElementById('customSpeedValue').value) || 10;
   settings.theme = document.getElementById('theme').value;
   settings.idleAnimation = document.getElementById('idleSwitch').classList.contains('active');
-  settings.showPopup = document.getElementById('popupSwitch').classList.contains('active');
   settings.usePercentages = document.getElementById('percentageSwitch').classList.contains('active');
   
   // Salvar no localStorage
@@ -713,10 +720,6 @@ function toggleIdle(){
   switchEl.classList.toggle('active');
 }
 
-function togglePopup(){
-  const switchEl = document.getElementById('popupSwitch');
-  switchEl.classList.toggle('active');
-}
 
 function toggleCustomSpeed(){
   const speedSelect = document.getElementById('speed');
