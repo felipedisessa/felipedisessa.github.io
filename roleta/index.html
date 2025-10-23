@@ -506,11 +506,19 @@
           <h3>⚡ Velocidade</h3>
           <div class="form-group">
             <label for="speed">Velocidade de Rotação:</label>
-          <select id="speed">
+          <select id="speed" onchange="toggleCustomSpeed()">
             <option value="slow">Lenta</option>
             <option value="normal" selected>Normal</option>
             <option value="fast">Rápida</option>
+            <option value="custom">Personalizada</option>
           </select>
+          <div id="customSpeedContainer" style="display:none; margin-top:10px;">
+            <label for="customSpeedValue">Tempo personalizado (segundos):</label>
+            <input type="number" id="customSpeedValue" min="1" max="30" value="10" style="width:80px; margin-left:10px;">
+            <div class="setting-description">
+              Defina quantos segundos a roleta deve rodar (1-30 segundos)
+            </div>
+          </div>
           <div class="setting-description">
             Controla a velocidade do giro da roleta. Lenta = mais suspense, Rápida = mais dinâmica.
           </div>
@@ -729,6 +737,7 @@ function normalizePercentages() {
 let settings = {
   soundEnabled: true,
   speed: 'normal',
+  customSpeedSeconds: 10, // Tempo personalizado em segundos
   theme: 'default',
   idleAnimation: true,
   showPopup: true,
@@ -961,12 +970,18 @@ function spin(targetIndex=null){
   let extraTurns, duration;
   switch(settings.speed) {
     case 'slow':
-      extraTurns = 5 + Math.floor(Math.random()*2);
-      duration = 4000 + Math.random()*1000;
+      extraTurns = 10 + Math.floor(Math.random()*3); // Mais voltas para velocidade lenta
+      duration = 8000 + Math.random()*2000; // 2.5x mais tempo (8000ms vs 3200ms normal)
       break;
     case 'fast':
       extraTurns = 3 + Math.floor(Math.random()*2);
       duration = 2400 + Math.random()*600;
+      break;
+    case 'custom':
+      // Velocidade personalizada baseada no valor definido pelo usuário
+      const customSeconds = settings.customSpeedSeconds || 10;
+      extraTurns = Math.floor(customSeconds * 1.5) + Math.floor(Math.random()*2); // ~1.5 voltas por segundo
+      duration = customSeconds * 1000 + Math.random()*500; // Tempo em milissegundos
       break;
     default:
       extraTurns = 4 + Math.floor(Math.random()*3);
@@ -1064,6 +1079,11 @@ function openSettingsModal(){
   document.getElementById('idleSwitch').classList.toggle('active', settings.idleAnimation);
   document.getElementById('popupSwitch').classList.toggle('active', settings.showPopup);
   document.getElementById('percentageSwitch').classList.toggle('active', settings.usePercentages);
+  
+  // Configurar velocidade
+  document.getElementById('speed').value = settings.speed;
+  document.getElementById('customSpeedValue').value = settings.customSpeedSeconds || 10;
+  toggleCustomSpeed(); // Mostrar/ocultar campo personalizado
   
   // Configurar visibilidade das porcentagens
   const container = document.getElementById('percentagesContainer');
@@ -1315,6 +1335,7 @@ function loadSettings(){
 function saveSettings(){
   settings.soundEnabled = document.getElementById('soundSwitch').classList.contains('active');
   settings.speed = document.getElementById('speed').value;
+  settings.customSpeedSeconds = parseInt(document.getElementById('customSpeedValue').value) || 10;
   settings.theme = document.getElementById('theme').value;
   settings.idleAnimation = document.getElementById('idleSwitch').classList.contains('active');
   settings.showPopup = document.getElementById('popupSwitch').classList.contains('active');
@@ -1341,6 +1362,17 @@ function toggleIdle(){
 function togglePopup(){
   const switchEl = document.getElementById('popupSwitch');
   switchEl.classList.toggle('active');
+}
+
+function toggleCustomSpeed(){
+  const speedSelect = document.getElementById('speed');
+  const customContainer = document.getElementById('customSpeedContainer');
+  
+  if(speedSelect.value === 'custom') {
+    customContainer.style.display = 'block';
+  } else {
+    customContainer.style.display = 'none';
+  }
 }
 
 // Função para upload de QR Code
