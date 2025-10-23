@@ -89,9 +89,6 @@
   canvas{width:100%; height:100%}
   .rim{
     position:absolute; inset:0; pointer-events:none; border-radius:50%;
-    background:
-      radial-gradient(closest-side, rgba(255,255,255,.06), transparent 55%),
-      conic-gradient(from 0turn, transparent 0 25%, rgba(255,255,255,.05) 0 30%, transparent 0 100%);
     box-shadow:
       inset 0 0 0 10px var(--gold),
       inset 0 0 0 16px rgba(0,0,0,.35),
@@ -544,7 +541,6 @@
               <option value="outono">Outono</option>
               <option value="neon">Neon</option>
               <option value="gold">Dourado</option>
-              <option value="personalizada">Personalizada</option>
           </select>
           <div class="setting-description">
             Escolha uma paleta de cores temática para personalizar a aparência da roleta.
@@ -663,49 +659,40 @@
    CONFIGURAÇÃO DOS PRÊMIOS
    ========================= */
 let PRIZES = [
-  "1 Mês Grátis",
+  "Ração Premium",
   "Desconto 50%",
-  "Brinde Especial",
-  "Atualização Premium",
-  "Consultoria 1h",
-  "Camiseta NeoTech",
+  "Brinquedo para Pet",
+  "Banho e Tosa",
+  "Consulta Veterinária",
+  "Coleira Personalizada",
   "Cupom R$100",
-  "Sticker Pack",
-  "Café com o Dev",
-  "Acesso Beta",
-  "Suporte VIP",
+  "Kit Higiene",
   "Nada"
 ];
 
 // Porcentagens de chance para cada prêmio (deve somar 100%)
 let PRIZE_PERCENTAGES = [
-  5,   // 1 Mês Grátis - 5%
-  10,  // Desconto 50% - 10%
-  15,  // Brinde Especial - 15%
-  8,   // Atualização Premium - 8%
-  12,  // Consultoria 1h - 12%
-  5,   // Camiseta NeoTech - 5%
-  10,  // Cupom R$100 - 10%
-  8,   // Sticker Pack - 8%
-  7,   // Café com o Dev - 7%
-  5,   // Acesso Beta - 5%
-  8,   // Suporte VIP - 8%
-  7    // Nada - 7%
+  10,  // Ração Premium - 10%
+  15,  // Desconto 50% - 15%
+  18,  // Brinquedo para Pet - 18%
+  12,  // Banho e Tosa - 12%
+  10,  // Consulta Veterinária - 10%
+  12,  // Coleira Personalizada - 12%
+  15,  // Cupom R$100 - 15%
+  8,   // Kit Higiene - 8%
+  0    // Nada - 0% (removido da porcentagem)
 ];
 
 // Array para marcar quais prêmios são "perdas" (true = perda, false = prêmio)
 let PRIZE_IS_LOSS = [
-  false, // 1 Mês Grátis - prêmio
+  false, // Ração Premium - prêmio
   false, // Desconto 50% - prêmio
-  false, // Brinde Especial - prêmio
-  false, // Atualização Premium - prêmio
-  false, // Consultoria 1h - prêmio
-  false, // Camiseta NeoTech - prêmio
+  false, // Brinquedo para Pet - prêmio
+  false, // Banho e Tosa - prêmio
+  false, // Consulta Veterinária - prêmio
+  false, // Coleira Personalizada - prêmio
   false, // Cupom R$100 - prêmio
-  false, // Sticker Pack - prêmio
-  false, // Café com o Dev - prêmio
-  false, // Acesso Beta - prêmio
-  false, // Suporte VIP - prêmio
+  false, // Kit Higiene - prêmio
   true   // Nada - perda
 ];
 
@@ -779,8 +766,7 @@ const colorPalettes = {
   primavera: ["#fbbf24","#84cc16","#22c55e","#10b981","#06b6d4","#3b82f6","#6366f1","#8b5cf6","#ec4899","#f472b6","#fbbf24","#84cc16","#22c55e","#10b981"],
   verao: ["#fbbf24","#f59e0b","#ef4444","#ec4899","#8b5cf6","#3b82f6","#06b6d4","#10b981","#84cc16","#fbbf24","#f59e0b","#ef4444","#ec4899","#8b5cf6"],
   inverno: ["#3b82f6","#1d4ed8","#6366f1","#8b5cf6","#a855f7","#c084fc","#d8b4fe","#e9d5ff","#3b82f6","#1d4ed8","#6366f1","#8b5cf6","#a855f7","#c084fc"],
-  outono: ["#92400e","#b45309","#d97706","#f59e0b","#fbbf24","#84cc16","#22c55e","#10b981","#92400e","#b45309","#d97706","#f59e0b","#fbbf24","#84cc16"],
-  personalizada: ["#eec116","#2e3d88","#4a9eff","#eec116","#2e3d88","#4a9eff","#eec116","#2e3d88","#4a9eff","#eec116","#2e3d88","#4a9eff","#eec116","#2e3d88"]
+  outono: ["#92400e","#b45309","#d97706","#f59e0b","#fbbf24","#84cc16","#22c55e","#10b981","#92400e","#b45309","#d97706","#f59e0b","#fbbf24","#84cc16"]
 };
 
 // Paleta base para setores
