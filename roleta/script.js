@@ -102,7 +102,7 @@ const colorPalettes = {
   neon: ["#00ffff","#ff00ff","#ffff00","#00ff00","#ff0080","#8000ff","#0080ff","#ff8000","#00ffff","#ff00ff","#ffff00","#00ff00","#ff0080","#8000ff"],
   gold: ["#ffd700","#ffed4e","#fbbf24","#f59e0b","#d97706","#b45309","#92400e","#78350f","#ffd700","#ffed4e","#fbbf24","#f59e0b","#d97706","#b45309"],
   halloween: ["#7c2d12","#ea580c","#f97316","#fb923c","#fed7aa","#7c2d12","#ea580c","#f97316","#fb923c","#fed7aa","#7c2d12","#ea580c","#f97316","#fb923c"],
-  pascoa: ["#78350f","#d97706","#f9a8d4","#78350f","#d97706","#f9a8d4","#78350f","#d97706","#f9a8d4","#78350f","#d97706","#f9a8d4","#78350f","#d97706"],
+  pascoa: ["#662513","#cc8589","#6d3e32","#662513","#cc8589","#6d3e32","#662513","#cc8589","#6d3e32","#662513","#cc8589","#6d3e32","#662513","#cc8589"],
   carnaval: ["#f59e0b","#ef4444","#ec4899","#8b5cf6","#3b82f6","#06b6d4","#10b981","#84cc16","#f59e0b","#ef4444","#ec4899","#8b5cf6","#3b82f6","#06b6d4"],
   primavera: ["#fbbf24","#84cc16","#22c55e","#10b981","#06b6d4","#3b82f6","#6366f1","#8b5cf6","#ec4899","#f472b6","#fbbf24","#84cc16","#22c55e","#10b981"],
   verao: ["#fbbf24","#f59e0b","#ef4444","#ec4899","#8b5cf6","#3b82f6","#06b6d4","#10b981","#84cc16","#fbbf24","#f59e0b","#ef4444","#ec4899","#8b5cf6"],
@@ -738,6 +738,12 @@ function loadSettings(){
     }
     colorPalettes.personalizada = customPalette;
   }
+  
+  // Aplicar fundo especial para tema Páscoa se necessário
+  if(settings.theme === 'pascoa') {
+    document.body.style.background = "url('pascoa.png') center/cover no-repeat fixed";
+    document.body.style.backgroundImage = "url('pascoa.png')";
+  }
 }
 
 function saveSettings(){
@@ -750,6 +756,23 @@ function saveSettings(){
   
   // Salvar no localStorage
   localStorage.setItem('rouletteSettings', JSON.stringify(settings));
+  
+  // Aplicar fundo especial para tema Páscoa
+  if(settings.theme === 'pascoa') {
+    document.body.style.background = "url('pascoa.png') center/cover no-repeat fixed";
+    document.body.style.backgroundImage = "url('pascoa.png')";
+    localStorage.setItem('backgroundColor', 'pascoa-theme');
+  } else if(settings.theme !== 'pascoa' && localStorage.getItem('backgroundColor') === 'pascoa-theme') {
+    // Se mudou de tema Páscoa, voltar ao fundo padrão ou cor personalizada
+    const savedBgColor = localStorage.getItem('backgroundColor');
+    if(savedBgColor && savedBgColor !== 'pascoa-theme') {
+      document.body.style.background = savedBgColor;
+      document.body.style.backgroundImage = 'none';
+    } else {
+      document.body.style.background = "url('fundo-roleta.png') center/cover no-repeat fixed";
+      document.body.style.backgroundImage = "url('fundo-roleta.png')";
+    }
+  }
   
   closeSettingsModal();
   drawWheel(currentRot); // Redesenha com nova paleta de cores
