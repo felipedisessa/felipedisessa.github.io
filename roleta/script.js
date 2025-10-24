@@ -447,6 +447,7 @@ function resetSettings(){
     localStorage.removeItem('rouletteSettings');
     localStorage.removeItem('customColors');
     localStorage.removeItem('customPrizes');
+    localStorage.removeItem('backgroundColor');
     
     // Resetar configurações para padrão
     settings = {
@@ -469,8 +470,12 @@ function resetSettings(){
     selectedColors = ['#eec116', '#2e3d88', '#4a9eff'];
     currentColorSlot = 1;
     
+    // Resetar cor de fundo
+    selectedBackgroundColor = null;
+    
     // Atualizar interface
     drawWheel(currentRot);
+    useDefaultBackground();
     
     // Mostrar confirmação
     alert('✅ Configurações redefinidas com sucesso!\n\nTodas as configurações foram restauradas para o padrão.');
@@ -795,6 +800,9 @@ function toggleCustomColors(){
 let currentColorSlot = 1; // 1, 2 ou 3
 let selectedColors = ['#eec116', '#2e3d88', '#4a9eff']; // Cores padrão
 
+// Variável para controle de cor de fundo
+let selectedBackgroundColor = null; // null = imagem padrão, string = cor escolhida
+
 function selectColor(button, slot) {
   const color = button.getAttribute('data-color');
   
@@ -946,6 +954,106 @@ function applyCustomColors(){
   }, 2000);
 }
 
+// Funções para gerenciar cor de fundo
+function selectBackgroundColor(button) {
+  const color = button.getAttribute('data-color');
+  selectedBackgroundColor = color;
+  
+  // Atualizar visual do preview
+  const previewDiv = document.getElementById('selectedBackgroundColor');
+  previewDiv.style.background = color;
+  previewDiv.style.backgroundImage = 'none';
+  
+  // Atualizar texto
+  const textDiv = previewDiv.querySelector('div:last-child');
+  textDiv.textContent = 'Cor';
+  
+  // Mostrar indicador
+  document.getElementById('backgroundIndicator').style.display = 'block';
+  
+  // Destacar botão clicado
+  highlightSelectedButton(button);
+  
+  // Aplicar preview imediatamente
+  applyBackgroundPreview();
+  
+  // Salvar no localStorage
+  localStorage.setItem('backgroundColor', color);
+}
+
+function useDefaultBackground() {
+  selectedBackgroundColor = null;
+  
+  // Atualizar visual do preview
+  const previewDiv = document.getElementById('selectedBackgroundColor');
+  previewDiv.style.background = "url('fundo-roleta.png') center/cover no-repeat";
+  previewDiv.style.backgroundImage = "url('fundo-roleta.png')";
+  
+  // Atualizar texto
+  const textDiv = previewDiv.querySelector('div:last-child');
+  textDiv.textContent = 'Padrão';
+  
+  // Esconder indicador
+  document.getElementById('backgroundIndicator').style.display = 'none';
+  
+  // Aplicar preview imediatamente
+  applyBackgroundPreview();
+  
+  // Remover do localStorage
+  localStorage.removeItem('backgroundColor');
+}
+
+function applyBackgroundPreview() {
+  if(selectedBackgroundColor) {
+    document.body.style.background = selectedBackgroundColor;
+    document.body.style.backgroundImage = 'none';
+  } else {
+    document.body.style.background = "url('fundo-roleta.png') center/cover no-repeat fixed";
+    document.body.style.backgroundImage = "url('fundo-roleta.png')";
+  }
+}
+
+function applyBackgroundColor() {
+  // Aplicar cor de fundo
+  applyBackgroundPreview();
+  
+  // Salvar configuração
+  if(selectedBackgroundColor) {
+    localStorage.setItem('backgroundColor', selectedBackgroundColor);
+  } else {
+    localStorage.removeItem('backgroundColor');
+  }
+  
+  // Mostrar confirmação
+  const btn = document.getElementById('applyBackgroundColor');
+  const originalText = btn.textContent;
+  btn.textContent = '✓ Aplicado!';
+  btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+  
+  setTimeout(() => {
+    btn.textContent = originalText;
+    btn.style.background = 'linear-gradient(135deg, #f6c453, #e6b800)';
+  }, 2000);
+}
+
+function loadBackgroundColor() {
+  const savedColor = localStorage.getItem('backgroundColor');
+  if(savedColor) {
+    selectedBackgroundColor = savedColor;
+    applyBackgroundPreview();
+    
+    // Atualizar visual do preview
+    const previewDiv = document.getElementById('selectedBackgroundColor');
+    previewDiv.style.background = savedColor;
+    previewDiv.style.backgroundImage = 'none';
+    
+    const textDiv = previewDiv.querySelector('div:last-child');
+    textDiv.textContent = 'Cor';
+    
+    document.getElementById('backgroundIndicator').style.display = 'block';
+  }
+}
+
 // Função para upload de QR Code
 function uploadQR(){
   const input = document.createElement('input');
@@ -981,6 +1089,10 @@ document.getElementById('settingsBtn').addEventListener('click', openSettingsMod
 // Event listeners para cores personalizadas
 document.getElementById('theme').addEventListener('change', toggleCustomColors);
 document.getElementById('applyCustomColors').addEventListener('click', applyCustomColors);
+
+// Event listeners para cor de fundo
+document.getElementById('applyBackgroundColor').addEventListener('click', applyBackgroundColor);
+document.getElementById('useDefaultBackground').addEventListener('click', useDefaultBackground);
 spinBtn.addEventListener('click', ()=> {
   spin();
 });
@@ -1005,6 +1117,7 @@ function idleRotate(ts){
 }
 // Carregar configurações salvas
 loadSettings();
+loadBackgroundColor();
 
 drawWheel(0);
 requestAnimationFrame(idleRotate);
